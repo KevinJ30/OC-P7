@@ -69,5 +69,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-### Configuration du développement
-Utilisation des github action pour lancer les tests untaire a chaque pull request sur le projet.
+### Integration continue
+Uitlisation des github action pour intégrer les tests unitaire en intégration continue pour le projet.
+
