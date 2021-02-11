@@ -29,5 +29,7 @@ jobs:
       # npm install
       - name: Install package with NPM
         run: npm install
+      - name: Testing your application
+        run: npm test
       - name: Build your application
         run: npm run build
