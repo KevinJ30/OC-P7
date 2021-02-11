@@ -1,7 +1,7 @@
 import './App.css';
 import {RestaurantStore} from "./Stores/RestaurantStore";
-import {InDataMemoryTest} from "./Components/InDataMemoryTest";
-import {RestaurantList} from "./Components/RestaurantList";
+import {InDataMemoryTest} from "./Components/Restaurant/InDataMemoryTest";
+import {RestaurantList} from "./Components/Restaurant/RestaurantList";
 
 const store = new RestaurantStore(new InDataMemoryTest());
 
