@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import {RestaurantList} from './RestaurantList';
-import {RestaurantStore} from "../Stores/RestaurantStore";
+import {RestaurantStore} from "../../Stores/RestaurantStore";
 import {InDataMemoryTest} from "./InDataMemoryTest";
 
 const store = new RestaurantStore(new InDataMemoryTest());
