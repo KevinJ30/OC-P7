@@ -28,6 +28,26 @@
   color: #61dafb;
 }
 
+.react-restaurant.card .card-title {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.react-restaurant p {
+  margin-bottom:1em;
+}
+
+.react-restaurant.card .card-rating {
+  padding:8px 0;
+  line-height:0;
+}
+
+.react-restaurant.card .react-restaurant__comment {
+  position: relative;
+  padding:8px;
+  background-color: #e6e6e6;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
