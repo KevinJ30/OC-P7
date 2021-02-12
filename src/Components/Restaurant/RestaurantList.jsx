@@ -18,7 +18,13 @@ export function RestaurantList(props) {
 
 function drawRestaurants(restaurants) {
     if (restaurants.length > 0) {
-        return restaurants.map((restaurant) => <RestaurantItem key={restaurant.title} value={restaurant} />);
+        return restaurants.map((restaurant) => {
+            if(restaurant.title) {
+                return <RestaurantItem key={restaurant.title} value={restaurant} />
+            }
+
+            return false;
+        });
     }
 
     return <div className="no-react-restaurant"><p>Il n'y a aucun restaurants.</p></div>
