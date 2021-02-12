@@ -34,6 +34,7 @@ export function RestaurantItem(props) {
                     drawStars(stars)
                 }
             </div>
+
             <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{props.value.address}</p>
             <p className="react-restaurant__comment card-text rounded"><i className="bi bi-chat-right-quote-fill" /> {props.value.ratings[0].comment}</p>
             <button className="btn btn-outline-dark">Voir tous les avis</button>
