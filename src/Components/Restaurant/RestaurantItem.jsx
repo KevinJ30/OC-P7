@@ -20,7 +20,7 @@ export function RestaurantItem(props) {
         let stars = [];
 
         for(let i = 0; i < numberStars; i++) {
-            stars.push(<i key={i} className="bi bi-star-fill" />)
+            stars.push(<i key={i} className="bi bi-star-fill mr-2" />)
         }
 
         return stars;
@@ -34,8 +34,9 @@ export function RestaurantItem(props) {
                     drawStars(stars)
                 }
             </div>
-            <p className="react-restaurant__address card-text text-left">{props.value.address}</p>
-            <p className="react-restaurant__comment card-text text-left">{props.value.ratings[0].comment}</p>
+            <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{props.value.address}</p>
+            <p className="react-restaurant__comment card-text rounded"><i className="bi bi-chat-right-quote-fill" /> {props.value.ratings[0].comment}</p>
+            <button className="btn btn-outline-dark">Voir tous les avis</button>
         </div>
     </div>;
 }
