@@ -12,7 +12,17 @@ function App() {
                 Avis des restaurants autour de chez vous.
             </header>
 
-            <RestaurantList store={store}/>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <RestaurantList store={store}/>
+                    </div>
+
+                    <div className="col-md-6">
+                        <h2>Retrouvez les restaurants sur la carte</h2>
+                    </div>
+                </div>
+            </div>
         </div>
   );
 }

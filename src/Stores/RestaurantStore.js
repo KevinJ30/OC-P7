@@ -1,5 +1,3 @@
-import {InDataMemory} from "../InDataMemory";
-
 export class RestaurantStore {
 
     constructor(model) {

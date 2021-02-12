@@ -6,21 +6,20 @@ export function RestaurantList(props) {
 
     useEffect(() => {
         setRestaurant(props.store.getAll())
-    }, [])
+    }, [props.store])
 
     return <div>
-        <h2>Liste des restaurants</h2>
+                <h2>Liste des restaurants</h2>
 
-        {drawRestaurants(restaurants)}
-
-    </div>;
+                {drawRestaurants(restaurants)}
+            </div>;
 }
 
 function drawRestaurants(restaurants) {
     if (restaurants.length > 0) {
         return restaurants.map((restaurant) => {
             if(restaurant.title) {
-                return <RestaurantItem key={restaurant.title} value={restaurant} />
+                return <RestaurantItem key={restaurant.id} value={restaurant} stars={restaurant.ratings[0].stars} />
             }
 
             return false;

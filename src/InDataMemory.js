@@ -4,11 +4,11 @@ export class InDataMemory {
         this.data = [
             {
                 id:1,
-                title: "",
+                title: "First restaurant",
                 address: "2 impasse bagnoli, serignan du comtat, 84830 sérignan-du-comtat",
                 ratings: [
                     {
-                        stars: 4,
+                        stars: 3,
                         comment: "Un  excellent restaurant dans un quartier calme de la ville de sérignan-du-comtat."
                     }
                 ]
