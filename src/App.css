@@ -1,3 +1,14 @@
+:root {
+  --primary-color:#175572;
+  --border-color:#0C2A38;
+  --secondary-color:#EEEFF0;
+}
+
+html, body {
+  font-family: 'Roboto', sans-serif;
+  font-size:14px!important;
+}
+
 .App {
   text-align: center;
 }
@@ -14,12 +25,10 @@
 }
 
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  align-items:stretch;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -55,4 +64,64 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/** APP **/
+.site-information{
+  display:flex;
+  width: 50%;
+  flex-direction:column;
+  justify-content: center;
+  align-content: center;
+  flex-grow:0;
+  color:var(--primary-color);
+  font-weight:300;
+}
+
+.site-visuel{
+  display:flex;
+  width: 100%;
+  flex-direction: row;
+  flex-grow:0;
+  justify-content: center;
+  align-items: center;
+  background:url('./back.svg')no-repeat;
+  background-size:cover;
+}
+
+.site-information h1 {
+  font-family: 'Lily Script One', cursive;
+  font-size:2.1em;
+}
+
+.site-visuel img {
+  display:block;
+  width:70%; height:70%;
+}
+
+.btn {
+  padding:10px 15px;
+}
+
+.btn-primary {
+  background-color:var(--primary-color);
+  border:none;
+}
+
+.btn.btn-primary:hover {
+  background-color: #1b698d;
+}
+
+.icon {
+  display:inline-block;
+  content:'';
+  width:20px; height:20px;
+  margin-right: 8px;
+  vertical-align: middle;
+  transform: translateY(-2px);
+}
+
+.icon_food-multiple {
+  background:url('./icons/food_multiple.svg')no-repeat;
+  background-size: 20px 20px;
 }

@@ -1,3 +1,5 @@
+import './back.svg';
+import './present.svg';
 import './App.css';
 import {RestaurantStore} from "./Stores/RestaurantStore";
 import {RestaurantList} from "./Components/Restaurant/RestaurantList";
@@ -9,7 +11,17 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
-                Avis des restaurants autour de chez vous.
+                <div className="site-information">
+                    <div className="container">
+                        <h1>Trouvez le meilleur restaurant près de chez vous</h1>
+                        <p>Vous chercher le restaurants le mieux noté autour de chez vous pour organiser votre sortie. Nous recherchons les meilleurs restaurants a votre place. A l’aide de votre géolocalisation et avec votre accord tous ce fait automatiquement.</p>
+                        <a href="#" className="btn btn-primary mr-3"><span className="icon icon_food-multiple"></span>Restaurant le plus proche</a>
+                        <a href="#" className="btn btn-primary"><span className="icon icon_food-multiple"></span>Tous les restaurants</a>
+                    </div>
+                </div>
+                <div className="site-visuel">
+                    <img src="present.svg" alt="presentation"/>
+                </div>
             </header>
 
             <div className="container">
