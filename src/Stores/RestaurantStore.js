@@ -12,7 +12,7 @@ export class RestaurantStore {
 
     update(item, data) {
         this.state.restaurants = this.state.restaurants.map((restaurant) => {
-            if(item.id === restaurant.id){
+            if(item.restaurantName === restaurant.restaurantName){
                 return {...item, ...data};
             }
 
