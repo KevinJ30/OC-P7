@@ -1,37 +1,36 @@
 export class InDataMemory {
 
     constructor(noData) {
-        this.data = [
+        this.data =[
             {
-                id:1,
-                title: "First restaurant",
-                address: "2 impasse bagnoli, serignan du comtat, 84830 sérignan-du-comtat",
-                ratings: [
+                "restaurantName":"Bronco",
+                "address":"39 Rue des Petites Écuries, 75010 Paris",
+                "lat":48.8737815,
+                "long":2.3501649,
+                "ratings":[
                     {
-                        stars: 3,
-                        comment: "Un  excellent restaurant dans un quartier calme de la ville de sérignan-du-comtat."
+                        "stars":4,
+                        "comment":"Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
+                    },
+                    {
+                        "stars":5,
+                        "comment":"Tout simplement mon restaurant préféré !"
                     }
                 ]
             },
             {
-                id:2,
-                title: "Second restaurant",
-                address: "2 impasse bagnoli, serignan du comtat, 84830 sérignan-du-comtat",
-                ratings: [
+                "restaurantName":"Babalou",
+                "address":"4 Rue Lamarck, 75018 Paris",
+                "lat":48.8865035,
+                "long":2.3442197,
+                "ratings":[
                     {
-                        stars: 4,
-                        comment: "Un  excellent restaurant dans un quartier calme de la ville de sérignan-du-comtat."
-                    }
-                ]
-            },
-            {
-                id:3,
-                title: "Last restaurant",
-                address: "2 impasse bagnoli, serignan du comtat, 84830 sérignan-du-comtat",
-                ratings: [
+                        "stars":5,
+                        "comment":"Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
+                    },
                     {
-                        stars: 4,
-                        comment: "Un  excellent restaurant dans un quartier calme de la ville de sérignan-du-comtat."
+                        "stars":3,
+                        "comment":"J'ai trouvé ça correct, sans plus"
                     }
                 ]
             }
