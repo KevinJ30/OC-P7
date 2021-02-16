@@ -1,6 +1,3 @@
-import './back.svg';
-import './present.svg';
-
 import {RestaurantStore} from "./Stores/RestaurantStore";
 import {RestaurantList} from "./Components/Restaurant/RestaurantList";
 import {InDataMemory} from "./InDataMemory";
@@ -45,7 +42,6 @@ function App() {
                 <div className="row">
                     <div className="col-md-6">
                         <Element name="anchor-list-restaurant">
-                            <h2>Liste des restaurants</h2>
                             <RestaurantList store={store}/>
                         </Element>
                     </div>

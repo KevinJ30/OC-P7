@@ -1,10 +1,11 @@
-import 'jquery/dist/jquery.min.js';
-import 'popper.js/dist/popper.min';
+import './present.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import './index.css';
 import './App.css';
+import 'jquery/dist/jquery.min.js';
+import 'popper.js/dist/popper.min';
 
 
 import React from 'react';
