@@ -3,25 +3,12 @@ import {RestaurantList} from "./Components/Restaurant/RestaurantList";
 import {InDataMemory} from "./InDataMemory";
 
 /** IMPORT REACT SCROLL **/
-import React, {useState, useEffect} from 'react';
-import { Link, Element, animateScroll as scroll}   from 'react-scroll';
+import { Link, Element}   from 'react-scroll';
+import {ScrollTop} from "./Components/ScrollTop/ScrollTop";
 
 const store = new RestaurantStore(new InDataMemory());
 
 function App() {
-    const [hiddenScrollButton, setValueHidden] = useState(false);
-
-    useEffect(() => {
-        window.addEventListener('scroll', (event) => {
-            const scrollY = window.scrollY;
-            setValueHidden(!!scrollY)
-        })
-    }, []);
-
-    function scrollToTop() {
-        scroll.scrollToTop();
-    }
-
     return (
         <div className="App">
             <header className="App-header">
@@ -73,7 +60,7 @@ function App() {
                 </div>
             </div>
 
-            { hiddenScrollButton && (<button className="btn btn-primary btn-toggle-top shadow-sm" onClick={scrollToTop}><i className="bi bi-arrow-up"/></button>) }
+            <ScrollTop />
         </div>
   );
 }
