@@ -13,7 +13,9 @@ function App() {
             <header className="App-header">
                 <div className="header pt-3 pb-3">
                     <div className="container">
-                        <input type="text" className="search-field" placeholder="search"/>
+                        <div className="form-field">
+                            <input type="text" className="search-field" placeholder="Vous chercher un restaurant ?"/>
+                        </div>
                     </div>
                 </div>
                 <div className="site-information">
@@ -38,7 +40,7 @@ function App() {
                 </div>
             </header>
 
-            <div className="restaurant_container container">
+            <div className="restaurant_container container pt-4">
                 <div className="row">
                     <div className="col-md-6">
                         <Element name="anchor-list-restaurant">

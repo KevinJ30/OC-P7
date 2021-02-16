@@ -159,6 +159,27 @@ h1, h2 {
   color:var(--border-color);
 }
 
+.search-field {
+  display:block;
+  min-width:210px;
+  padding-left:24px;
+  background-color:inherit;
+  color: var(--primary-color);
+  border:none;
+  border-bottom:1px solid var(--primary-color);
+  outline:none;
+  background:url('./icons/zoom.svg')no-repeat;
+  background-size:16px;
+}
+
+.search-field:focus {
+  border-width: 3px;
+}
+
+.search-field::placeholder {
+  color:var(--primary-color);
+}
+
 .animate.animate-fade {
   opacity: 0;
 }
