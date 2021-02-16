@@ -2,15 +2,13 @@
   --primary-color:#175572;
   --border-color:#0C2A38;
   --secondary-color:#EEEFF0;
+  --offset-negative-animate:-20px;
+  --offset-animate: 20px;
 }
 
 html, body {
   font-family: 'Roboto', sans-serif;
-  font-size:14px!important;
-}
-
-.App {
-  text-align: center;
+  font-size:14px;
 }
 
 .App-logo {
@@ -26,16 +24,14 @@ html, body {
 
 .App-header {
   min-height: 100vh;
-  display: flex;
-  flex-direction: row;
-  align-items:stretch;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
 .App-link {
   color: #61dafb;
 }
+
+.header-container {height:100%;}
 
 .react-restaurant.card .card-title {
   margin: 0;
@@ -57,6 +53,10 @@ html, body {
   background-color: #e6e6e6;
 }
 
+h1, h2, h3 {
+  font-family: 'Lily Script One', cursive;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -68,14 +68,14 @@ html, body {
 
 /** APP **/
 .site-information{
-  display:flex;
-  width: 50%;
-  flex-direction:column;
-  justify-content: center;
-  align-content: center;
-  flex-grow:0;
+  width: 100%;
+  height:100vh;
   color:var(--primary-color);
   font-weight:300;
+}
+
+.site-information .left-content {
+  width:70%;
 }
 
 .site-visuel{
@@ -85,7 +85,6 @@ html, body {
   flex-grow:0;
   justify-content: center;
   align-items: center;
-  background:url('./back.svg')no-repeat;
   background-size:cover;
 }
 
@@ -101,6 +100,8 @@ html, body {
 
 .btn {
   padding:10px 15px;
+  font-size:1em;
+  font-weight:400;
 }
 
 .btn-primary {
@@ -128,4 +129,84 @@ html, body {
 
 .restaurant_container {
   min-height:100vh;
+}
+
+.animate.animate-fade {
+  opacity: 0;
+}
+
+@keyframes fade-in-top {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--offset-negative-animate));
+  }
+  100% {
+    opacity: 100%;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(var(--offset-negative-animate));
+  }
+  100% {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(var(--offset-animate));
+  }
+  100% {
+    opacity: 100%;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--offset-animate));
+  }
+  100% {
+    opacity: 100%;
+    transform: translateY(0);
+  }
+}
+
+.animate {
+  animation-fill-mode: forwards!important;
+}
+
+.animate.fade-in-top {
+  animation: fade-in-top .2s ease-in-out;
+}
+
+.animate.fade-in-left {
+  animation: fade-in-left .2s ease-in-out;
+}
+
+.animate.fade-in-right {
+  animation: fade-in-right .2s ease-in-out;
+}
+
+.animate.fade-in-bottom {
+  animation: fade-in-bottom .2s ease-in-out;
+}
+
+.animate.delay-1 {
+  animation-delay: .1s;
+}
+
+.animate.delay-2 {
+  animation-delay: .2s;
+}
+
+.animate.delay-2 {
+  animation-delay: .3s;
 }
