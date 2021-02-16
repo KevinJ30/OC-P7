@@ -137,6 +137,16 @@ h1, h2 {
   background-color: #1b698d;
 }
 
+.btn-toggle-top {
+  position:fixed;
+  bottom: 16px;
+  right: 16px;
+}
+
+.btn-toggle-top.hidden {
+  visibility: hidden;
+}
+
 .icon {
   display:inline-block;
   content:'';
