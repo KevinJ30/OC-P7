@@ -36,7 +36,7 @@ describe('Liste de restaurant', () => {
     })
 
     it("should no display restaurant if title is null", () => {
-        store.update(store.state.restaurants[0], {title:null});
+        store.update(store.state.restaurants[0], {restaurantName:null});
         render(<RestaurantList store={store} />)
 
         const restaurants = document.querySelectorAll('.react-restaurant');
@@ -44,7 +44,7 @@ describe('Liste de restaurant', () => {
     })
 
     it("should no display restaurant if title is empty", () => {
-        store.update(store.state.restaurants[0], {title:''});
+        store.update(store.state.restaurants[0], {restaurantName:''});
         render(<RestaurantList store={store} />)
 
         const restaurants = document.querySelectorAll('.react-restaurant');
@@ -55,13 +55,15 @@ describe('Liste de restaurant', () => {
 describe("Représentation d'un restaurant", () => {
     it("Affichage d'un restaurant", () => {
         const value = {
-            title: "First restaurant",
-            address: "2 impasse bagnoli, serignan du comtat 84830 sérignan-du-comtat",
-            ratings: [
+            "restaurantName":"First restaurant",
+            "address":"2 impasse bagnoli, serignan du comtat 84830 sérignan-du-comtat",
+            "lat":48.8865035,
+            "long":2.3442197,
+            "ratings":[
                 {
-                    stars: 4,
-                    comment: "Un  excellent restaurant dans un quartier calme de la ville de sérignan-du-comtat."
-                }
+                    "stars":5,
+                    "comment":"Un excellent restaurant dans un quartier calme de la ville de sérignan-du-comtat"
+                },
             ]
         }
 

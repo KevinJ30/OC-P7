@@ -18,8 +18,8 @@ export function RestaurantList(props) {
 function drawRestaurants(restaurants) {
     if (restaurants.length > 0) {
         return restaurants.map((restaurant) => {
-            if(restaurant.title) {
-                return <RestaurantItem key={restaurant.id} value={restaurant} stars={restaurant.ratings[0].stars} />
+            if(restaurant.restaurantName) {
+                return <RestaurantItem key={restaurant.restaurantName} value={restaurant} stars={restaurant.ratings[0].stars} />
             }
 
             return false;
