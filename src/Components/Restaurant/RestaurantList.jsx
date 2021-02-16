@@ -9,8 +9,6 @@ export function RestaurantList(props) {
     }, [props.store])
 
     return <div>
-                <h2>Liste des restaurants</h2>
-
                 {drawRestaurants(restaurants)}
             </div>;
 }
