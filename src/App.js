@@ -1,3 +1,6 @@
+// Import config application
+import config from './config.json';
+
 import {RestaurantStore} from "./Stores/RestaurantStore";
 import {RestaurantList} from "./Components/Restaurant/RestaurantList";
 import {InDataMemory} from "./InDataMemory";
