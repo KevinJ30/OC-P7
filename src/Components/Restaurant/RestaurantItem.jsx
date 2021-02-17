@@ -44,11 +44,16 @@ export function RestaurantItem(props) {
         return rates.reduce(reducer, 0) / rates.length;
     }
 
+    function handleClick(event) {
+        event.preventDefault();
+        props.mapStore.setCenterMap(props.value.lat, props.value.long);
+    }
+
     const bestCommentRestaurant = getBestRating(props.value.ratings);
 
     return <div id={props.value.restaurantName} className="react-restaurant card mb-3 shadow-sm rounded">
         <div className="card-body">
-            <h3 className="react-restaurant__title card-title text-left">{props.value.restaurantName}</h3>
+            <h3 className="react-restaurant__title card-title text-left"><a href="#" onClick={handleClick}>{props.value.restaurantName}</a></h3>
             <div className="card-rating text-left">
                 {
                     drawStars(stars)

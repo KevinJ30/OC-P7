@@ -6,8 +6,10 @@ import {InDataMemory} from "./InDataMemory";
 import { Link, Element}   from 'react-scroll';
 import {ScrollTop} from "./Components/ScrollTop/ScrollTop";
 import {Map} from "./Components/Maps/Map";
+import {MapStore} from "./Stores/MapStore";
 
 const store = new RestaurantStore(new InDataMemory());
+const mapStore = new MapStore();
 
 function App() {
     return (
@@ -51,13 +53,13 @@ function App() {
                 <div className="row">
                     <div className="col-md-6">
                         <Element name="anchor-list-restaurant">
-                            <RestaurantList store={store}/>
+                            <RestaurantList store={store} mapStore={mapStore} />
                         </Element>
                     </div>
 
                     <div className="col-md-6">
                         <h2>Retrouvez les restaurants sur la carte</h2>
-                        <Map />
+                        <Map store={mapStore} />
                     </div>
                 </div>
             </div>
