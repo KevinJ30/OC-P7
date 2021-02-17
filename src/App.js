@@ -1,6 +1,3 @@
-// Import config application
-import config from './config.json';
-
 import {RestaurantStore} from "./Stores/RestaurantStore";
 import {RestaurantList} from "./Components/Restaurant/RestaurantList";
 import {InDataMemory} from "./InDataMemory";
@@ -8,6 +5,7 @@ import {InDataMemory} from "./InDataMemory";
 /** IMPORT REACT SCROLL **/
 import { Link, Element}   from 'react-scroll';
 import {ScrollTop} from "./Components/ScrollTop/ScrollTop";
+import {Map} from "./Components/Maps/Map";
 
 const store = new RestaurantStore(new InDataMemory());
 
@@ -59,6 +57,7 @@ function App() {
 
                     <div className="col-md-6">
                         <h2>Retrouvez les restaurants sur la carte</h2>
+                        <Map />
                     </div>
                 </div>
             </div>
