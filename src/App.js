@@ -10,19 +10,6 @@ import {Map} from "./Components/Maps/Map";
 const store = new RestaurantStore(new InDataMemory());
 
 function App() {
-    const [hiddenScrollButton, setValueHidden] = useState(false);
-
-    useEffect(() => {
-        window.addEventListener('scroll', (event) => {
-            const scrollY = window.scrollY;
-            setValueHidden(!!scrollY)
-        })
-    }, []);
-
-    function scrollToTop() {
-        scroll.scrollToTop();
-    }
-
     return (
         <div className="App">
             <header className="App-header">
