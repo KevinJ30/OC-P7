@@ -31,17 +31,12 @@ export function Map() {
 
     function loadMap(lat, lng, zoom) {
         loaderGoogle.load().then(() => {
-            return new window.google.maps.Map(document.getElementById("google-map"), {
-                center: { lat: lat, lng: lng },
+            return new window.google.maps.Map(document.getElementById("react-google-map"), {
+                center: {lat: lat, lng: lng},
                 zoom: zoom
             });
         })
     }
 
-    const style = {
-        width:'100%',
-        height:'100%'
-    };
-
-    return <div id="google-map" style={style}>Map google</div>;
+    return <div id="react-google-map" className="card shadow-sm">Map google</div>;
 }
