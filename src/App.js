@@ -75,11 +75,7 @@ function App() {
                 </div>
             </div>
 
-<<<<<<< HEAD
-            { hiddenScrollButton && (<button className="btn btn-primary btn-toggle-top shadow-sm" onClick={scrollToTop}><i className="bi bi-arrow-up"/></button>) }
-=======
             <ScrollTop />
->>>>>>> develop
         </div>
   );
 }
