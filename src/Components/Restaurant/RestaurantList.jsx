@@ -24,6 +24,7 @@ export function RestaurantList(props) {
 
     return <div>
                 <h2>Liste des restaurants</h2>
+
                 {drawRestaurants(restaurants)}
             </div>;
 }

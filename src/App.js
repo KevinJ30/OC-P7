@@ -1,12 +1,19 @@
+import { Link, Element}   from 'react-scroll';
+import {ScrollTop} from "./Components/ScrollTop/ScrollTop";
+import {Map} from "./Components/Maps/Map";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from 'react-router-dom';
+
+
 import {RestaurantStore} from "./Stores/RestaurantStore";
 import {RestaurantList} from "./Components/Restaurant/RestaurantList";
 import {InDataMemory} from "./InDataMemory";
 
-/** IMPORT REACT SCROLL **/
-import { Link, Element}   from 'react-scroll';
-import {ScrollTop} from "./Components/ScrollTop/ScrollTop";
-import {Map} from "./Components/Maps/Map";
 import {MapStore} from "./Stores/MapStore";
+import {Restaurant} from "./Components/Restaurant/Restaurant";
 
 const store = new RestaurantStore(new InDataMemory());
 const mapStore = new MapStore();
@@ -49,21 +56,28 @@ function App() {
                 </div>
             </header>
 
-            <div className="restaurant_container container pt-4">
-                <div className="row">
-                    <div className="col-md-6">
-                        <Element name="anchor-list-restaurant">
-                            <RestaurantList store={store} mapStore={mapStore} />
-                        </Element>
-                    </div>
+            <Router>
+                <div className="restaurant_container container pt-4">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <Element name="anchor-list-restaurant">
+                                <RestaurantList store={store} mapStore={mapStore} />
+                            </Element>
+                        </div>
 
-                    <div className="col-md-6">
-                        <h2>Retrouvez les restaurants sur la carte</h2>
-                        <Map store={mapStore} />
+                        <div className="col-md-6">
+                            <h2>Retrouvez les restaurants sur la carte</h2>
+                            <Map store={mapStore} />
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                <Switch>
+                    <Route path={`/restaurant/:id`}>
+                        <Restaurant store={store} />
+                    </Route>
+                </Switch>
+            </Router>
             <ScrollTop />
         </div>
   );

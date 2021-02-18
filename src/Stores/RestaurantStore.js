@@ -19,4 +19,15 @@ export class RestaurantStore {
             return restaurant;
         });
     }
+
+    /**
+     * Recherche un restaurant dans le state
+     *
+     * @param {string} id
+     * @return {Array}
+     **/
+    getRestaurant(id) {
+        return this.state.restaurants.filter((item) => item.id === parseInt(id)).pop();
+    }
+
 }

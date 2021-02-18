@@ -3,6 +3,7 @@ export class InDataMemory {
     constructor(noData) {
         this.data =[
             {
+                "id": 1,
                 "restaurantName":"Bronco",
                 "address":"39 Rue des Petites Écuries, 75010 Paris",
                 "lat":48.8737815,
@@ -19,6 +20,7 @@ export class InDataMemory {
                 ]
             },
             {
+                "id": 2,
                 "restaurantName":"Babalou",
                 "address":"4 Rue Lamarck, 75018 Paris",
                 "lat":48.8865035,
