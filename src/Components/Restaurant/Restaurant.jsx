@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import {Rating} from "./Rating";
 
 
@@ -12,10 +12,14 @@ export function Restaurant(props) {
         setRestaurant(props.store.getRestaurant(id));
     }, [id])
 
-    return <div className="container">
-        <div className="col-md-12 card">
+    return <div className="container mt-3">
+        <Link to="/">Home</Link>
+
+        <div className="col-md-12 card p-3">
             <h1>{restaurant.restaurantName}</h1>
-            <Rating restaurant={restaurant} test="1111" />
+            <Rating restaurant={restaurant} />
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, at ea illo laborum molestias nulla odit, optio placeat praesentium quidem recusandae sequi veniam. Autem commodi culpa quidem sunt tempore? Ratione!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aspernatur blanditiis, consequatur dignissimos ea fugit ipsam iusto magni odit, provident quibusdam quo repellat sunt voluptas voluptatum! Aut cupiditate est hic illum officia omnis vel? Aliquam, amet aspernatur consectetur consequuntur dignissimos, distinctio illum laborum mollitia necessitatibus officia placeat porro rem sint tempore veniam. Ad architecto assumenda at autem beatae consequatur corporis cupiditate, dolore doloribus ducimus eligendi ex facere, fuga harum illo illum ipsum iste laboriosam laudantium maxime, mollitia nemo nesciunt obcaecati odio odit praesentium provident quia quod quos recusandae sapiente soluta ut voluptatem. Ad asperiores deleniti ea nemo rem repellendus sed similique? Architecto at beatae earum enim eveniet excepturi hic illum iusto laborum magnam modi omnis quidem rerum saepe sed, sequi similique tempore temporibus ut voluptatum! Accusantium aut blanditiis dolor doloribus, ipsa nostrum obcaecati sequi similique soluta temporibus. A accusamus accusantium architecto commodi, corporis dignissimos ea eaque eos id in natus, nemo odio omnis quae quasi recusandae, rem repellendus rerum totam voluptas? A architecto earum eligendi enim eum, ex expedita fugiat labore nam non officia possimus quam quia ratione repellendus rerum sequi soluta. Ad, alias consectetur libero nam tempore voluptates. Ad assumenda aut debitis doloremque, laudantium nihil nulla suscipit temporibus ut!</p>
         </div>
     </div>;
 }
