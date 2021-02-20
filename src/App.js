@@ -1,15 +1,5 @@
-import React from 'react';
 import { Link }   from 'react-scroll';
 import {ScrollTop} from "./Components/ScrollTop/ScrollTop";
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-} from 'react-router-dom';
-
-import {Home} from "./Pages/Home";
-import {DisplayRestaurant} from "./Pages/DisplayRestaurant";
 
 function App() {
     return (

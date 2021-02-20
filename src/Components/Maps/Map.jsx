@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Loader} from '@googlemaps/js-api-loader';
 import config from '../../config.json';
 
@@ -20,7 +20,7 @@ export function Map(props) {
         if("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                 loadMap(position.coords.latitude, position.coords.longitude, defaultCoordinate.zoom + 3);
-           }, () => {
+            }, () => {
                 loadMap(defaultCoordinate.lat, defaultCoordinate.lng, defaultCoordinate.zoom);
             })
         }
@@ -29,6 +29,10 @@ export function Map(props) {
         }
 
         props.store.subscribe(updateStore);
+
+        return () => {
+            setMap(null);
+        }
     }, []);
 
     function updateStore(map) {
