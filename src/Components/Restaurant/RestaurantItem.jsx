@@ -1,9 +1,6 @@
 import React from 'react';
-import {Link, Route, Switch} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Rating} from "./Rating";
-import {Stores, StoresContext} from "../../Context/StoresContext";
-import {Home} from "../../Pages/Home";
-import {DisplayRestaurant} from "../../Pages/DisplayRestaurant";
 
 export function RestaurantItem(props) {
     function getBestRating(rates) {

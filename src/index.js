@@ -10,7 +10,6 @@ import 'popper.js/dist/popper.min';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Home} from "./Pages/Home";

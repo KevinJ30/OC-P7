@@ -10,10 +10,12 @@ export class InDataMemory {
                 "long":2.3501649,
                 "ratings":[
                     {
+                        "id": 1,
                         "stars":4,
                         "comment":"Un excellent restaurant, j'y reviendrai ! Par contre il vaut mieux aimer la viande."
                     },
                     {
+                        "id": 2,
                         "stars":5,
                         "comment":"Tout simplement mon restaurant préféré !"
                     }
@@ -27,10 +29,12 @@ export class InDataMemory {
                 "long":2.3442197,
                 "ratings":[
                     {
+                        "id": 1,
                         "stars":5,
                         "comment":"Une minuscule pizzeria délicieuse cachée juste à côté du Sacré choeur !"
                     },
                     {
+                        "id": 2,
                         "stars":3,
                         "comment":"J'ai trouvé ça correct, sans plus"
                     }
