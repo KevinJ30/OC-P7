@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {Rating} from "./Rating";
+import {Rating, Stars} from "./Rating";
 
 export function RestaurantItem(props) {
     function getBestRating(rates) {
@@ -21,21 +21,21 @@ export function RestaurantItem(props) {
         props.mapStore.setCenterMap(props.value.lat, props.value.long);
     }
 
-    const bestCommentRestaurant = getBestRating(props.value.ratings);
-    const pathname = '/restaurant/' + props.value.id;
-
+    // const bestCommentRestaurant = getBestRating(props.value.ratings);
+    // const pathname = '/restaurant/' + props.value.id;
+    console.log(props.value)
     return (
-        <div id={props.value.restaurantName} className="react-restaurant card mb-3 shadow-sm rounded">
+        <div id={props.value.name} className="react-restaurant card mb-3 shadow-sm rounded">
 
             <div className="card-body">
-                <h3 className="react-restaurant__title card-title text-left"><a href="#" onClick={handleClick}>{props.value.restaurantName}</a></h3>
+                <h3 className="react-restaurant__title card-title text-left"><a href="#" onClick={handleClick}>{props.value.name}</a></h3>
                 <div className="card-rating text-left">
-                    <Rating restaurant={props.value} />
+                    <Stars stars={props.value.rating} />
                 </div>
 
-                <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{props.value.address}</p>
-                <p className="react-restaurant__comment card-text rounded"><i className="bi bi-chat-right-quote-fill" /> {bestCommentRestaurant.comment}</p>
-                <Link className="btn btn-outline-dark" to={pathname}>Voir tous les avis</Link>
+                <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{props.value.vicinity}</p>
+                {/*<p className="react-restaurant__comment card-text rounded"><i className="bi bi-chat-right-quote-fill" /> {bestCommentRestaurant.comment}</p>*/}
+                {/*<Link className="btn btn-outline-dark" to={pathname}>Voir tous les avis</Link>*/}
             </div>
         </div>
     );

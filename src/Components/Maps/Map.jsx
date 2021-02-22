@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Loader} from '@googlemaps/js-api-loader';
 import config from '../../config.json';
+import {useGetInterestForCoordinates} from "../../Hook/google/Places";
+import {loadAPI} from "../../Hook/google/API";
 
 const loaderGoogle = new Loader({
     apiKey: config.API_KEY,
@@ -15,7 +17,18 @@ const defaultCoordinate = {
 }
 
 export function Map(props) {
+    const storeRestaurant = props.storeRestaurant;
     const [map, setMap] = useState(null);
+
+    const pos = {
+        lat: 44.25494,
+        lng:4.64736
+    };
+
+    let restaurants = useGetInterestForCoordinates(pos, ['restaurant'], 5000, map, (results) => {
+        // Chargement des données dans le store
+        storeRestaurant.add(results);
+    });
 
     function loadMarker(storeRestaurants, map) {
         const restaurants = storeRestaurants.state.restaurants;
@@ -62,14 +75,14 @@ export function Map(props) {
             loadMarker(props.storeRestaurant, map);
 
             // Recherche a proximité
-             const request = {
-                 location: new window.google.maps.LatLng(44.25494, 4.64736),
-                 radius:5000,
-                 type: ['restaurant']
-             }
-
-             let service = new window.google.maps.places.PlacesService(map);
-             service.nearbySearch(request, callbackPlaces)
+            //  const request = {
+            //      location: new window.google.maps.LatLng(44.25494, 4.64736),
+            //      radius:5000,
+            //      type: ['restaurant']
+            //  }
+            //
+            //  let service = new window.google.maps.places.PlacesService(map);
+            //  service.nearbySearch(request, callbackPlaces)
              props.store.update(map);
         });
 

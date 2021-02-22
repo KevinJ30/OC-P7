@@ -4,20 +4,25 @@ export class RestaurantStore {
         this.state = {
             restaurants: model.data
         }
+
+        this.listener = [];
     }
 
     getAll() {
         return this.state.restaurants;
     }
 
-    update(item, data) {
-        this.state.restaurants = this.state.restaurants.map((restaurant) => {
-            if(item.restaurantName === restaurant.restaurantName){
-                return {...item, ...data};
-            }
+    add(restaurants) {
+        this.state.restaurants = this.state.restaurants.concat(restaurants);
+        this.notify();
+    }
 
-            return restaurant;
-        });
+    subscribe(callback) {
+        this.listener.push(callback);
+    }
+
+    notify(data) {
+        this.listener.forEach((callback) => callback(data));
     }
 
     /**

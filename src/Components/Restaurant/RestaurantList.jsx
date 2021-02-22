@@ -7,14 +7,16 @@ export function RestaurantList(props) {
 
 
     useEffect(() => {
-        setRestaurant(store.getAll())
+        store.subscribe(() => {
+            setRestaurant(store.getAll())
+        })
     }, [store])
 
     function drawRestaurants(restaurants) {
         if (restaurants.length > 0) {
             return restaurants.map((restaurant) => {
-                if(restaurant.restaurantName) {
-                    return <RestaurantItem key={restaurant.restaurantName} value={restaurant} stars={restaurant.ratings[0].stars} mapStore={props.mapStore}/>
+                if(restaurant.name) {
+                    return <RestaurantItem key={restaurant.name} value={restaurant} stars={[{'comment': 'mlqsdqlkmsdmlqskmdl', 'stars': 2}]} mapStore={props.mapStore}/>
                 }
 
                 return false;
