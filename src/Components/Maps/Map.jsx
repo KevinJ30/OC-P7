@@ -4,7 +4,8 @@ import config from '../../config.json';
 
 const loaderGoogle = new Loader({
     apiKey: config.API_KEY,
-    version: "weekly"
+    version: "weekly",
+    libraries: ['places']
 })
 
 const defaultCoordinate = {
@@ -60,8 +61,23 @@ export function Map(props) {
 
             loadMarker(props.storeRestaurant, map);
 
-            props.store.update(map);
-        })
+            // Recherche a proximité
+             const request = {
+                 location: new window.google.maps.LatLng(44.25494, 4.64736),
+                 radius:5000,
+                 type: ['restaurant']
+             }
+
+             let service = new window.google.maps.places.PlacesService(map);
+             service.nearbySearch(request, callbackPlaces)
+             props.store.update(map);
+        });
+
+        function callbackPlaces(results, status) {
+            if(status === window.google.maps.places.PlacesServiceStatus.OK) {
+                console.log(results);
+            }
+        }
     }
 
     return <div id="react-google-map" className="card shadow-sm">Map google</div>;
