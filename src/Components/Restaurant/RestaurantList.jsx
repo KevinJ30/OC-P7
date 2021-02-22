@@ -3,10 +3,12 @@ import {RestaurantItem} from "./RestaurantItem";
 
 export function RestaurantList(props) {
     const [restaurants, setRestaurant] = useState([]);
+    const store = props.store;
+
 
     useEffect(() => {
-        setRestaurant(props.store.getAll())
-    }, [props.store])
+        setRestaurant(store.getAll())
+    }, [store])
 
     function drawRestaurants(restaurants) {
         if (restaurants.length > 0) {

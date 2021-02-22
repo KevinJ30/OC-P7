@@ -16,6 +16,18 @@ const defaultCoordinate = {
 export function Map(props) {
     const [map, setMap] = useState(null);
 
+    function loadMarker(storeRestaurants, map) {
+        const restaurants = storeRestaurants.state.restaurants;
+
+        restaurants.forEach((restaurant) => {
+            new window.google.maps.Marker({
+                position: { lat: restaurant.lat, lng: restaurant.long},
+                map,
+                title: restaurant.restaurantName
+            });
+        });
+    }
+
     useEffect(() => {
         if("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -40,11 +52,13 @@ export function Map(props) {
     }
 
     function loadMap(lat, lng, zoom) {
-        loaderGoogle.load().then(() => {
+         loaderGoogle.load().then(() => {
             let map = new window.google.maps.Map(document.getElementById("react-google-map"), {
                 center: {lat: lat, lng: lng},
                 zoom: zoom
             });
+
+            loadMarker(props.storeRestaurant, map);
 
             props.store.update(map);
         })

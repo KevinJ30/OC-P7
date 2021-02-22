@@ -17,7 +17,7 @@ export function Home(props) {
 
             <div className="col-md-6">
                 <h2>Retrouvez les restaurants sur la carte</h2>
-                <Map store={storeContext.mapStore} />
+                <Map store={storeContext.mapStore} storeRestaurant={storeContext.store}/>
             </div>
         </div>
     </div>;
