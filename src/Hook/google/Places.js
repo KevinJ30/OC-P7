@@ -1,10 +1,10 @@
 import {loadAPI} from "./API";
 
-export function useGetInterestForCoordinates(coordinates, type, radius, map, callback) {
+export function useGetInterestForCoordinates(coordinates, type, radius = 50, map, callback) {
     loadAPI().then(() => {
         const request = {
                  location: new window.google.maps.LatLng(44.25494, 4.64736),
-                 radius:5000,
+                 radius:radius,
                  type: ['restaurant']
              }
 

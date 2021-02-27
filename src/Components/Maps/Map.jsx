@@ -25,7 +25,7 @@ export function Map(props) {
         lng:4.64736
     };
 
-    let restaurants = useGetInterestForCoordinates(pos, ['restaurant'], 5000, map, (results) => {
+    let restaurants = useGetInterestForCoordinates(pos, ['restaurant'], 100, map, (results) => {
         // Chargement des données dans le store
         storeRestaurant.add(results);
     });

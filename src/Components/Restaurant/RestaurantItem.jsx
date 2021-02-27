@@ -18,12 +18,11 @@ export function RestaurantItem(props) {
 
     function handleClick(event) {
         event.preventDefault();
-        props.mapStore.setCenterMap(props.value.lat, props.value.long);
+        props.mapStore.setCenterMap(props.value.geometry.location.lat(), props.value.geometry.location.lng());
     }
 
     // const bestCommentRestaurant = getBestRating(props.value.ratings);
-    // const pathname = '/restaurant/' + props.value.id;
-    console.log(props.value)
+    //const pathname = '/restaurant/' + props.value.id;
     return (
         <div id={props.value.name} className="react-restaurant card mb-3 shadow-sm rounded">
 
