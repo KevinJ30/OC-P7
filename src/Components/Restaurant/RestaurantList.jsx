@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {RestaurantItem} from "./RestaurantItem";
 import {getInterestForCoordinates} from "../../Hook/google/Places";
 import {DEFAULT_COORDINATES} from "../Maps/Map";
+import {addMarkerToMap} from "../../Hook/google/API";
 
 export function RestaurantList(props) {
     const [restaurants, setRestaurant] = useState([]);
@@ -21,6 +22,16 @@ export function RestaurantList(props) {
         if(isLoadedMapInstance) {
             getInterestForCoordinates(DEFAULT_COORDINATES, ['restaurant'], 500, props.mapStore.state.map, (results) => {
                 setRestaurant(results);
+                // Ajout des marker sur la map
+                results.forEach((interest) => {
+                    addMarkerToMap(props.mapStore.state.map,
+                        {
+                            lat: interest.geometry.location.lat(),
+                            lng: interest.geometry.location.lng()
+                        },
+
+                        interest.name)
+                })
             });
         }
     }, [isLoadedMapInstance])

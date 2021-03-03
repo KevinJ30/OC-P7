@@ -25,3 +25,19 @@ export function useLoadedService() {
 
     return isLoaded;
 }
+
+/**
+ * Ajoute un marker a la map
+ *
+ * @param map : Instance de la map google
+ * @param position : Position du marker
+ * @param title : Titre du marker
+ **/
+export function addMarkerToMap(map, position, title) {
+    const marker = new window.google.maps.Marker({
+        position: position,
+        title: title
+    });
+
+    marker.setMap(map);
+}
