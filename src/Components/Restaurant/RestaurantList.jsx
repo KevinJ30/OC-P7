@@ -20,7 +20,9 @@ export function RestaurantList(props) {
 
     useEffect(() => {
         if(isLoadedMapInstance) {
-            getInterestForCoordinates(DEFAULT_COORDINATES, ['restaurant'], 500, props.mapStore.state.map, (results) => {
+            console.log(props.mapStore.state.coordinates);
+
+            getInterestForCoordinates(props.mapStore.state.coordinates, ['restaurant'], 500, props.mapStore.state.map, (results) => {
                 setRestaurant(results);
                 // Ajout des marker sur la map
                 results.forEach((interest) => {

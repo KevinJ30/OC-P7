@@ -1,7 +1,8 @@
 export class MapStore {
     constructor() {
         this.state = {
-            map: null
+            map: null,
+            coordinates: null
         }
 
         this.listener = [];
@@ -11,8 +12,14 @@ export class MapStore {
         return this.state.restaurants;
     }
 
-    update(map) {
-        this.state.map = map
+    update(newState) {
+        this.state = {
+            ...this.state,
+            ...newState
+        };
+
+        console.log(this.state);
+
         this.notify(this.state.map);
     }
 
