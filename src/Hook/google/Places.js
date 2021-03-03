@@ -1,20 +1,13 @@
-import {loadAPI} from "./API";
+import {useEffect} from 'react';
+import {useLoadedService} from "./API";
 
-export function useGetInterestForCoordinates(coordinates, type, radius = 50, map, callback) {
-    loadAPI().then(() => {
-        const request = {
-                 location: new window.google.maps.LatLng(44.25494, 4.64736),
-                 radius:radius,
-                 type: ['restaurant']
-             }
-
-        let service = new window.google.maps.places.PlacesService(map)
-        service.nearbySearch(request, callback);
-    })
-}
-
-function getData(results, status) {
-    if(status === window.google.maps.places.PlacesServiceStatus.OK) {
-        return results;
+export function getInterestForCoordinates(coordinates, type, radius = 50, map, callback) {
+    const request = {
+        location: new window.google.maps.LatLng(coordinates.lat, coordinates.lng),
+        radius:radius,
+        type: type
     }
+
+    let service = new window.google.maps.places.PlacesService(map)
+    service.nearbySearch(request, callback);
 }

@@ -35,4 +35,13 @@ export class RestaurantStore {
         return this.state.restaurants.filter((item) => item.id === parseInt(id)).pop();
     }
 
+    /**
+     * Remplace la liste existante
+     *
+     * @param {array} restaurants : nouvelle liste de restaurant
+     **/
+    updateList(restaurants) {
+        this.state.restaurants = restaurants;
+        this.notify();
+    }
 }

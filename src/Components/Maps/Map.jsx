@@ -1,97 +1,40 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {Loader} from '@googlemaps/js-api-loader';
-import config from '../../config.json';
-import {useGetInterestForCoordinates} from "../../Hook/google/Places";
-import {loadAPI} from "../../Hook/google/API";
+import React, {useState, useEffect, useRef} from 'react';
+import {useLoadedService} from "../../Hook/google/API";
 
-const loaderGoogle = new Loader({
-    apiKey: config.API_KEY,
-    version: "weekly",
-    libraries: ['places']
-})
-
-const defaultCoordinate = {
+export const DEFAULT_COORDINATES = {
     lat: 48.856613,
     lng: 2.352222,
     zoom: 12
 }
 
 export function Map(props) {
-    const storeRestaurant = props.storeRestaurant;
-    const [map, setMap] = useState(null);
-
-    const pos = {
-        lat: 44.25494,
-        lng:4.64736
-    };
-
-    let restaurants = useGetInterestForCoordinates(pos, ['restaurant'], 100, map, (results) => {
-        // Chargement des données dans le store
-        storeRestaurant.add(results);
-    });
-
-    function loadMarker(storeRestaurants, map) {
-        const restaurants = storeRestaurants.state.restaurants;
-
-        restaurants.forEach((restaurant) => {
-            new window.google.maps.Marker({
-                position: { lat: restaurant.lat, lng: restaurant.long},
-                map,
-                title: restaurant.restaurantName
-            });
-        });
-    }
+    const mapRef = useRef(null)
+    const isLoadedServiceGoogle = useLoadedService();
 
     useEffect(() => {
         if("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
-                loadMap(position.coords.latitude, position.coords.longitude, defaultCoordinate.zoom + 3);
+                loadMap(position.coords.latitude, position.coords.longitude, DEFAULT_COORDINATES.zoom + 3);
             }, () => {
-                loadMap(defaultCoordinate.lat, defaultCoordinate.lng, defaultCoordinate.zoom);
+                loadMap(DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng, DEFAULT_COORDINATES.zoom);
             })
         }
         else {
-            loadMap(defaultCoordinate.lat, defaultCoordinate.lng, defaultCoordinate.zoom);
+            loadMap(DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng, DEFAULT_COORDINATES.zoom);
         }
 
-        props.store.subscribe(updateStore);
-
-        return () => {
-            setMap(null);
-        }
-    }, []);
-
-    function updateStore(map) {
-        setMap(map);
-    }
+    }, [isLoadedServiceGoogle]);
 
     function loadMap(lat, lng, zoom) {
-         loaderGoogle.load().then(() => {
-            let map = new window.google.maps.Map(document.getElementById("react-google-map"), {
+        if(isLoadedServiceGoogle) {
+            let map = new window.google.maps.Map(mapRef.current, {
                 center: {lat: lat, lng: lng},
                 zoom: zoom
             });
 
-            loadMarker(props.storeRestaurant, map);
-
-            // Recherche a proximité
-            //  const request = {
-            //      location: new window.google.maps.LatLng(44.25494, 4.64736),
-            //      radius:5000,
-            //      type: ['restaurant']
-            //  }
-            //
-            //  let service = new window.google.maps.places.PlacesService(map);
-            //  service.nearbySearch(request, callbackPlaces)
-             props.store.update(map);
-        });
-
-        function callbackPlaces(results, status) {
-            if(status === window.google.maps.places.PlacesServiceStatus.OK) {
-                console.log(results);
-            }
+            props.store.update(map);
         }
     }
 
-    return <div id="react-google-map" className="card shadow-sm">Map google</div>;
+    return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }

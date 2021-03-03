@@ -1,16 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import {RestaurantItem} from "./RestaurantItem";
+import {getInterestForCoordinates} from "../../Hook/google/Places";
+import {DEFAULT_COORDINATES} from "../Maps/Map";
 
 export function RestaurantList(props) {
     const [restaurants, setRestaurant] = useState([]);
+    const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
     const store = props.store;
 
+    // Quand la map est chargé on charge les données de google ou un autre service
+    function handleChangeMap() {
+        setLoadedMapInstance(true);
+    }
 
     useEffect(() => {
-        store.subscribe(() => {
-            setRestaurant(store.getAll())
-        })
-    }, [store])
+        props.mapStore.subscribe(handleChangeMap);
+    }, [])
+
+    useEffect(() => {
+        if(isLoadedMapInstance) {
+            getInterestForCoordinates(DEFAULT_COORDINATES, ['restaurant'], 500, props.mapStore.state.map, (results) => {
+                setRestaurant(results);
+            });
+        }
+    }, [isLoadedMapInstance])
 
     function drawRestaurants(restaurants) {
         if (restaurants.length > 0) {
