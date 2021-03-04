@@ -1,50 +1,29 @@
-import React, {useMemo, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom'
+import {Map} from "../Maps/Map";
+import {StoresContext} from "../../Context/StoresContext";
 import {getDetailsInterest} from "../../Hook/google/Places";
 
 export function Restaurant(props) {
-    // let {id} = useParams();
-    // let store = props.store;
-    //
-    // const restaurantMemo = useMemo(function() {
-    //     return store.getRestaurant(id);
-    // }, [store, id])
-    //
-    // function numberOpinion(opinions) {
-    //     return opinions.length;
-    // }
-    //
-    // function displayOpinions(opinions) {
-    //     return opinions.map((opinion) => {
-    //         return <div className="opinion">
-    //             <Stars stars={opinion.stars} />
-    //             <p className="opinion__rating">{opinion.stars}</p>
-    //             <p>{opinion.comment}</p>
-    //             <hr/>
-    //         </div>;
-    //     });
-    // }
+    const storeContext = useContext(StoresContext);
+    const [isLoadedmap, setIsLoadedMap] = useState(false);
+    const {id} = useParams();
 
-    // return <div className="container mt-3">
-    //     <Link to="/">Home</Link>
-    //
-    //     <h1>{restaurantMemo.restaurantName}</h1>
-    //
-    //     <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{restaurantMemo.address}</p>
-    //
-    //     <div className="col-md-12 card p-3">
-    //         <div className="container">
-    //             <h3>Avis :</h3> Il y a {numberOpinion(restaurantMemo.ratings)} avis.
-    //             <hr/>
-    //
-    //             { displayOpinions(restaurantMemo.ratings) }
-    //         </div>
-    //     </div>
-    // </div>;
+    useEffect(() => {
+        storeContext.mapStore.subscribe(() => {
+            setIsLoadedMap(true);
+        });
+    }, [storeContext.mapStore])
+
+    useEffect(() => {
+        if(isLoadedmap) {
+            getDetailsInterest(id, ["name", "formatted_address", "place_id", "geometry", "reviews"], storeContext.mapStore.state.map)
+        }
+    }, [id, isLoadedmap, storeContext.mapStore.state.map]);
 
     return <div className="container mt-3">
         <Link to="/">Home</Link>
+        <Map store={storeContext.mapStore} />
 
-        {/*{console.log(restaurantMemo)}*/}
     </div>;
 }

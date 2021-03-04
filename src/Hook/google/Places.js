@@ -31,9 +31,9 @@ export function getDetailsInterest(placeId, fields, map) {
         fields: fields
     };
 
-    const service = window.google.maps.places.placeService(map);
+    const service = new window.google.maps.places.PlacesService(map);
+
 
     service.getDetails(request, (place, status) => {
-        console.log(status);
     })
 }
