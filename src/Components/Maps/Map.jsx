@@ -42,13 +42,7 @@ export function Map(props) {
                 loadMap(DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng, DEFAULT_COORDINATES.zoom);
             }
         }
-
     }, [isLoadedServiceGoogle, loadMap]);
-
-    // Utilisé le useCallback sur cette fonction
-    // function loadMap(lat, lng, zoom) {
-    //
-    // }
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }
