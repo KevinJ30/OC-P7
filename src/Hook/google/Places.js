@@ -17,3 +17,23 @@ export function getInterestForCoordinates(coordinates, type, radius = 50, map, c
     let service = new window.google.maps.places.PlacesService(map)
     service.nearbySearch(request, callback);
 }
+
+/**
+ * Récupére les détails d'un point d'intéret
+ *
+ * @param {string} placeId
+ * @param {array} fields
+ * @param {Object} map
+ **/
+export function getDetailsInterest(placeId, fields, map) {
+    const request = {
+        placeId: placeId,
+        fields: fields
+    };
+
+    const service = window.google.maps.places.placeService(map);
+
+    service.getDetails(request, (place, status) => {
+        console.log(status);
+    })
+}

@@ -41,3 +41,4 @@ export function addMarkerToMap(map, position, title) {
 
     marker.setMap(map);
 }
+
