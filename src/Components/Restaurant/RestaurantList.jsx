@@ -14,6 +14,10 @@ export function RestaurantList(props) {
 
     useEffect(() => {
         props.mapStore.subscribe(handleChangeMap);
+
+        return () => {
+            props.mapStore.unsubscribe(handleChangeMap);
+        }
     }, [props.mapStore])
 
     useEffect(() => {

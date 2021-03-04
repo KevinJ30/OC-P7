@@ -25,6 +25,10 @@ export class MapStore {
         this.listener.push(callback);
     }
 
+    unsubscribe(callback) {
+        this.listener = this.listener.filter((call) => call !== callback);
+    }
+
     notify(data) {
         this.listener.forEach((callback) => callback(data));
     }
