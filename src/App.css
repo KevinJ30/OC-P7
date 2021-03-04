@@ -190,6 +190,18 @@ h1, h2 {
   color: var(--primary-color);
 }
 
+.card-restaurant__title-btn {
+  border:none;
+  color:#0C2A38;
+  background: none;
+
+  transition: color .3s;
+}
+
+.card-restaurant__title-btn:hover {
+  color: #1d6080;
+}
+
 #react-google-map {
   width: 100%;
   min-height:400px;

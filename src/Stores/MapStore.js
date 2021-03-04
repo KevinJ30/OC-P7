@@ -18,8 +18,6 @@ export class MapStore {
             ...newState
         };
 
-        console.log(this.state);
-
         this.notify(this.state.map);
     }
 

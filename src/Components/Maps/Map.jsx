@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useCallback, useRef} from 'react';
 import {useLoadedService} from "../../Hook/google/API";
 
 export const DEFAULT_COORDINATES = {
@@ -10,6 +10,23 @@ export const DEFAULT_COORDINATES = {
 export function Map(props) {
     const mapRef = useRef(null)
     const isLoadedServiceGoogle = useLoadedService();
+
+    const loadMap = useCallback((lat, lng, zoom) => {
+        if(isLoadedServiceGoogle) {
+            let map = new window.google.maps.Map(mapRef.current, {
+                center: {lat: lat, lng: lng},
+                zoom: zoom
+            });
+
+            props.store.update({
+                map: map,
+                coordinates: {
+                    lat: lat,
+                    lng: lng
+                }
+            });
+        }
+    }, [isLoadedServiceGoogle, props.store]);
 
     useEffect(() => {
         if(isLoadedServiceGoogle) {
@@ -26,24 +43,12 @@ export function Map(props) {
             }
         }
 
-    }, [isLoadedServiceGoogle]);
+    }, [isLoadedServiceGoogle, loadMap]);
 
-    function loadMap(lat, lng, zoom) {
-        if(isLoadedServiceGoogle) {
-            let map = new window.google.maps.Map(mapRef.current, {
-                center: {lat: lat, lng: lng},
-                zoom: zoom
-            });
-
-            props.store.update({
-                map: map,
-                coordinates: {
-                    lat: lat,
-                    lng: lng
-                }
-            });
-        }
-    }
+    // Utilisé le useCallback sur cette fonction
+    // function loadMap(lat, lng, zoom) {
+    //
+    // }
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }
