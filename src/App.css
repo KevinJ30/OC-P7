@@ -286,3 +286,14 @@ h1, h2 {
 .animate.delay-2 {
   animation-delay: .3s;
 }
+
+/**
+ * Reviews
+ */
+.review__author {
+    font-weight:700;
+}
+
+.review__time {
+  font-size:0.9rem;
+}
