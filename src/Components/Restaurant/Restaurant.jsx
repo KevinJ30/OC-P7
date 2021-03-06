@@ -58,12 +58,27 @@ export function Restaurant(props) {
 
     return <div className="container mt-3">
         <Link to="/">Home</Link>
+
+        <div className="d-flex justify-content-between">
+
+            <div className="title">
+
+                <h1>{restaurant.name}</h1>
+                <div className="d-flex">
+                    <p><Stars stars={restaurant.rating} /></p>
+                </div>
+
+            </div>
+
+            <div className="button">
+                <button className="btn btn-primary">Donnez votre avis</button>
+            </div>
+        </div>
+
         <Map store={storeContext.mapStore}  />
-        <h1>{restaurant.name}</h1>
-        {restaurant.rating} <Stars stars={restaurant.rating} />
 
-        <hr/>
-
-        { drawReviews(restaurant) }
+        <div className="mt-3">
+            { drawReviews(restaurant) }
+        </div>
     </div>;
 }
