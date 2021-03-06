@@ -291,6 +291,7 @@ h1, h2 {
  * Reviews
  */
 .review__author {
+    color:var(--primary-color);
     font-weight:700;
 }
 
