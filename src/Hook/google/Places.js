@@ -24,16 +24,14 @@ export function getInterestForCoordinates(coordinates, type, radius = 50, map, c
  * @param {string} placeId
  * @param {array} fields
  * @param {Object} map
+ * @param {function} callback
  **/
-export function getDetailsInterest(placeId, fields, map) {
+export function getDetailsInterest(placeId, fields, map, callback) {
     const request = {
         placeId: placeId,
         fields: fields
     };
 
     const service = new window.google.maps.places.PlacesService(map);
-
-
-    service.getDetails(request, (place, status) => {
-    })
+    service.getDetails(request, callback)
 }

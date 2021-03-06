@@ -42,3 +42,17 @@ export function addMarkerToMap(map, position, title) {
     marker.setMap(map);
 }
 
+/**
+ * Centre la map sur position
+ * @param map : Instance de la map
+ * @param lat : latitude
+ * @param lng : longitude
+ * @param zoom : zoom du centre
+ **/
+export function centerMap(map, lat, lng) {
+    map.setCenter({
+        lat: lat,
+        lng: lng,
+    });
+}
+

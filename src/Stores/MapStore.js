@@ -39,6 +39,7 @@ export class MapStore {
             lng: lng,
             zoom: 8
         });
+
         this.notify(this.state.map);
     }
 }

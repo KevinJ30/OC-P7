@@ -1,6 +1,7 @@
 import React from 'react';
 import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
+import {centerMap} from "../../Hook/google/API";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.place_id;

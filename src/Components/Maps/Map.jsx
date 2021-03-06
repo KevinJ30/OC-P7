@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback, useRef} from 'react';
-import {useLoadedService} from "../../Hook/google/API";
+import {centerMap, useLoadedService} from "../../Hook/google/API";
 
 export const DEFAULT_COORDINATES = {
     lat: 48.856613,
@@ -13,8 +13,10 @@ export function Map(props) {
 
     const loadMap = useCallback((lat, lng, zoom) => {
         if(isLoadedServiceGoogle) {
+            const position = new window.google.maps.LatLng(lat, lng);
+
             let map = new window.google.maps.Map(mapRef.current, {
-                center: {lat: lat, lng: lng},
+                center: position,
                 zoom: zoom
             });
 
