@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback, useRef} from 'react';
-import {centerMap, useLoadedService} from "../../Hook/google/API";
+import {useLoadedService} from "../../Hook/google/API";
 
 export const DEFAULT_COORDINATES = {
     lat: 48.856613,
@@ -19,6 +19,11 @@ export function Map(props) {
                 center: position,
                 zoom: zoom
             });
+
+            if(props.clickEvent) {
+                // Ajoute un listener sur la map
+                map.addListener('click', props.clickEvent);
+            }
 
             props.store.update({
                 map: map,

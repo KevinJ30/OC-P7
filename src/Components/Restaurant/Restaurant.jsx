@@ -6,19 +6,9 @@ import {getDetailsInterest} from "../../Hook/google/Places";
 import {Stars} from "./Rating";
 import {addMarkerToMap, } from "../../Hook/google/API";
 import {Review} from "../review/Review";
+import {customStyleModal} from "../../CustomStyle";
 import Modal from "react-modal";
 import {FormAddReview} from "../../Forms/FormAddReview";
-
-const customStyleModal = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-}
 
 Modal.setAppElement('#root');
 
