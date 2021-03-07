@@ -1,14 +1,16 @@
 import React from 'react';
 import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
-import {centerMap} from "../../Hook/google/API";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.place_id;
 
     function handleClick(event) {
         event.preventDefault();
-        props.mapStore.setCenterMap(props.value.geometry.location.lat(), props.value.geometry.location.lng());
+        const lat = typeof props.value.geometry.location.lat !== "number" ? props.value.geometry.location.lat() : props.value.geometry.location.lat;
+        const lng = typeof props.value.geometry.location.lng !== "number" ? props.value.geometry.location.lng() : props.value.geometry.location.lng;
+
+        props.mapStore.setCenterMap(lat, lng);
     }
 
     return (

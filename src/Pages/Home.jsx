@@ -2,7 +2,7 @@ import React, {useState, useEffect,useContext} from 'react';
 import {Element} from "react-scroll";
 import {RestaurantList} from "../Components/Restaurant/RestaurantList";
 import {Map} from "../Components/Maps/Map";
-import {mapStore, StoresContext} from "../Context/StoresContext";
+import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
@@ -78,7 +78,7 @@ export function Home(props) {
         <div className="row">
             <div className="col-md-6">
                 <Element name="anchor-list-restaurant">
-                    <RestaurantList restaurants={restaurants} />
+                    <RestaurantList restaurants={restaurants} mapStore={storeContext.mapStore} />
                 </Element>
             </div>
 
