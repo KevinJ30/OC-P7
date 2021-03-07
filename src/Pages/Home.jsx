@@ -65,7 +65,13 @@ export function Home(props) {
         ]);
 
         // Ajoute le marker du nouveau resturant sur la carte et on centre la carte a cette endroit
+        addMarkerToMap(storeContext.mapStore.state.map,
+            {
+                lat: restaurant.geometry.location.lat,
+                lng: restaurant.geometry.location.lng
+            },
 
+            restaurant.name)
     }
 
     return <div className="restaurant_container container pt-4">
