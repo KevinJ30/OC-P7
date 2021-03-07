@@ -1,8 +1,7 @@
+import moment from 'moment';
 import {Stars} from "../Restaurant/Rating";
 
 export function Review(props) {
-    console.log(props.data)
-
     return <div className="review">
         <div className="review__author">{props.data.author_name}</div>
         <Stars stars={props.data.rating} />
