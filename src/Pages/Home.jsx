@@ -53,6 +53,7 @@ export function Home(props) {
     }
 
     function handleClickMap(mapsMouseEvent) {
+        console.log(mapsMouseEvent);
         // Ouverture de la modal
         setDisplayModal(true);
         setPositionClick(mapsMouseEvent.latLng);

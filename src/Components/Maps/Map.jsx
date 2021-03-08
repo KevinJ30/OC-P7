@@ -40,13 +40,12 @@ export function Map(props) {
             if("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition((position) => {
                     loadMap(position.coords.latitude, position.coords.longitude, DEFAULT_COORDINATES.zoom + 3);
-
                 }, () => {
                     loadMap(DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng, DEFAULT_COORDINATES.zoom);
+
+                    // Ajoute un message d'erreur
+                    alert("Vous n'avez activer votre géolocalisation, votre point de départ sera paris centre.");
                 })
-            }
-            else {
-                loadMap(DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng, DEFAULT_COORDINATES.zoom);
             }
         }
     }, [isLoadedServiceGoogle, loadMap]);
