@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 export function FormAddRestaurant(props) {
     const [name, setName] = useState('');
@@ -17,6 +17,12 @@ export function FormAddRestaurant(props) {
     function handleChangeAddress(event) {
         setAddress(event.target.value);
     }
+
+    useEffect(() => {
+        if(props.addressLocalisationClick) {
+            setAddress(props.addressLocalisationClick.formatted_address);
+        }
+    }, [props.addressLocalisationClick])
 
     /**
      * Evènement qui valide le formulaire d'ajout d'un restaurant

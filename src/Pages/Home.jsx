@@ -17,6 +17,7 @@ export function Home(props) {
     const [restaurants, setRestaurant] = useState([]);
     const [positionClick, setPositionClick] = useState(null);
     const [redirectUrl, setRedirectUrl] = useState(null);
+    const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
 
     useEffect(() => {
         storeContext.mapStore.subscribe(handleChangeMap);
@@ -64,10 +65,28 @@ export function Home(props) {
     }
 
     function handleClickMap(mapsMouseEvent) {
-        console.log(mapsMouseEvent);
-        // Ouverture de la modal
-        setDisplayModal(true);
+        // On recherhe l'adresse sur google map
+    
+        /**
+         * Ajouter le tous dans la couche API
+         **/
+        const geocoder = new window.google.maps.Geocoder();
+        const map = storeContext.mapStore.state.map;
+        const latLng = {
+            lat: mapsMouseEvent.latLng.lat(),
+            lng: mapsMouseEvent.latLng.lng()
+        };
+
+        const request = {
+            location: latLng
+        };
+
+        geocoder.geocode(request, (results, status) => {
+           setAddressLocalisationClick(results[0]);
+        });
+
         setPositionClick(mapsMouseEvent.latLng);
+        setDisplayModal(true);
     }
 
     function addRestaurant(restaurant) {
@@ -112,7 +131,7 @@ export function Home(props) {
             style={customStyleModal}
             contentLabel="ajouter un avis">
 
-            <FormAddRestaurant handleCloseModal={closeModal} restaurants={restaurants} handleClick={addRestaurant} positionClick={positionClick}/>
+            <FormAddRestaurant handleCloseModal={closeModal} restaurants={restaurants} handleClick={addRestaurant} positionClick={positionClick} addressLocalisationClick={addressLocalisationClick} />
         </Modal>
     </div>;
 }
