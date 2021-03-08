@@ -8,6 +8,7 @@ import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
 import {getInterestForCoordinates} from "../Hook/google/Places";
 import {addMarkerToMap} from "../Hook/google/API";
+import {Redirect} from "react-router-dom";
 
 export function Home(props) {
     const storeContext = useContext(StoresContext);
@@ -15,6 +16,7 @@ export function Home(props) {
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
     const [restaurants, setRestaurant] = useState([]);
     const [positionClick, setPositionClick] = useState(null);
+    const [redirectUrl, setRedirectUrl] = useState(null);
 
     useEffect(() => {
         storeContext.mapStore.subscribe(handleChangeMap);
@@ -31,13 +33,22 @@ export function Home(props) {
 
                 // Ajout des marker sur la map
                 results.forEach((interest) => {
-                    addMarkerToMap(storeContext.mapStore.state.map,
+                    // Ajoute les marker sur la map
+                    let marker = addMarkerToMap(storeContext.mapStore.state.map,
                         {
                             lat: interest.geometry.location.lat(),
                             lng: interest.geometry.location.lng()
                         },
 
-                        interest.name)
+                        interest.name
+                    );
+
+                    // Ajoute un listener quand on click sur l'event
+                    marker.addListener('click', () => {
+                        console.log(interest);
+                        const path = '/restaurant/' + interest.place_id;
+                        setRedirectUrl(path);
+                    });
                 })
             });
         }
@@ -73,6 +84,11 @@ export function Home(props) {
             },
 
             restaurant.name)
+    }
+
+    // Si il y a une redirection
+    if(redirectUrl) {
+        return <Redirect to={redirectUrl} />;
     }
 
     return <div className="restaurant_container container pt-4">

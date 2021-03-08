@@ -32,6 +32,8 @@ export function useLoadedService() {
  * @param map : Instance de la map google
  * @param position : Position du marker
  * @param title : Titre du marker
+ * 
+ * @return {Marker} marker
  **/
 export function addMarkerToMap(map, position, title) {
     const marker = new window.google.maps.Marker({
@@ -40,6 +42,8 @@ export function addMarkerToMap(map, position, title) {
     });
 
     marker.setMap(map);
+
+    return marker;
 }
 
 /**
