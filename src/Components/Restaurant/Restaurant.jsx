@@ -18,6 +18,7 @@ export function Restaurant(props) {
     const [restaurant, setRestaurant] = useState({});
     const {id} = useParams();
     const [isOpenModel, setIsOpenModel] = useState(false);
+    const [photos, setPhotos] = useState(null);
 
     useEffect(() => {
         storeContext.mapStore.subscribe(() => {
@@ -32,7 +33,8 @@ export function Restaurant(props) {
             "place_id",
             "geometry",
             "reviews",
-            "rating"
+            "rating",
+            "photos"
         ];
 
         if(isLoadedMap) {
@@ -46,10 +48,14 @@ export function Restaurant(props) {
 
                 // Ajouter le marker sur la map
                 addMarkerToMap(storeContext.mapStore.state.map, position, result.name);
+                
+                // On charge les photos directement
+                setPhotos(result.photos);
 
                 // On centre la map sur le point
                 storeContext.mapStore.setCenterMap(result.geometry.location.lat(), result.geometry.location.lng())
-            })
+            });
+
         }
     }, [id, isLoadedMap, storeContext.mapStore]);
 
@@ -70,6 +76,12 @@ export function Restaurant(props) {
         setIsOpenModel(true);
     }
 
+    function drawPhotos(photos) {
+        if(photos) {
+            return photos.map((photo) => <img class="react-img-restaurant" src={photo.getUrl()} />)
+        }
+    }
+
     return <div className="container mt-3">
         <Link to="/">Home</Link>
 
@@ -88,8 +100,18 @@ export function Restaurant(props) {
                 <button className="btn btn-primary" onClick={openModal}>Donnez votre avis</button>
             </div>
         </div>
+        <div className="row">
+            <div className="col-md-6">
+                <Map store={storeContext.mapStore}  />
+            </div>
 
-        <Map store={storeContext.mapStore}  />
+            <div className="col-md-6">
+                <div id="react-google-streetview">
+                    { drawPhotos(photos) }
+                </div>
+            </div>
+        </div>
+        
 
         <div className="mt-3">
             { drawReviews(restaurant) }

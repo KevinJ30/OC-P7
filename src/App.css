@@ -4,6 +4,7 @@
   --secondary-color:#EEEFF0;
   --offset-negative-animate:-20px;
   --offset-animate: 20px;
+  --gutter-google-place:8px;
 }
 
 html, body {
@@ -203,8 +204,13 @@ h1, h2 {
 }
 
 #react-google-map {
-  width: 100%;
-  min-height:400px;
+    width:100%;
+    min-height:100%;
+}
+
+#react-google-streetview {
+    width:100%;
+    min-height:400px;
 }
 
 .animate.animate-fade {
@@ -297,4 +303,30 @@ h1, h2 {
 
 .review__time {
   font-size:0.9rem;
+}
+
+/**
+ * Suppression du padding des enfants
+ **/
+#react-google-streetview {
+    margin:calc(var(--gutter-google-place) * -1);
+    height:100%;
+    display:flex;
+    flex-flow: row wrap;
+    overflow-y: scroll;
+}
+
+/**
+ * Ajout d'un padding pour créer une goutière entre les images
+ **/
+.react-img-restaurant {
+    width:150px; height:150px;
+    padding:var(--gutter-google-place);
+    object-fit:cover;
+    border-radius:15px;
+    transition:.3s opacity;
+}
+
+.react-img-restaurant:hover {
+    opacity:0.7;
 }

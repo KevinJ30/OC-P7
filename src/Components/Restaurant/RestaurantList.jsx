@@ -3,6 +3,7 @@ import {RestaurantItem} from "./RestaurantItem";
 
 export function RestaurantList(props) {
     function drawRestaurants(restaurants) {
+        console.log(restaurants);
         if (restaurants.length > 0) {
             return restaurants.map((restaurant) => {
                 if(restaurant.name) {
