@@ -205,7 +205,7 @@ h1, h2 {
 
 #react-google-map {
     width:100%;
-    min-height:100%;
+    min-height:500px;
 }
 
 #react-google-streetview {
@@ -330,3 +330,4 @@ h1, h2 {
 .react-img-restaurant:hover {
     opacity:0.7;
 }
+

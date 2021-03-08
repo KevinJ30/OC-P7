@@ -113,15 +113,15 @@ export function Home(props) {
     return <div className="restaurant_container container pt-4">
         <div className="row">
             <div className="col-md-6">
-                <Element name="anchor-list-restaurant">
-                    <RestaurantList restaurants={restaurants} mapStore={storeContext.mapStore} />
-                </Element>
-            </div>
-
-            <div className="col-md-6">
                 <h2>Retrouvez les restaurants sur la carte</h2>
                 <Map store={storeContext.mapStore} clickEvent={handleClickMap} />
             </div>
+            
+            <div className="col-md-6">
+                <Element name="anchor-list-restaurant">
+                    <RestaurantList restaurants={restaurants} mapStore={storeContext.mapStore} />
+                </Element>
+            </div>   
         </div>
 
         {/*Création d'une modal*/}
