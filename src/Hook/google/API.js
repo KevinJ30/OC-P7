@@ -35,10 +35,11 @@ export function useLoadedService() {
  * 
  * @return {Marker} marker
  **/
-export function addMarkerToMap(map, position, title) {
+export function addMarkerToMap(map, position, title, icon = null) {
     const marker = new window.google.maps.Marker({
         position: position,
-        title: title
+        title: title,
+        icon: icon
     });
 
     marker.setMap(map);
