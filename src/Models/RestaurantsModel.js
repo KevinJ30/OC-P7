@@ -1,16 +1,15 @@
 import {RestaurantEntity} from '../Models/Entity/RestaurantEntity';
-import {getInterestForCoordinates, getInterestForCoordinatesTest} from '../Hook/google/Places';
+import {getDetailsInterest, getInterestForCoordinates, getInterestForCoordinatesTest} from '../Hook/google/Places';
+import {ReviewsEntity} from "./Entity/ReviewsEntity";
 
 export class RestaurantsModel {
 
-    constructor() {
-        this.listener = [];
-    }
-
     /**
      * Recherche les donées depuis google et créer les entités des classes
-     * 
+     *
      * @param {Map} map : Map google
+     * @param {object} coordinates : Coordonées de départ pour la recherche
+     * @resolve {array} restaurant
      **/
     getAroundRestaurant(map, coordinates) {
         return new Promise((resolve, reject) => {
@@ -20,7 +19,6 @@ export class RestaurantsModel {
                 let restaurants = [];
 
                 response.forEach((restaurant) => {
-                    console.log(restaurant);
                     restaurants.push(new RestaurantEntity(restaurant.name, restaurant.rating, restaurant.geometry.location, restaurant.vicinity ,restaurant.place_id));
                 });
 
@@ -29,7 +27,39 @@ export class RestaurantsModel {
             .catch((error) => {
                 reject("Impossible de rechercher les données sur l'API Google.");
             });
-
         })
+    }
+
+    getRestaurantWithReviews(map, place_id) {
+        return new Promise((resolve, reject) => {
+            const fields = [
+                'name',
+                'rating',
+                'photos',
+                'place_id',
+                'geometry',
+                'vicinity',
+                'reviews'
+            ];
+
+            getDetailsInterest(map, place_id, fields).then((response) => {
+                let restaurant = new RestaurantEntity(response.name, response.rating, response.geometry.location, response.vicinity, response.place_id, [], response.photos);
+                let reviews = [];
+
+                // Création des entité pour les avis des utilisateurs
+                response.reviews.forEach((review) => {
+                    reviews.push(new ReviewsEntity(review.author_name, review.rating, review.relative_time_description, review.text, review.time));
+                });
+
+                restaurant.setReviews(reviews);
+
+                resolve(restaurant);
+            }).catch((error) => {
+                reject("Impossible de rechercher les données sur l'API");
+            })
+
+        });
+
+
     }
 }

@@ -3,8 +3,7 @@ import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
 
 export function RestaurantItem(props) {
-    let pathname = "/restaurant/" + props.value.place_id;
-    console.log(props.value);
+    let pathname = "/restaurant/" + props.value.placeId;
     function handleClick(event) {
         event.preventDefault();
         const lat = typeof props.value.geometry.location.lat !== "number" ? props.value.geometry.location.lat() : props.value.geometry.location.lat;

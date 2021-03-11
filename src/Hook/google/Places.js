@@ -27,7 +27,7 @@ export function getInterestForCoordinatesOld(coordinates, type, radius = 50, map
  * @param map : Instance de la map google
  * @param callback : Callable qui renvoie les données
  **/
- export async function getInterestForCoordinates(coordinates, type, radius = 50, map) {
+ export function getInterestForCoordinates(coordinates, type, radius = 50, map) {
     // let service = new window.google.maps.places.PlacesService(map)
     // return new Promise((result)) service.nearbySearch(request, callback);
     return new Promise((resolve, reject)  => {
@@ -58,12 +58,22 @@ export function getInterestForCoordinatesOld(coordinates, type, radius = 50, map
  * @param {Object} map
  * @param {function} callback
  **/
-export function getDetailsInterest(placeId, fields, map, callback) {
-    const request = {
-        placeId: placeId,
-        fields: fields
-    };
-
-    const service = new window.google.maps.places.PlacesService(map);
-    service.getDetails(request, callback)
+export function getDetailsInterest(map, placeId, fields) {
+    return new Promise((resolve, reject) => {
+        const request = {
+            placeId: placeId,
+            fields: fields
+        };
+    
+        const service = new window.google.maps.places.PlacesService(map);
+        
+        service.getDetails(request, (response, status) => {
+            if(status === 'OK') {
+                resolve(response);
+            }
+            else {
+                reject('Impossible de charger les données depuis google !');
+            }
+        })
+    });
 }

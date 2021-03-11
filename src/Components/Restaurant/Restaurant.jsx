@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom'
-import {DEFAULT_COORDINATES, Map} from "../Maps/Map";
+import {Map} from "../Maps/Map";
 import {StoresContext} from "../../Context/StoresContext";
 import {getDetailsInterest} from "../../Hook/google/Places";
 import {Stars} from "./Rating";
@@ -19,8 +19,13 @@ Modal.setAppElement('#root');
 
 export function Restaurant(props) {
     const storeContext = useContext(StoresContext);
+    const {mapStore, restaurantStore} = useContext(StoresContext);
+
+    /**
+     * Etat du composant
+     **/
     const [isLoadedMap, setIsLoadedMap] = useState(false);
-    const [restaurant, setRestaurant] = useState({});
+    const [restaurant, setRestaurant] = useState(null);
     const {id} = useParams();
     const [isOpenModel, setIsOpenModel] = useState(false);
     const [photos, setPhotos] = useState(null);
@@ -33,42 +38,18 @@ export function Restaurant(props) {
     }, [storeContext.mapStore])
 
     useEffect(() => {
-        const fields = [
-            "name",
-            "formatted_address",
-            "place_id",
-            "geometry",
-            "reviews",
-            "rating",
-            "photos"
-        ];
-
+        const restaurantsModel = new RestaurantsModel();
         if(isLoadedMap) {
-            getDetailsInterest(id, fields, storeContext.mapStore.state.map, (result, status) => {
-                setRestaurant(result);
-
-                let position = new window.google.maps.LatLng(
-                    result.geometry.location.lat(),
-                    result.geometry.location.lng(),
-                );
-
-                // Ajouter le marker sur la map
-                addMarkerToMap(storeContext.mapStore.state.map, position, result.name);
-                
-                // On charge les photos directement
-                setPhotos(result.photos);
-
-                // On centre la map sur le point
-                storeContext.mapStore.setCenterMap(result.geometry.location.lat(), result.geometry.location.lng())
-            });
+            restaurantsModel.getRestaurantWithReviews(mapStore.state.map, id).then((response) => {
+                setRestaurant(response);
+            })
         }
-    }, [id, isLoadedMap, storeContext.mapStore]);
+    }, [id, isLoadedMap, mapStore]);
 
     function drawReviews(restaurant) {
-        console.log(state);
-        if(Object.keys(restaurant).length) {
+        if(restaurant) {
             return restaurant.reviews.map((review) => {
-                const key = review.author_name + review.time;
+                const key = review.getAuthor() + review.getTime();
                 return <Review key={key} data={review} />;
             })
         }
@@ -82,21 +63,21 @@ export function Restaurant(props) {
         setIsOpenModel(true);
     }
 
-    function drawPhotos(photos) {
-        if(photos) {
-            return photos.map((photo) => <img key={photo.getUrl()} className="react-img-restaurant" src={photo.getUrl()} />)
+    function drawPhotos(restaurant) {
+        if(restaurant) {
+            const photos = restaurant.getPhotos();
+            return photos.map((photo) => <img key={photo.getUrl()} className="react-img-restaurant" src={photo.getUrl()} alt={photo.getUrl()} />)
         }
     }
-
     return <div className="container mt-3">
         <Link to="/">Home</Link>
         <div className="d-flex justify-content-between">
 
             <div className="title">
 
-                <h1>{restaurant.name}</h1>
+                <h1>{restaurant ? restaurant.getName() : null}</h1>
                 <div className="d-flex mb-3">
-                    <Stars stars={restaurant.rating} />
+                    <Stars stars={restaurant ? restaurant.getRating() : 0} />
                 </div>
 
             </div>
@@ -112,14 +93,16 @@ export function Restaurant(props) {
 
             <div className="col-md-6">
                 <div id="react-google-streetview">
-                    { drawPhotos(photos) }
+                    { drawPhotos(restaurant) }
                 </div>
             </div>
         </div>
-        
+
 
         <div className="mt-3">
-            { drawReviews(restaurant) }
+            {
+                drawReviews(restaurant)
+            }
         </div>
 
         <Modal
