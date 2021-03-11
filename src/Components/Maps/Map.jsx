@@ -1,5 +1,6 @@
-import React, {useEffect, useCallback, useRef} from 'react';
+import React, {useEffect, useState, useCallback, useRef, useContext} from 'react';
 import {useLoadedService, addMarkerToMap} from "../../Hook/google/API";
+import {StoresContext} from "../../Context/StoresContext";
 
 export const DEFAULT_COORDINATES = {
     lat: 48.856613,
@@ -10,6 +11,12 @@ export const DEFAULT_COORDINATES = {
 export function Map(props) {
     const mapRef = useRef(null)
     const isLoadedServiceGoogle = useLoadedService();
+    const {mapStore, restaurantsStore} = useContext(StoresContext);
+
+    /**
+     * Etats du compoosant
+     **/
+    const [addMarker, setAddMarker] = useState(false);
 
     const loadMap = useCallback((lat, lng, zoom) => {
         if(isLoadedServiceGoogle) {
@@ -37,17 +44,29 @@ export function Map(props) {
                 anchor: new window.google.maps.Point(15, 30),
             };
 
-            let marker = addMarkerToMap(map, {lat: lat, lng: lng}, 'Vous êtes ici !', icon)
+            addMarkerToMap(map, {lat: lat, lng: lng}, 'Vous êtes ici !', icon)
 
-            props.store.update({
+            mapStore.update({
                 map: map,
                 coordinates: {
                     lat: lat,
                     lng: lng
                 }
             });
+
+            mapStore.notify();
         }
-    }, [isLoadedServiceGoogle, props.store]);
+    }, [isLoadedServiceGoogle, mapStore, props.clickEvent]);
+
+    useEffect(() => {
+        const subscriber = restaurantsStore.subscribe(() => {
+            setAddMarker(true);
+        });
+
+        return () => {
+            restaurantsStore.unsubscribe(subscriber);
+        }
+    }, [restaurantsStore])
 
     useEffect(() => {
         if(isLoadedServiceGoogle) {
@@ -63,6 +82,16 @@ export function Map(props) {
             }
         }
     }, [isLoadedServiceGoogle, loadMap]);
+
+    /**
+     * Si l'etat add marker change on ajoute les marker sur la map
+     **/
+    useEffect(() => {
+        restaurantsStore.state.data.forEach((restaurant) => {
+            addMarkerToMap(mapStore.state.map, restaurant.getPosition(), restaurant.getName(), null)
+        })
+
+    }, [mapStore, restaurantsStore ,addMarker])
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }

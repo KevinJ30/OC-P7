@@ -11,7 +11,7 @@ export class Store {
     /**
      * Souscrit a l'observation du changement des données
      * 
-     * @param {CallableFunction} observer : Fonction d'observation
+     * @param {function} observer : Fonction d'observation
      * @return {void}
      **/
     subscribe(observer) {
@@ -30,6 +30,10 @@ export class Store {
 
     store(state) {
         this.state = state;
+    }
+
+    unsubscribe(subscriber) {
+        this.listener = this.listener.filter((observer) => subscriber !== observer);
     }
 
 }

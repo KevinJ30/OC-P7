@@ -43,7 +43,7 @@ export class RestaurantEntity {
      * @returns {Object} position : Cordonnées géographique du restaurant
      **/
      getPosition() {
-        return this.position;
+        return this.geometry.location;
     }
 
     /**
