@@ -1,13 +1,65 @@
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {RestaurantItem} from "./RestaurantItem";
+import {StoresContext} from "../../Context/StoresContext";
+import {RestaurantsModel} from "../../Models/RestaurantsModel";
+import {RestaurantEntity} from "../../Models/Entity/RestaurantEntity";
 
 export function RestaurantList(props) {
+    const {mapStore, restaurantsStore} = useContext(StoresContext);
+
+    /**
+     * State de l'application
+     **/
+    const [restaurants, setRestaurant] = useState([]);
+    const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
+
+    /**
+     * Remplie le state avec les données du store
+     **/
+    useEffect(() => {
+        restaurantsStore.subscribe(() => {
+            setRestaurant(restaurantsStore.state.data);
+        })
+    }, [restaurantsStore])
+
+    /**
+     * Indique quand la map est chargé
+     **/
+    useEffect(() => {
+        const subscriber = mapStore.subscribe(() => {
+            setLoadedMapInstance(true);
+        })
+
+        return () => {
+           mapStore.unsubscribe(subscriber);
+        }
+    }, [mapStore]);
+
+    /**
+     * Chargement de la liste des restaurants
+     **/
+    useEffect(() => {
+        let restaurantModel = new RestaurantsModel();
+
+        if(isLoadedMapInstance) {
+            restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
+                restaurantsStore.store({
+                    loaded: true,
+                    data: data
+                });
+                restaurantsStore.notify();
+            });
+        }
+    }, [isLoadedMapInstance, mapStore, restaurantsStore])
+
+
     function drawRestaurants(restaurants) {
-        console.log(restaurants);
         if (restaurants.length > 0) {
             return restaurants.map((restaurant) => {
-                if(restaurant.name) {
-                    return <RestaurantItem key={restaurant.name} value={restaurant} stars={[{'comment': 'mlqsdqlkmsdmlqskmdl', 'stars': 2}]} mapStore={props.mapStore}/>
+                if (restaurant.name) {
+                    return <RestaurantItem key={restaurant.name} value={restaurant}
+                                           stars={[{'comment': 'mlqsdqlkmsdmlqskmdl', 'stars': 2}]}
+                                           mapStore={props.mapStore}/>
                 }
 
                 return false;
@@ -19,7 +71,7 @@ export function RestaurantList(props) {
 
     return <div>
                 <h2>Liste des restaurants</h2>
-                {drawRestaurants(props.restaurants)}
+                {drawRestaurants(restaurants)}
         </div>;
 }
 

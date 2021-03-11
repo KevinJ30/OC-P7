@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom'
-import {Map} from "../Maps/Map";
+import {DEFAULT_COORDINATES, Map} from "../Maps/Map";
 import {StoresContext} from "../../Context/StoresContext";
 import {getDetailsInterest} from "../../Hook/google/Places";
 import {Stars} from "./Rating";
@@ -10,7 +10,12 @@ import {customStyleModal} from "../../CustomStyle";
 import Modal from "react-modal";
 import {FormAddReview} from "../../Forms/FormAddReview";
 
+import {RestaurantsModel} from '../../Models/RestaurantsModel';
+
 Modal.setAppElement('#root');
+
+    // Chargement des données depuis le model
+    let restaurantsModel = new RestaurantsModel();
 
 export function Restaurant(props) {
     const storeContext = useContext(StoresContext);
@@ -19,6 +24,7 @@ export function Restaurant(props) {
     const {id} = useParams();
     const [isOpenModel, setIsOpenModel] = useState(false);
     const [photos, setPhotos] = useState(null);
+    const [state, setState] = useState([]);
 
     useEffect(() => {
         storeContext.mapStore.subscribe(() => {
@@ -55,11 +61,11 @@ export function Restaurant(props) {
                 // On centre la map sur le point
                 storeContext.mapStore.setCenterMap(result.geometry.location.lat(), result.geometry.location.lng())
             });
-
         }
     }, [id, isLoadedMap, storeContext.mapStore]);
 
     function drawReviews(restaurant) {
+        console.log(state);
         if(Object.keys(restaurant).length) {
             return restaurant.reviews.map((review) => {
                 const key = review.author_name + review.time;
@@ -78,13 +84,12 @@ export function Restaurant(props) {
 
     function drawPhotos(photos) {
         if(photos) {
-            return photos.map((photo) => <img class="react-img-restaurant" src={photo.getUrl()} />)
+            return photos.map((photo) => <img key={photo.getUrl()} className="react-img-restaurant" src={photo.getUrl()} />)
         }
     }
 
     return <div className="container mt-3">
         <Link to="/">Home</Link>
-
         <div className="d-flex justify-content-between">
 
             <div className="title">

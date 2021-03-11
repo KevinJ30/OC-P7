@@ -1,64 +1,25 @@
-import React, {useState, useEffect,useContext} from 'react';
+import React, {useState ,useContext, useRef} from 'react';
 import {Element} from "react-scroll";
 import {RestaurantList} from "../Components/Restaurant/RestaurantList";
 import {Map} from "../Components/Maps/Map";
-import {StoresContext} from "../Context/StoresContext";
+import {restaurantStore, StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
-import {getInterestForCoordinates} from "../Hook/google/Places";
 import {addMarkerToMap} from "../Hook/google/API";
 import {Redirect} from "react-router-dom";
+import { RestaurantsModel } from '../Models/RestaurantsModel';
 
 export function Home(props) {
     const storeContext = useContext(StoresContext);
+
+    /**
+     * Etat du composant
+     **/
     const [displayModal, setDisplayModal] = useState(false);
-    const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
-    const [restaurants, setRestaurant] = useState([]);
     const [positionClick, setPositionClick] = useState(null);
     const [redirectUrl, setRedirectUrl] = useState(null);
     const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
-
-    useEffect(() => {
-        storeContext.mapStore.subscribe(handleChangeMap);
-
-        return () => {
-            storeContext.mapStore.unsubscribe(handleChangeMap);
-        }
-    }, [storeContext.mapStore])
-
-    useEffect(() => {
-        if(isLoadedMapInstance) {
-            getInterestForCoordinates(storeContext.mapStore.state.coordinates, ['restaurant'], 500, storeContext.mapStore.state.map, (results) => {
-                setRestaurant(results);
-
-                // Ajout des marker sur la map
-                results.forEach((interest) => {
-                    // Ajoute les marker sur la map
-                    let marker = addMarkerToMap(storeContext.mapStore.state.map,
-                        {
-                            lat: interest.geometry.location.lat(),
-                            lng: interest.geometry.location.lng()
-                        },
-
-                        interest.name
-                    );
-
-                    // Ajoute un listener quand on click sur l'event
-                    marker.addListener('click', () => {
-                        console.log(interest);
-                        const path = '/restaurant/' + interest.place_id;
-                        setRedirectUrl(path);
-                    });
-                })
-            });
-        }
-    }, [isLoadedMapInstance, storeContext.mapStore.state.coordinates, storeContext.mapStore.state.map])
-
-    // Quand la map est chargé on charge les données de google ou un autre service
-    function handleChangeMap() {
-        setLoadedMapInstance(true);
-    }
 
     function closeModal() {
         setDisplayModal(false);
@@ -89,25 +50,19 @@ export function Home(props) {
         setDisplayModal(true);
     }
 
-    function addRestaurant(restaurant) {
-        setRestaurant([
-            restaurant,
-            ...restaurants,
-        ]);
-
-        // Ajoute le marker du nouveau resturant sur la carte et on centre la carte a cette endroit
-        addMarkerToMap(storeContext.mapStore.state.map,
-            {
-                lat: restaurant.geometry.location.lat,
-                lng: restaurant.geometry.location.lng
-            },
-
-            restaurant.name)
-    }
-
     // Si il y a une redirection
     if(redirectUrl) {
         return <Redirect to={redirectUrl} />;
+    }
+
+    /**
+     * Fonction d'ajout d'un restaurant passé au formulaire
+     *
+     * @param {RestaurantEntity} restaurant : Entité d'un restaurant
+     **/
+    function modalHandleClick(restaurant) {
+        restaurantStore.addRestaurants(restaurant);
+        restaurantStore.notify();
     }
 
     return <div className="restaurant_container container pt-4">
@@ -119,19 +74,19 @@ export function Home(props) {
             
             <div className="col-md-6">
                 <Element name="anchor-list-restaurant">
-                    <RestaurantList restaurants={restaurants} mapStore={storeContext.mapStore} />
+                    <RestaurantList mapStore={storeContext.mapStore} />
                 </Element>
             </div>   
         </div>
 
-        {/*Création d'une modal*/}
+        {/*Création de la modal */}
         <Modal
             isOpen={displayModal}
             onRequestClose={closeModal}
             style={customStyleModal}
             contentLabel="ajouter un avis">
 
-            <FormAddRestaurant handleCloseModal={closeModal} restaurants={restaurants} handleClick={addRestaurant} positionClick={positionClick} addressLocalisationClick={addressLocalisationClick} />
+            <FormAddRestaurant handleCloseModal={closeModal} handleClick={modalHandleClick} handle positionClick={positionClick} addressLocalisationClick={addressLocalisationClick} />
         </Modal>
     </div>;
 }

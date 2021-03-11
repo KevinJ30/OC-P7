@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {RestaurantEntity} from "../Models/Entity/RestaurantEntity";
 
 export function FormAddRestaurant(props) {
     const [name, setName] = useState('');
@@ -29,17 +30,12 @@ export function FormAddRestaurant(props) {
      * @return {void}
      **/
     function handleClick() {
-        props.handleClick({
-            name: name,
-            rating: rating,
-            vicinity: address,
-            geometry: {
-                location: {
-                    lat: props.positionClick.lat(),
-                    lng: props.positionClick.lng()
-                }
-            }
-        });
+        const restaurant = new RestaurantEntity(name, rating, {
+            lat: props.positionClick.lat(),
+            lng: props.positionClick.lng()
+        }, address ,Date.now);
+
+        props.handleClick(restaurant);
 
         props.handleCloseModal();
     }

@@ -7,7 +7,6 @@ import './App.css';
 import 'jquery/dist/jquery.min.js';
 import 'popper.js/dist/popper.min';
 
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
@@ -17,20 +16,18 @@ import {DisplayRestaurant} from "./Pages/DisplayRestaurant";
 import {Stores, StoresContext} from "./Context/StoresContext";
 
 let routes = (
+    <StoresContext.Provider value={Stores}>
     <Router>
         <Switch>
             <Route exact path="/">
-                <StoresContext.Provider value={Stores}>
-                    <Home />
-                </StoresContext.Provider>
+                <Home />
             </Route>
             <Route path="/restaurant/:id">
-                <StoresContext.Provider value={Stores}>
-                    <DisplayRestaurant />
-                </StoresContext.Provider>
+                <DisplayRestaurant />
             </Route>
         </Switch>
     </Router>
+    </StoresContext.Provider>
 );
 
 ReactDOM.render(

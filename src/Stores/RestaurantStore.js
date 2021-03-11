@@ -1,47 +1,30 @@
-export class RestaurantStore {
+import {Store} from '../Stores/Store';
 
-    constructor(model) {
+export class RestaurantStore extends Store {
+
+    constructor() {
+        super();
+
         this.state = {
-            restaurants: model.data
+            loaded: false,
+            data: []
         }
 
         this.listener = [];
     }
 
-    getAll() {
-        return this.state.restaurants;
-    }
-
-    add(restaurants) {
-        this.state.restaurants = this.state.restaurants.concat(restaurants);
-        this.notify();
-    }
-
-    subscribe(callback) {
-        this.listener.push(callback);
-    }
-
-    notify(data) {
-        this.listener.forEach((callback) => callback(data));
-    }
-
     /**
-     * Recherche un restaurant dans le state
-     *
-     * @param {string} id
-     * @return {Array}
+     * Indique si les données sont disponible dans le state
+     * @return {boolean}
      **/
-    getRestaurant(id) {
-        return this.state.restaurants.filter((item) => item.id === parseInt(id)).pop();
+    isLoaded() {
+        return this.state.loaded;
     }
 
-    /**
-     * Remplace la liste existante
-     *
-     * @param {array} restaurants : nouvelle liste de restaurant
-     **/
-    updateList(restaurants) {
-        this.state.restaurants = restaurants;
-        this.notify();
+    addRestaurants(restaurants) {
+        return this.state.data = [
+            ...this.state.data,
+            restaurants
+        ];
     }
 }

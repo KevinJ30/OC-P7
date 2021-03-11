@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.place_id;
-
+    console.log(props.value);
     function handleClick(event) {
         event.preventDefault();
         const lat = typeof props.value.geometry.location.lat !== "number" ? props.value.geometry.location.lat() : props.value.geometry.location.lat;
@@ -21,7 +21,7 @@ export function RestaurantItem(props) {
                     <Stars stars={props.value.rating} />
                 </div>
 
-                <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{props.value.vicinity}</p>
+                <p className="react-restaurant__address card-text text-left"><i className="bi bi-geo-alt-fill" />{props.value.address}</p>
                 {/*<p className="react-restaurant__comment card-text rounded"><i className="bi bi-chat-right-quote-fill" /> {bestCommentRestaurant.comment}</p>*/}
                 {<Link className="btn btn-outline-dark" to={pathname}>Voir tous les avis</Link>}
             </div>
