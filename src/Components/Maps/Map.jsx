@@ -17,7 +17,7 @@ export function Map(props) {
     const [isMounted, setIsMounted] = useState(false);
 
     /**
-     * Etats du compoosantZ
+     * Etats du compoosant
      **/
     const [addMarker, setAddMarker] = useState(false);
 

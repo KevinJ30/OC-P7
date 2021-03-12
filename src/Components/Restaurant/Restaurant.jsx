@@ -18,10 +18,19 @@ export function Restaurant(props) {
     /**
      * Etat du composant
      **/
+    const [isMounted, setIsMounted] = useState(false);
     const [isLoadedMap, setIsLoadedMap] = useState(false);
     const [restaurant, setRestaurant] = useState(null);
     const {id} = useParams();
     const [isOpenModel, setIsOpenModel] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+
+        return () => {
+            setIsMounted(false);
+        }
+    }, [])
 
     useEffect(() => {
         const subscriber = mapStore.subscribe(() => {
@@ -35,7 +44,8 @@ export function Restaurant(props) {
 
     useEffect(() => {
         const restaurantsModel = new RestaurantsModel();
-        if(isLoadedMap) {
+
+        if(isLoadedMap && isMounted) {
             restaurantsModel.getRestaurantWithReviews(mapStore.state.map, id).then((response) => {
                 setRestaurant(response);
             })

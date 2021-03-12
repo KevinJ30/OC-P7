@@ -7,58 +7,72 @@ export function RestaurantList(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
 
     /**
-     * State de l'application
+     * Etat du composant
      **/
     const [restaurants, setRestaurant] = useState([]);
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
+    const [isMounted, setMounted] = useState(false);
 
-    /**
-     * Remplie le state avec les données du store
-     **/
     useEffect(() => {
-        const subscriber = restaurantsStore.subscribe(() => {
-            setRestaurant(restaurantsStore.state.data);
-        });
+        setMounted(true);
+
+        return () => {
+            setMounted(false);
+        }
+    }, [])
+
+    useEffect(() => {
+        let subscriber = null;
+
+        if(isMounted) {
+            subscriber = restaurantsStore.subscribe(() => {
+                setRestaurant(restaurantsStore.state.data);
+            });
+        }
 
         return () => {
             restaurantsStore.unsubscribe(subscriber);
         }
-    }, [restaurantsStore])
+    }, [isMounted, restaurantsStore])
 
     /**
      * Indique quand la map est chargé
      **/
     useEffect(() => {
-        const subscriber = mapStore.subscribe(() => {
-            setLoadedMapInstance(true);
-        })
+        let subscriber = null;
+
+        if(isMounted) {
+            subscriber = mapStore.subscribe(() => {
+                setLoadedMapInstance(true);
+            });
+        }
 
         return () => {
            mapStore.unsubscribe(subscriber);
         }
-    }, [mapStore]);
+    }, [isMounted, mapStore]);
 
     /**
      * Chargement de la liste des restaurants
      **/
     useEffect(() => {
-        let restaurantModel = new RestaurantsModel();
 
-        if(isLoadedMapInstance) {
-            restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
-                restaurantsStore.store({
-                    loaded: true,
-                    data: data
+        if(isMounted) {
+            let restaurantModel = new RestaurantsModel();
+
+            if(isLoadedMapInstance) {
+                restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
+                    restaurantsStore.store({
+                        loaded: true,
+                        data: data
+                    });
+                    restaurantsStore.notify();
+                }).catch(() => {
+                    console.error('Impossible de joindre le server !!!');
                 });
-                restaurantsStore.notify();
-            }).catch(() => {
-                console.error('Impossible de joindre le server !!!');
-            });
+            }
         }
-
-        return () => {
-        }
-    }, [isLoadedMapInstance, mapStore, restaurantsStore])
+    }, [isMounted, isLoadedMapInstance, mapStore, restaurantsStore])
 
 
     function drawRestaurants(restaurants) {
