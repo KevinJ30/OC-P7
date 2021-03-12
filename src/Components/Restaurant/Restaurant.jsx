@@ -9,6 +9,7 @@ import Modal from "react-modal";
 import {FormAddReview} from "../../Forms/FormAddReview";
 
 import {RestaurantsModel} from '../../Models/RestaurantsModel';
+import {addMarkerToMap} from "../../Hook/google/API";
 
 Modal.setAppElement('#root');
 
@@ -48,6 +49,10 @@ export function Restaurant(props) {
         if(isLoadedMap && isMounted) {
             restaurantsModel.getRestaurantWithReviews(mapStore.state.map, id).then((response) => {
                 setRestaurant(response);
+
+                // On centre et on ajoute le marker sur la map google
+                mapStore.setCenterMap(response.geometry.location.lat(), response.geometry.location.lng());
+                addMarkerToMap(mapStore.state.map, response.geometry.location, response.name);
             })
         }
     }, [isMounted, id, isLoadedMap, mapStore]);

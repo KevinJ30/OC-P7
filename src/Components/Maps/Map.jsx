@@ -89,7 +89,7 @@ export function Map(props) {
         if(isLoadedServiceGoogle && isMounted) {
             if("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition((position) => {
-                    loadMap(position.coords.latitude, position.coords.longitude, DEFAULT_COORDINATES.zoom + 3);
+                    loadMap(position.coords.latitude, position.coords.longitude, DEFAULT_COORDINATES.zoom + 1);
                 }, () => {
                     loadMap(DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng, DEFAULT_COORDINATES.zoom);
 
