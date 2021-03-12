@@ -1,4 +1,4 @@
-import React, {useState ,useContext, useRef} from 'react';
+import React, {useState ,useContext} from 'react';
 import {Element} from "react-scroll";
 import {RestaurantList} from "../Components/Restaurant/RestaurantList";
 import {Map} from "../Components/Maps/Map";
@@ -6,9 +6,6 @@ import {restaurantStore, StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
-import {addMarkerToMap} from "../Hook/google/API";
-import {Redirect} from "react-router-dom";
-import { RestaurantsModel } from '../Models/RestaurantsModel';
 
 export function Home(props) {
     const storeContext = useContext(StoresContext);
@@ -18,7 +15,6 @@ export function Home(props) {
      **/
     const [displayModal, setDisplayModal] = useState(false);
     const [positionClick, setPositionClick] = useState(null);
-    const [redirectUrl, setRedirectUrl] = useState(null);
     const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
 
     function closeModal() {
@@ -32,7 +28,6 @@ export function Home(props) {
          * Ajouter le tous dans la couche API
          **/
         const geocoder = new window.google.maps.Geocoder();
-        const map = storeContext.mapStore.state.map;
         const latLng = {
             lat: mapsMouseEvent.latLng.lat(),
             lng: mapsMouseEvent.latLng.lng()
@@ -48,11 +43,6 @@ export function Home(props) {
 
         setPositionClick(mapsMouseEvent.latLng);
         setDisplayModal(true);
-    }
-
-    // Si il y a une redirection
-    if(redirectUrl) {
-        return <Redirect to={redirectUrl} />;
     }
 
     /**

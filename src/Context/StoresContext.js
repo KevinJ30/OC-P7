@@ -1,6 +1,5 @@
 import React from 'react';
 import {RestaurantStore} from "../Stores/RestaurantStore";
-import {InDataMemory} from "../InDataMemory";
 import {MapStore} from "../Stores/MapStore";
 
 export const restaurantStore = new RestaurantStore();

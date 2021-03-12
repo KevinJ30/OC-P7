@@ -1,5 +1,5 @@
 import {RestaurantEntity} from '../Models/Entity/RestaurantEntity';
-import {getDetailsInterest, getInterestForCoordinates, getInterestForCoordinatesTest} from '../Hook/google/Places';
+import {getDetailsInterest, getInterestForCoordinates} from '../Hook/google/Places';
 import {ReviewsEntity} from "./Entity/ReviewsEntity";
 
 export class RestaurantsModel {

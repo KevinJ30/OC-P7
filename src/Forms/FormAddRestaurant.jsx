@@ -5,7 +5,6 @@ export function FormAddRestaurant(props) {
     const [name, setName] = useState('');
     const [rating, setRating] = useState('');
     const [address, setAddress] = useState('');
-    const [latLng, setLatLng] = useState('');
 
     function handleChangeName(event) {
         setName(event.target.value);

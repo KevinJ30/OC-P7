@@ -50,7 +50,7 @@ export function Restaurant(props) {
                 setRestaurant(response);
             })
         }
-    }, [id, isLoadedMap, mapStore]);
+    }, [isMounted, id, isLoadedMap, mapStore]);
 
     function drawReviews(restaurant) {
         if(restaurant) {

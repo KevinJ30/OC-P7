@@ -104,12 +104,12 @@ export function Map(props) {
      * Ajout de l'événement click  sur la carte
      **/
     useEffect(() => {
-        const listener = null;
+        let listener = null;
 
         if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
             if(props.clickEvent) {
                 // Ajoute un listener sur la map
-                const listener = mapStore.state.map.addListener('click', props.clickEvent);
+                listener = mapStore.state.map.addListener('click', props.clickEvent);
             }
         }
 
@@ -133,7 +133,7 @@ export function Map(props) {
                 addMarkerToMap(mapStore.state.map, restaurant.getPosition(), restaurant.getName(), null)
             })
         }
-    }, [mapStore, restaurantsStore ,addMarker])
+    }, [isMounted, mapStore, restaurantsStore ,addMarker])
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }
