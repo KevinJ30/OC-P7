@@ -55,18 +55,15 @@ export function Home(props) {
         restaurantStore.notify();
     }
 
-    return <div className="restaurant_container container pt-4">
-        <div className="row">
+    return <div className="restaurant_container container-fluid">
+        <div className="row pt-4">
             <div className="col-md-6">
-                <h2>Retrouvez les restaurants sur la carte</h2>
                 <Map store={storeContext.mapStore} clickEvent={handleClickMap} />
             </div>
-            
-            <div className="col-md-6">
-                <Element name="anchor-list-restaurant">
-                    <RestaurantList mapStore={storeContext.mapStore} />
-                </Element>
-            </div>   
+
+            <div className="col-md-6 restaurant-list">
+                <RestaurantList mapStore={storeContext.mapStore} />
+            </div>
         </div>
 
         {/*Création de la modal */}

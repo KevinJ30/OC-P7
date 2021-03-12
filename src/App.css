@@ -34,6 +34,10 @@ html, body {
 
 .header-container {height:100%;}
 
+.restaurant-list {
+  overflow-y: auto;
+}
+
 .react-restaurant.card .card-title {
   margin: 0;
   font-size: 1.2em;
@@ -163,7 +167,11 @@ h1, h2 {
 }
 
 .restaurant_container {
-  min-height:100vh;
+  min-height:calc(100vh - 50px);
+}
+
+.restaurant_container .row {
+  height:calc(100vh - 70px);
 }
 
 .card .card-title {
@@ -205,7 +213,7 @@ h1, h2 {
 
 #react-google-map {
     width:100%;
-    min-height:500px;
+    height:100%;
 }
 
 #react-google-streetview {

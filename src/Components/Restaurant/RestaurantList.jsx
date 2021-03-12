@@ -91,9 +91,6 @@ export function RestaurantList(props) {
         return <div className="no-react-restaurant"><p>Il n'y a aucun restaurants.</p></div>
     }
 
-    return <div>
-                <h2>Liste des restaurants</h2>
-                {drawRestaurants(restaurants)}
-        </div>;
+    return <div>{drawRestaurants(restaurants)}</div>;
 }
 
