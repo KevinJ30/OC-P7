@@ -9,15 +9,21 @@ export const DEFAULT_COORDINATES = {
 }
 
 export function Map(props) {
-    const mapRef = useRef(null)
+    const mapRef = useRef(null);
     const isLoadedServiceGoogle = useLoadedService();
     const {mapStore, restaurantsStore} = useContext(StoresContext);
 
+    const [isLoadedMap, setLoadedMap] = useState(null);
+    const [isMounted, setIsMounted] = useState(false);
+
     /**
-     * Etats du compoosant
+     * Etats du compoosantZ
      **/
     const [addMarker, setAddMarker] = useState(false);
 
+    /**
+     * Charge la map
+     **/
     const loadMap = useCallback((lat, lng, zoom) => {
         if(isLoadedServiceGoogle) {
             const position = new window.google.maps.LatLng(lat, lng);
@@ -26,11 +32,6 @@ export function Map(props) {
                 center: position,
                 zoom: zoom
             });
-
-            if(props.clickEvent) {
-                // Ajoute un listener sur la map
-                map.addListener('click', props.clickEvent);
-            }
 
             // On ajoute un marqueur sur la map pour indiquer ou se trouve l'utilisateur
             const icon = {
@@ -46,6 +47,8 @@ export function Map(props) {
 
             addMarkerToMap(map, {lat: lat, lng: lng}, 'Vous êtes ici !', icon)
 
+            setLoadedMap(true);
+
             mapStore.update({
                 map: map,
                 coordinates: {
@@ -56,20 +59,34 @@ export function Map(props) {
 
             mapStore.notify();
         }
-    }, [isLoadedServiceGoogle, mapStore, props.clickEvent]);
+    }, [isLoadedServiceGoogle, mapStore]);
 
     useEffect(() => {
-        const subscriber = restaurantsStore.subscribe(() => {
-            setAddMarker(true);
-        });
+        setIsMounted(true);
 
         return () => {
-            restaurantsStore.unsubscribe(subscriber);
+            setIsMounted(false);
         }
-    }, [restaurantsStore])
+    }, [])
 
     useEffect(() => {
-        if(isLoadedServiceGoogle) {
+        let subscriber = null;
+
+        if(isMounted) {
+            subscriber = restaurantsStore.subscribe(() => {
+                setAddMarker(true);
+            });
+        }
+
+        return () => {
+            if(isMounted) {
+                restaurantsStore.unsubscribe(subscriber);
+            }
+        }
+    }, [isMounted, restaurantsStore])
+
+    useEffect(() => {
+        if(isLoadedServiceGoogle && isMounted) {
             if("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition((position) => {
                     loadMap(position.coords.latitude, position.coords.longitude, DEFAULT_COORDINATES.zoom + 3);
@@ -81,16 +98,41 @@ export function Map(props) {
                 })
             }
         }
-    }, [isLoadedServiceGoogle, loadMap]);
+    }, [isMounted, isLoadedServiceGoogle, loadMap]);
+
+    /**
+     * Ajout de l'événement click  sur la carte
+     **/
+    useEffect(() => {
+        const listener = null;
+
+        if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
+            if(props.clickEvent) {
+                // Ajoute un listener sur la map
+                const listener = mapStore.state.map.addListener('click', props.clickEvent);
+            }
+        }
+
+        return () => {
+            if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
+                if(props.clickEvent) {
+                    // Ajoute un listener sur la map
+                    window.google.maps.event.removeListener(listener);
+                }
+            }
+        }
+    }, [isMounted, isLoadedServiceGoogle, mapStore, props.clickEvent, isLoadedMap])
 
     /**
      * Si l'etat add marker change on ajoute les marker sur la map
      **/
     useEffect(() => {
-        restaurantsStore.state.data.forEach((restaurant) => {
-            addMarkerToMap(mapStore.state.map, restaurant.getPosition(), restaurant.getName(), null)
-        })
 
+        if(isMounted) {
+            restaurantsStore.state.data.forEach((restaurant) => {
+                addMarkerToMap(mapStore.state.map, restaurant.getPosition(), restaurant.getName(), null)
+            })
+        }
     }, [mapStore, restaurantsStore ,addMarker])
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;

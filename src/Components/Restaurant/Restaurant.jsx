@@ -2,9 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom'
 import {Map} from "../Maps/Map";
 import {StoresContext} from "../../Context/StoresContext";
-import {getDetailsInterest} from "../../Hook/google/Places";
 import {Stars} from "./Rating";
-import {addMarkerToMap, } from "../../Hook/google/API";
 import {Review} from "../review/Review";
 import {customStyleModal} from "../../CustomStyle";
 import Modal from "react-modal";
@@ -14,12 +12,8 @@ import {RestaurantsModel} from '../../Models/RestaurantsModel';
 
 Modal.setAppElement('#root');
 
-    // Chargement des données depuis le model
-    let restaurantsModel = new RestaurantsModel();
-
 export function Restaurant(props) {
-    const storeContext = useContext(StoresContext);
-    const {mapStore, restaurantStore} = useContext(StoresContext);
+    const {mapStore} = useContext(StoresContext);
 
     /**
      * Etat du composant
@@ -28,14 +22,16 @@ export function Restaurant(props) {
     const [restaurant, setRestaurant] = useState(null);
     const {id} = useParams();
     const [isOpenModel, setIsOpenModel] = useState(false);
-    const [photos, setPhotos] = useState(null);
-    const [state, setState] = useState([]);
 
     useEffect(() => {
-        storeContext.mapStore.subscribe(() => {
+        const subscriber = mapStore.subscribe(() => {
             setIsLoadedMap(true);
         });
-    }, [storeContext.mapStore])
+
+        return () => {
+            mapStore.unsubscribe(subscriber);
+        }
+    }, [mapStore])
 
     useEffect(() => {
         const restaurantsModel = new RestaurantsModel();
@@ -88,7 +84,7 @@ export function Restaurant(props) {
         </div>
         <div className="row">
             <div className="col-md-6">
-                <Map store={storeContext.mapStore}  />
+                <Map store={mapStore}  />
             </div>
 
             <div className="col-md-6">

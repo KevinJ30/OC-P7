@@ -1,11 +1,13 @@
-export class MapStore {
+import {Store} from "./Store";
+
+export class MapStore extends Store {
     constructor() {
+        super();
+
         this.state = {
             map: null,
             coordinates: null
         }
-
-        this.listener = [];
     }
 
     getAll() {
@@ -17,20 +19,6 @@ export class MapStore {
             ...this.state,
             ...newState
         };
-
-        this.notify(this.state.map);
-    }
-
-    subscribe(callback) {
-        this.listener.push(callback);
-    }
-
-    unsubscribe(callback) {
-        this.listener = this.listener.filter((call) => call !== callback);
-    }
-
-    notify(data) {
-        this.listener.forEach((callback) => callback(data));
     }
 
     setCenterMap(lat, lng) {
