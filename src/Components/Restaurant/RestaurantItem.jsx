@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.placeId;
+
+    useEffect(() => {
+        return () => {
+            // Suppression de son marqueur sur la map
+        }
+    }, [])
+
     function handleClick(event) {
         event.preventDefault();
         const lat = typeof props.value.geometry.location.lat !== "number" ? props.value.geometry.location.lat() : props.value.geometry.location.lat;
