@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {render, screen, fireEvent} from '@testing-library/react';
 import {FormAddReview} from "./FormAddReview";
+import {ReviewsEntity} from "../Models/Entity/ReviewsEntity";
 
 describe("Formulaire d'ajout d'un avis", () => {
     it("Doit afficher le formulaire vide", () => {
@@ -27,7 +28,7 @@ describe("Formulaire d'ajout d'un avis", () => {
     it('Doit ajouter un avis a la soumission du formmulaire.', () => {
         const handleCloseModal = jest.fn();
         let restaurant = {
-            reviews: []
+            reviews: [new ReviewsEntity('kevin', 2.3, 'simple', 'super site', Date.now())]
         };
 
         const {getByText} = render(<FormAddReview handleCloseModal={handleCloseModal} restaurantState={restaurant} />)
@@ -56,11 +57,8 @@ describe("Formulaire d'ajout d'un avis", () => {
         })
 
         fireEvent.click(btnForm);
-
         expect(restaurant.reviews.length).toBeGreaterThan(0);
+        expect(restaurant.reviews[0].constructor.name).toBe('ReviewsEntity');
     })
 
-    it('Champ du formulaire invalide', () => {
-
-    })
 })

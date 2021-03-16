@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {ReviewsEntity} from "../Models/Entity/ReviewsEntity";
 
 export function FormAddReview(props) {
     const [authorName, setAuthorName] = useState('');
@@ -23,12 +24,12 @@ export function FormAddReview(props) {
      **/
     function handleValidate() {
         // On ajoute la reveiw a la liste
-        props.restaurantState.reviews.unshift({
-            author_name: authorName,
-            rating: rating,
-            text: text,
-            relative_time_description: "Il y a moins d'un mois"
-        });
+        props.restaurantState.reviews.unshift(new ReviewsEntity(
+            authorName,
+            rating,
+            "Il y a moins d'un mois",
+            text
+        ));
 
         props.handleCloseModal();
     }
