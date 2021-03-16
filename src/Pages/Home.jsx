@@ -23,11 +23,11 @@ export function Home(props) {
 
     function handleClickMap(mapsMouseEvent) {
         // On recherhe l'adresse sur google map
-    
         /**
          * Ajouter le tous dans la couche API
          **/
         const geocoder = new window.google.maps.Geocoder();
+
         const latLng = {
             lat: mapsMouseEvent.latLng.lat(),
             lng: mapsMouseEvent.latLng.lng()
