@@ -171,8 +171,13 @@ h1, h2 {
   min-height:calc(100vh - 50px);
 }
 
-.restaurant_container .row {
-  height:calc(100vh - 70px);
+.restaurant_container .row .col-google-map, .restaurant_container .row .col-restaurant-list {
+  max-height:calc(100vh - 90px);
+  overflow: hidden;
+}
+
+.restaurant_container .row .col-restaurant-list {
+  overflow-y: auto;
 }
 
 .card .card-title {

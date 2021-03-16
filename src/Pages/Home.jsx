@@ -57,11 +57,11 @@ export function Home(props) {
 
     return <div className="restaurant_container container-fluid">
         <div className="row pt-4">
-            <div className="col-md-6">
+            <div className="col-md-6 col-google-map">
                 <Map store={storeContext.mapStore} clickEvent={handleClickMap} />
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 col-restaurant-list">
                 <RestaurantList data={restaurants} handleUpdateRestaurant={setRestaurants} />
             </div>
         </div>
