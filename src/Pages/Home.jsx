@@ -5,6 +5,8 @@ import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
+import {RestaurantEntity} from "../Models/Entity/RestaurantEntity";
+import {FormFilterRestaurant} from "../Forms/tests/FormFilterRestaurant";
 
 export function Home(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
@@ -16,9 +18,15 @@ export function Home(props) {
     const [positionClick, setPositionClick] = useState(null);
     const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
     const [restaurants, setRestaurants] = useState([]);
+    const [filterRestaurant, setFilterRestaurants] = useState([]);
+    const [filter, setFilter] = useState({});
 
     function closeModal() {
         setDisplayModal(false);
+    }
+
+    function handleChangeFilter(min, max) {
+        setFilter({min: min, max: max});
     }
 
     function handleClickMap(mapsMouseEvent) {
@@ -57,12 +65,17 @@ export function Home(props) {
 
     return <div className="restaurant_container container-fluid">
         <div className="row pt-4">
-            <div className="col-md-6 col-google-map">
+
+            <div className="col-md-2 container-restaurant-filter">
+                <FormFilterRestaurant hadnleChangeFilter={handleChangeFilter}/>
+            </div>
+
+            <div className="col-md-5 col-google-map">
                 <Map store={mapStore} clickEvent={handleClickMap} />
             </div>
 
-            <div className="col-md-6 col-restaurant-list">
-                <RestaurantList data={restaurants} handleUpdateRestaurant={setRestaurants} />
+            <div className="col-md-5 col-restaurant-list">
+                <RestaurantList filter={filter} handleUpdateRestaurant={setRestaurants} />
             </div>
         </div>
 
