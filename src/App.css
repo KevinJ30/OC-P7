@@ -345,3 +345,16 @@ h1, h2 {
     opacity:0.7;
 }
 
+@media (max-width: 767px) {
+  .restaurant_container .row .col-google-map, .restaurant_container .row .col-restaurant-list {
+    max-height:none;
+    overflow: auto;
+  }
+
+  .restaurant_container .row .col-google-map {
+    margin-bottom: 16px;
+    height:400px;
+    max-height:400px;
+  }
+}
+
