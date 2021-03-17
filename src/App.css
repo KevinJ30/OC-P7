@@ -173,6 +173,7 @@ h1, h2 {
 
 .restaurant_container .row .col-google-map, .restaurant_container .row .col-restaurant-list {
   max-height:calc(100vh - 90px);
+  height:calc(100vh - 90px);
   overflow: hidden;
 }
 
