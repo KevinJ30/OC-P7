@@ -13,11 +13,9 @@ export class RestaurantsModel {
      **/
     getAroundRestaurant(map, coordinates) {
         return new Promise((resolve, reject) => {
-
-            getInterestForCoordinates(coordinates, ['restaurant'], 500, map)
+            getInterestForCoordinates(coordinates, ['restaurant'], 1500, map)
             .then((response) => {
                 let restaurants = [];
-
                 response.forEach((restaurant) => {
                     restaurants.push(new RestaurantEntity(restaurant.name, restaurant.rating, restaurant.geometry.location, restaurant.vicinity ,restaurant.place_id));
                 });

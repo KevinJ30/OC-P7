@@ -35,6 +35,7 @@ html, body {
 .header-container {height:100%;}
 
 .restaurant-list {
+  padding: 0;
   overflow-y: auto;
 }
 
@@ -170,8 +171,14 @@ h1, h2 {
   min-height:calc(100vh - 50px);
 }
 
-.restaurant_container .row {
-  height:calc(100vh - 70px);
+.restaurant_container .row .col-google-map, .restaurant_container .row .col-restaurant-list {
+  max-height:calc(100vh - 90px);
+  height:calc(100vh - 90px);
+  overflow: hidden;
+}
+
+.restaurant_container .row .col-restaurant-list {
+  overflow-y: auto;
 }
 
 .card .card-title {
@@ -337,5 +344,18 @@ h1, h2 {
 
 .react-img-restaurant:hover {
     opacity:0.7;
+}
+
+@media (max-width: 767px) {
+  .restaurant_container .row .col-google-map, .restaurant_container .row .col-restaurant-list {
+    max-height:none;
+    overflow: auto;
+  }
+
+  .restaurant_container .row .col-google-map {
+    margin-bottom: 16px;
+    height:400px;
+    max-height:400px;
+  }
 }
 

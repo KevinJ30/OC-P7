@@ -1,5 +1,4 @@
-import React, {useState ,useContext} from 'react';
-import {Element} from "react-scroll";
+import React, {useState, useEffect, useContext} from 'react';
 import {RestaurantList} from "../Components/Restaurant/RestaurantList";
 import {Map} from "../Components/Maps/Map";
 import {restaurantStore, StoresContext} from "../Context/StoresContext";
@@ -16,6 +15,7 @@ export function Home(props) {
     const [displayModal, setDisplayModal] = useState(false);
     const [positionClick, setPositionClick] = useState(null);
     const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
+    const [restaurants, setRestaurants] = useState([]);
 
     function closeModal() {
         setDisplayModal(false);
@@ -23,11 +23,11 @@ export function Home(props) {
 
     function handleClickMap(mapsMouseEvent) {
         // On recherhe l'adresse sur google map
-    
         /**
          * Ajouter le tous dans la couche API
          **/
         const geocoder = new window.google.maps.Geocoder();
+
         const latLng = {
             lat: mapsMouseEvent.latLng.lat(),
             lng: mapsMouseEvent.latLng.lng()
@@ -57,12 +57,12 @@ export function Home(props) {
 
     return <div className="restaurant_container container-fluid">
         <div className="row pt-4">
-            <div className="col-md-6">
+            <div className="col-md-6 col-google-map">
                 <Map store={storeContext.mapStore} clickEvent={handleClickMap} />
             </div>
 
-            <div className="col-md-6 restaurant-list">
-                <RestaurantList mapStore={storeContext.mapStore} />
+            <div className="col-md-6 col-restaurant-list">
+                <RestaurantList data={restaurants} handleUpdateRestaurant={setRestaurants} />
             </div>
         </div>
 
