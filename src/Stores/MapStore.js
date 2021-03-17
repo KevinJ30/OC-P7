@@ -6,9 +6,10 @@ export class MapStore extends Store {
 
         this.state = {
             map: null,
-            coordinates: null
+            coordinates: null,
         }
     }
+
 
     getAll() {
         return this.state.restaurants;

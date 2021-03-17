@@ -1,11 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
 import {StoresContext} from "../../Context/StoresContext";
+import {addMarkerToMap} from "../../Hook/google/API";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.placeId;
-    const {mapStore} = useContext(StoresContext);
+    const {mapStore, eventManager} = useContext(StoresContext);
+
+    useEffect(() => {
+        //eventManager.trigger('map.createMarker', [props.value]);
+        let marker = addMarkerToMap(mapStore.state.map, props.value.geometry.location, props.value.name);
+
+        return () => {
+            //eventManager.trigger('map.removeMarker', [marker]);
+            marker.setMap(null);
+        }
+    }, [])
 
     function handleClick(event) {
         event.preventDefault();

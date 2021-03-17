@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback, useRef, useContext} from 'react';
 import {useLoadedService, addMarkerToMap} from "../../Hook/google/API";
 import {StoresContext} from "../../Context/StoresContext";
+import {MarkerEntity} from "../../Models/Entity/MarkerEntity";
 
 export const DEFAULT_COORDINATES = {
     lat: 48.856613,
@@ -11,15 +12,14 @@ export const DEFAULT_COORDINATES = {
 export function Map(props) {
     const mapRef = useRef(null);
     const isLoadedServiceGoogle = useLoadedService();
-    const {mapStore, restaurantsStore} = useContext(StoresContext);
-
-    const [isLoadedMap, setLoadedMap] = useState(null);
-    const [isMounted, setIsMounted] = useState(false);
+    const {mapStore, eventManager} = useContext(StoresContext);
 
     /**
      * Etats du compoosant
      **/
-    const [addMarker, setAddMarker] = useState(false);
+    const [isLoadedMap, setLoadedMap] = useState(null);
+    const [isMounted, setIsMounted] = useState(false);
+    const [markers, setMarkers] = useState([]);
 
     /**
      * Charge la map
@@ -36,7 +36,7 @@ export function Map(props) {
             // On ajoute un marqueur sur la map pour indiquer ou se trouve l'utilisateur
             const icon = {
                 path:
-                  "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                    "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
                 fillColor: "#175572",
                 fillOpacity: 1,
                 strokeWeight: 0,
@@ -64,26 +64,38 @@ export function Map(props) {
     useEffect(() => {
         setIsMounted(true);
 
+        // // On souscrit a l'évenemnt qui ajoute un marker
+        // eventManager.attach('map.createMarker', (restaurant) => {
+        //     let markerInstance = addMarkerToMap(mapStore.state.map, restaurant.geometry.location, restaurant.title, null);
+        //     let marker = new MarkerEntity(restaurant.geometry.location, restaurant.name, null, restaurant.placeId, markerInstance);
+        //
+        //     setMarkers([
+        //         ...markers,
+        //         marker
+        //     ]);
+        //
+        //     console.log(markers);
+        // }, 0);
+        //
+        // eventManager.attach('map.removeMarker', (restaurant) => {
+        //     // On recherche sont marker sur la map
+        //     //let marker = markers.
+        //     let marker = markers.find(marker => marker.restaurant_id === restaurant.placeId);
+        //
+        //     if(marker) {
+        //         // Suppression du marker sur la map
+        //         marker.marker_instance.setMap(null);
+        //
+        //         // Suppression de l'entité dans le state du composant
+        //         let newMarkers = markers.filter(item => item === marker);
+        //         setMarkers(newMarkers);
+        //     }
+        // }, 0);
+
         return () => {
             setIsMounted(false);
         }
-    }, [])
-
-    useEffect(() => {
-        let subscriber = null;
-
-        if(isMounted) {
-            subscriber = restaurantsStore.subscribe(() => {
-                setAddMarker(true);
-            });
-        }
-
-        return () => {
-            if(isMounted) {
-                restaurantsStore.unsubscribe(subscriber);
-            }
-        }
-    }, [isMounted, restaurantsStore])
+    }, [eventManager, mapStore, markers])
 
     useEffect(() => {
         if(isLoadedServiceGoogle && isMounted) {
@@ -123,17 +135,6 @@ export function Map(props) {
         }
     }, [isMounted, isLoadedServiceGoogle, mapStore, props.clickEvent, isLoadedMap])
 
-    /**
-     * Si l'etat add marker change on ajoute les marker sur la map
-     **/
-    useEffect(() => {
-
-        if(isMounted) {
-            restaurantsStore.state.data.forEach((restaurant) => {
-                addMarkerToMap(mapStore.state.map, restaurant.getPosition(), restaurant.getName(), null)
-            })
-        }
-    }, [isMounted, mapStore, restaurantsStore ,addMarker])
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }

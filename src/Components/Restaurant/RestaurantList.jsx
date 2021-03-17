@@ -6,43 +6,11 @@ import {StoresContext} from "../../Context/StoresContext";
 import {useSubscribeRestaurantStore} from "../../Hook/subscribers/RestaurantSubscriber.hook";
 
 export function RestaurantList(props) {
-    useSubscribeRestaurantStore(props.handleUpdateRestaurant);
     const {mapStore, restaurantsStore} = useContext(StoresContext);
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
 
+    useSubscribeRestaurantStore(props.handleUpdateRestaurant);
 
-
-    // const {mapStore, restaurantsStore} = useContext(StoresContext);
-    //
-    // /**
-    //  * Etat du composant
-    //  **/
-    // const [restaurants, setRestaurant] = useState([]);
-    //
-    // const [isMounted, setMounted] = useState(false);
-    //
-    // useEffect(() => {
-    //     setMounted(true);
-    //
-    //     return () => {
-    //         setMounted(false);
-    //     }
-    // }, [])
-    //
-    // useEffect(() => {
-    //     let subscriber = null;
-    //
-    //     if(isMounted) {
-    //         subscriber = restaurantsStore.subscribe(() => {
-    //             setRestaurant(restaurantsStore.state.data);
-    //         });
-    //     }
-    //
-    //     return () => {
-    //         restaurantsStore.unsubscribe(subscriber);
-    //     }
-    // }, [isMounted, restaurantsStore])
-    //
     /**
      * Indique quand la map est chargé
      **/
@@ -57,7 +25,7 @@ export function RestaurantList(props) {
            mapStore.unsubscribe(subscriber);
         }
     }, [mapStore]);
-    //
+
     /**
      * Chargement de la liste des restaurants
      **/

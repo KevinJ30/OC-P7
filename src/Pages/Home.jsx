@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {RestaurantList} from "../Components/Restaurant/RestaurantList";
 import {Map} from "../Components/Maps/Map";
-import {restaurantStore, StoresContext} from "../Context/StoresContext";
+import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
 
 export function Home(props) {
-    const storeContext = useContext(StoresContext);
+    const {mapStore, restaurantsStore} = useContext(StoresContext);
 
     /**
      * Etat du composant
@@ -51,14 +51,14 @@ export function Home(props) {
      * @param {RestaurantEntity} restaurant : Entité d'un restaurant
      **/
     function modalHandleClick(restaurant) {
-        restaurantStore.addRestaurants(restaurant);
-        restaurantStore.notify();
+        restaurantsStore.addRestaurants(restaurant);
+        restaurantsStore.notify();
     }
 
     return <div className="restaurant_container container-fluid">
         <div className="row pt-4">
             <div className="col-md-6 col-google-map">
-                <Map store={storeContext.mapStore} clickEvent={handleClickMap} />
+                <Map store={mapStore} clickEvent={handleClickMap} />
             </div>
 
             <div className="col-md-6 col-restaurant-list">

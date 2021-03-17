@@ -1,9 +1,10 @@
 import {render, screen} from '@testing-library/react';
 import {RestaurantList} from "../RestaurantList";
-import React from "react";
 import {mappingData} from "../../../Models/MappingData";
 import {InDataMemory} from "../../../InDataMemory";
 import {BrowserRouter as Router} from "react-router-dom";
+import {Map} from "../../Maps/Map";
+import {Stores, StoresContext} from "../../../Context/StoresContext";
 
 const dataMemory = new InDataMemory();
 
@@ -12,10 +13,10 @@ describe('Liste des restaurant', () => {
         render(<Router><RestaurantList /></Router>);
     })
 
-    it('Quand des restaurant son envoyer au composant afficher on doit les affichers',  () => {
+    it('Quand des restaurant son envoyer au composant afficher on doit les affichers',  async () => {
         const data = mappingData(dataMemory.data);
 
-        render(<Router><RestaurantList data={data} /></Router>)
+        render(<Router><StoresContext.Provider value={Stores}><RestaurantList data={data} /></StoresContext.Provider></Router>)
 
         let restaurantElement = document.querySelectorAll('.react-restaurant');
         expect(restaurantElement.length).toBe(2);
