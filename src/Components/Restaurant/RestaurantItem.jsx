@@ -14,7 +14,9 @@ export function RestaurantItem(props) {
 
         return () => {
             //eventManager.trigger('map.removeMarker', [marker]);
-            marker.setMap(null);
+            if(marker) {
+                marker.setMap(null);
+            }
         }
     }, [])
 

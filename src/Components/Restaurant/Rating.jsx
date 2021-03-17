@@ -9,7 +9,6 @@ export function Stars(props) {
     }
 
     return <div>{displayStars()}</div>;
-
 }
 
 export function Rating(props) {

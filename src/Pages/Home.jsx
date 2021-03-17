@@ -5,6 +5,7 @@ import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
+import {RestaurantEntity} from "../Models/Entity/RestaurantEntity";
 
 export function Home(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
@@ -16,6 +17,7 @@ export function Home(props) {
     const [positionClick, setPositionClick] = useState(null);
     const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
     const [restaurants, setRestaurants] = useState([]);
+    const [filterRestaurant, setFilterRestaurants] = useState([]);
 
     function closeModal() {
         setDisplayModal(false);
@@ -62,7 +64,7 @@ export function Home(props) {
             </div>
 
             <div className="col-md-6 col-restaurant-list">
-                <RestaurantList data={restaurants} handleUpdateRestaurant={setRestaurants} />
+                <RestaurantList handleUpdateRestaurant={setRestaurants} />
             </div>
         </div>
 

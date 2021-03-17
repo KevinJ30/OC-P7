@@ -3,13 +3,23 @@ import {RestaurantItem} from "./RestaurantItem";
 import {RestaurantsModel} from "../../Models/RestaurantsModel";
 import {RestaurantEntity} from "../../Models/Entity/RestaurantEntity";
 import {StoresContext} from "../../Context/StoresContext";
-import {useSubscribeRestaurantStore} from "../../Hook/subscribers/RestaurantSubscriber.hook";
 
 export function RestaurantList(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
+    const [restaurants, setRestaurants] = useState([]);
 
-    useSubscribeRestaurantStore(props.handleUpdateRestaurant);
+    useEffect(() => {
+
+        // Subscriber
+        let subscriber = restaurantsStore.subscribe(() => {
+            setRestaurants(restaurantsStore.state.data);
+        });
+
+        return () => {
+            restaurantsStore.unsubscribe(subscriber);
+        }
+    }, [props.data, restaurants, restaurantsStore])
 
     /**
      * Indique quand la map est chargé
@@ -30,38 +40,27 @@ export function RestaurantList(props) {
      * Chargement de la liste des restaurants
      **/
     useEffect(() => {
+        if(props.data) {
+            setRestaurants(props.data);
+        }
+
         if(isLoadedMapInstance) {
-            if(props.data.length === 0) {
-                loadData(false);
-            }
+            loadData();
         }
     }, [isLoadedMapInstance]);
 
     function loadData(dataMemory) {
         let restaurantModel = new RestaurantsModel();
 
-        if(dataMemory) {
+        restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
             restaurantsStore.store({
                 loaded: true,
-                data: [
-                    new RestaurantEntity('test', 2.3, {lat:3, lng:3}, '2 impasse bagnolie serignan-du-comtat', Date.now()),
-                    new RestaurantEntity('test', 2.3, {lat:3, lng:3}, '2 impasse bagnolie serignan-du-comtat', Date.now())
-                ]
+                data: data
             });
-
             restaurantsStore.notify();
-        }
-        else {
-            restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
-                restaurantsStore.store({
-                    loaded: true,
-                    data: data
-                });
-                restaurantsStore.notify();
-            }).catch(() => {
-                console.error('Impossible de joindre le server !!!');
-            });
-        }
+        }).catch(() => {
+            console.error('Impossible de joindre le server !!!');
+        });
     }
 
     function drawRestaurants(restaurants) {
@@ -78,10 +77,8 @@ export function RestaurantList(props) {
         }
     }
 
-    if(props.data) {
-        if(props.data.length > 0) {
-            return <ul className="restaurant-list">{drawRestaurants(props.data)}</ul>;
-        }
+    if(restaurants.length > 0) {
+        return <ul className="restaurant-list">{drawRestaurants(restaurants)}</ul>;
     }
 
     return <div className="no-react-restaurant"><p>Il n'y a aucun restaurants.</p></div>;
