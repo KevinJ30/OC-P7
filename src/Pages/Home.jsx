@@ -5,8 +5,7 @@ import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
 import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
-import {RestaurantEntity} from "../Models/Entity/RestaurantEntity";
-import {FormFilterRestaurant} from "../Forms/tests/FormFilterRestaurant";
+import {FormFilterRestaurant} from "../Forms/FormFilterRestaurant";
 
 export function Home(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
