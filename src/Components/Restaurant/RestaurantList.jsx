@@ -3,12 +3,21 @@ import {RestaurantItem} from "./RestaurantItem";
 import {RestaurantsModel} from "../../Models/RestaurantsModel";
 import {StoresContext} from "../../Context/StoresContext";
 
-export function RestaurantList(props) {
+export function  RestaurantList(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantsFiltered, setRestaurantsFiltered] = useState([]);
     const [ratingFilter, setRatingFilter] = useState({})
+    const [isMounted, setMounted] = useState(true);
+
+    useEffect(() => {
+        setMounted(true);
+
+        return () => {
+            setMounted(false);
+        }
+    }, [])
 
     useEffect(() => {
         setRatingFilter(props.filter);
@@ -30,7 +39,6 @@ export function RestaurantList(props) {
     }, [restaurants])
 
     useEffect(() => {
-        console.log(ratingFilter);
         const filteredRestaurant = restaurants.filter(restaurant => {
             if(restaurant.rating >= ratingFilter.min && restaurant.rating <= ratingFilter.max) {
                 return restaurant;
@@ -46,12 +54,14 @@ export function RestaurantList(props) {
     useEffect(() => {
         let subscriber = null;
 
-        subscriber = mapStore.subscribe(() => {
-            setLoadedMapInstance(true);
-        });
+        if(isMounted) {
+            subscriber = mapStore.subscribe(() => {
+                setLoadedMapInstance(true);
+            });
+        }
 
         return () => {
-           mapStore.unsubscribe(subscriber);
+            mapStore.unsubscribe(subscriber);
         }
     }, [mapStore]);
 
