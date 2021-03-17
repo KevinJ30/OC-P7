@@ -8,9 +8,10 @@ export function RestaurantList(props) {
     const {mapStore, restaurantsStore} = useContext(StoresContext);
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
     const [restaurants, setRestaurants] = useState([]);
+    const [restaurantsFiltered, setRestaurantsFiltered] = useState([]);
+    const [ratingFilter, setRatingFilter] = useState(null)
 
     useEffect(() => {
-
         // Subscriber
         let subscriber = restaurantsStore.subscribe(() => {
             setRestaurants(restaurantsStore.state.data);
@@ -20,6 +21,25 @@ export function RestaurantList(props) {
             restaurantsStore.unsubscribe(subscriber);
         }
     }, [props.data, restaurants, restaurantsStore])
+
+    useEffect(() => {
+        setRatingFilter({
+            min: 0,
+            max: 5
+        });
+
+        setRestaurantsFiltered(restaurants);
+    }, [restaurants])
+
+    useEffect(() => {
+        const filteredRestaurant = restaurants.filter(restaurant => {
+            if(restaurant.rating >= ratingFilter.min && restaurant.rating <= ratingFilter.max) {
+                return restaurant;
+            }
+        });
+        console.log(filteredRestaurant.length)
+        setRestaurantsFiltered(filteredRestaurant);
+    }, [ratingFilter])
 
     /**
      * Indique quand la map est chargé
@@ -78,7 +98,7 @@ export function RestaurantList(props) {
     }
 
     if(restaurants.length > 0) {
-        return <ul className="restaurant-list">{drawRestaurants(restaurants)}</ul>;
+        return <ul className="restaurant-list">{drawRestaurants(restaurantsFiltered)}</ul>;
     }
 
     return <div className="no-react-restaurant"><p>Il n'y a aucun restaurants.</p></div>;
