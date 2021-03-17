@@ -13,10 +13,10 @@ describe('Liste des restaurant', () => {
         render(<Router><RestaurantList /></Router>);
     })
 
-    it('Quand des restaurant son envoyer au composant afficher on doit les affichers',  async () => {
+    it('Quand des restaurant son envoyer au composant afficher',  async () => {
         const data = mappingData(dataMemory.data);
 
-        render(<Router><StoresContext.Provider value={Stores}><RestaurantList data={data} /></StoresContext.Provider></Router>)
+        render(<Router><StoresContext.Provider value={Stores}><RestaurantList filter={{min:0, max:5}} data={data} /></StoresContext.Provider></Router>)
 
         let restaurantElement = document.querySelectorAll('.react-restaurant');
         expect(restaurantElement.length).toBe(2);

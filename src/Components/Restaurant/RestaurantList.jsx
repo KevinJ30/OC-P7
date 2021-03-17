@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {RestaurantItem} from "./RestaurantItem";
 import {RestaurantsModel} from "../../Models/RestaurantsModel";
-import {RestaurantEntity} from "../../Models/Entity/RestaurantEntity";
 import {StoresContext} from "../../Context/StoresContext";
 
 export function RestaurantList(props) {
@@ -9,7 +8,11 @@ export function RestaurantList(props) {
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
     const [restaurants, setRestaurants] = useState([]);
     const [restaurantsFiltered, setRestaurantsFiltered] = useState([]);
-    const [ratingFilter, setRatingFilter] = useState(null)
+    const [ratingFilter, setRatingFilter] = useState({})
+
+    useEffect(() => {
+        setRatingFilter(props.filter);
+    }, [props.filter])
 
     useEffect(() => {
         // Subscriber
@@ -23,21 +26,17 @@ export function RestaurantList(props) {
     }, [props.data, restaurants, restaurantsStore])
 
     useEffect(() => {
-        setRatingFilter({
-            min: 0,
-            max: 5
-        });
-
         setRestaurantsFiltered(restaurants);
     }, [restaurants])
 
     useEffect(() => {
+        console.log(ratingFilter);
         const filteredRestaurant = restaurants.filter(restaurant => {
             if(restaurant.rating >= ratingFilter.min && restaurant.rating <= ratingFilter.max) {
                 return restaurant;
             }
         });
-        console.log(filteredRestaurant.length)
+
         setRestaurantsFiltered(filteredRestaurant);
     }, [ratingFilter])
 

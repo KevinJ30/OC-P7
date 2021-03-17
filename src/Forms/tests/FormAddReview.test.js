@@ -1,7 +1,6 @@
-import {useState} from 'react';
-import {render, screen, fireEvent} from '@testing-library/react';
-import {FormAddReview} from "./FormAddReview";
-import {ReviewsEntity} from "../Models/Entity/ReviewsEntity";
+import {render, fireEvent} from '@testing-library/react';
+import {FormAddReview} from "../FormAddReview";
+import {ReviewsEntity} from "../../Models/Entity/ReviewsEntity";
 
 describe("Formulaire d'ajout d'un avis", () => {
     it("Doit afficher le formulaire vide", () => {
