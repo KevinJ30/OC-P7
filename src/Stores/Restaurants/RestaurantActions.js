@@ -1,12 +1,32 @@
 /**
+ * Remplace les données existante dans le tableau de données
+ *
+ * @param {{}} state Etat du store
+ * @param {[]}  restaurants Tableau contenant totus les restaurants a ajouté
+ * @return {{}} Retourne un nouvelle état
+ **/
+export function store_restaurants(state, payload) {
+    const newState = state;
+    newState.data = payload.restaurants
+    return newState;
+}
+
+/**
  * Action ajouter un resturant dans le state
  *
  * @param {{}} state Etat du store
- * @param {{restaurant: []}}  payload  Informations a l'action
- * @return {[]} Retourne un nouvelle état
+ * @param {{data}}  restaurants  Tableau de restaurants
+ * @return {{}} Retourne un nouvelle état
  **/
-export function add_restaurant(state, restaurant) {
-    return restaurant;
+export function add_restaurant(state, restaurants) {
+    const newState = state;
+
+    newState.data = [
+        ...state.data,
+        restaurants.data
+    ];
+
+    return newState;
 }
 
 /**

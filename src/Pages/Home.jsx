@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {RestaurantList} from "../Components/Restaurant/RestaurantList";
+import {RestaurantListStore} from "../Components/Restaurant/RestaurantList";
 import {Map} from "../Components/Maps/Map";
 import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
@@ -74,7 +74,8 @@ export function Home(props) {
             </div>
 
             <div className="col-md-5 col-restaurant-list">
-                <RestaurantList filter={filter} handleUpdateRestaurant={setRestaurants} />
+                <RestaurantListStore />
+                {/*<RestaurantList filter={filter} handleUpdateRestaurant={setRestaurants} />*/}
             </div>
         </div>
 

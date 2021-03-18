@@ -23,7 +23,7 @@ export class RestaurantsModel {
                 resolve(restaurants);
             })
             .catch((error) => {
-                reject("Impossible de rechercher les données sur l'API Google.");
+                reject("Impossible de rechercher les données sur l'API Google. Error : " + error);
             });
         })
     }

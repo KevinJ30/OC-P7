@@ -1,8 +1,9 @@
 /**
  * Constantes
  **/
-import {add_restaurant, remove_restaurant} from "./RestaurantActions";
+import {add_restaurant, remove_restaurant, store_restaurants} from "./RestaurantActions";
 
+export const STORE_RESTAURANT_ACTION = 'STORE_RESTAURANT_ACTION';
 export const ADD_RESTAURANT_ACTION = 'ADD_RESTAURANT_ACTION';
 export const REMOVE_RESTAURANT_ACTION = 'REMOVE_RESTAURANT_ACTION';
 
@@ -11,7 +12,6 @@ export const REMOVE_RESTAURANT_ACTION = 'REMOVE_RESTAURANT_ACTION';
  * @type {{data: [], isFiltered: boolean, dataFiltered: [], laoded: boolean}}
  **/
 const INITIAL_STATE = {
-    loaded: false,
     data: [],
     dataFiltered: [],
     isFiltered: false
@@ -23,6 +23,8 @@ const INITIAL_STATE = {
  **/
 export function RestaurantReducer(state = INITIAL_STATE, action) {
     switch(action.type) {
+        case STORE_RESTAURANT_ACTION:
+            return store_restaurants(state, action.payload);
         case ADD_RESTAURANT_ACTION:
             return add_restaurant(state, action.payload);
         case REMOVE_RESTAURANT_ACTION:

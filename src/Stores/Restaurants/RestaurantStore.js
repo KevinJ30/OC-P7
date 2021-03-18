@@ -15,6 +15,6 @@ export const restaurantStore = createStore(
  **/
 export function mapRestaurantStoreToState(state) {
     return {
-        restaurants: state.restaurants
+        restaurantStore: state
     };
 }
