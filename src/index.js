@@ -14,6 +14,8 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Home} from "./Pages/Home";
 import {DisplayRestaurant} from "./Pages/DisplayRestaurant";
 import {Stores, StoresContext} from "./Context/StoresContext";
+import {restaurantStore} from "./Stores/Restaurants/RestaurantStore";
+import {ADD_RESTAURANT_ACTION} from "./Stores/Restaurants/RestaurantReducer";
 
 let routes = (
     <StoresContext.Provider value={Stores}>
@@ -58,6 +60,25 @@ ReactDOM.render(
     routes,
     document.getElementById('root')
 );
+
+const store = restaurantStore;
+
+store.subscribe(() => {
+    console.log(store.getState());
+})
+
+store.dispatch({
+    type: ADD_RESTAURANT_ACTION,
+    payload: { loaded: true, data: [], dataFiltered: [], isFiltered: false }
+})
+
+
+store.dispatch({
+    type: ADD_RESTAURANT_ACTION,
+    payload: { loaded: true, data: [], dataFiltered: [], isFiltered: true }
+})
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

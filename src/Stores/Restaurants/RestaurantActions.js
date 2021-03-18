@@ -5,11 +5,8 @@
  * @param {{restaurant: []}}  payload  Informations a l'action
  * @return {[]} Retourne un nouvelle état
  **/
-export function add_restaurant(state, payload) {
-     return [
-         ...state,
-         payload.restaurant
-     ]
+export function add_restaurant(state, restaurant) {
+    return restaurant;
 }
 
 /**

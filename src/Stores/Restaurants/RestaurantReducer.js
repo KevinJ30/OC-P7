@@ -3,8 +3,8 @@
  **/
 import {add_restaurant, remove_restaurant} from "./RestaurantActions";
 
-const ADD_RESTAURANT_ACTION = 'ADD_RESTAURANT_ACTION';
-const REMOVE_RESTAURANT_ACTION = 'REMOVE_RESTAURANT_ACTION';
+export const ADD_RESTAURANT_ACTION = 'ADD_RESTAURANT_ACTION';
+export const REMOVE_RESTAURANT_ACTION = 'REMOVE_RESTAURANT_ACTION';
 
 /**
  * Etat initial
@@ -24,11 +24,9 @@ const INITIAL_STATE = {
 export function RestaurantReducer(state = INITIAL_STATE, action) {
     switch(action.type) {
         case ADD_RESTAURANT_ACTION:
-            add_restaurant(state, action.payload);
-            break;
+            return add_restaurant(state, action.payload);
         case REMOVE_RESTAURANT_ACTION:
-            remove_restaurant(state, action.payload)
-            break;
+            return remove_restaurant(state, action.payload)
         default:
             return state;
     }
