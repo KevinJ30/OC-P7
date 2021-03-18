@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {RestaurantItem} from "./RestaurantItem";
+import {RestaurantItem, RestaurantItemStore} from "./RestaurantItem";
 import {RestaurantsModel} from "../../Models/RestaurantsModel";
 import {connect} from "react-redux";
 import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
 import {StoresContext} from "../../Context/StoresContext";
 import {ADD_RESTAURANT_ACTION, STORE_RESTAURANT_ACTION} from "../../Stores/Restaurants/RestaurantReducer";
+import {DEFAULT_COORDINATES} from "../Maps/Map";
 
 export function RestaurantList({restaurantStore, add_restaurant, store_restaurants}) {
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
@@ -53,21 +54,6 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
     // }, [ratingFilter])
 
     /**
-     * Indique quand la map est chargé
-     **/
-    useEffect(() => {
-        let subscriber = null;
-
-        subscriber = mapStore.subscribe(() => {
-            setLoadedMapInstance(true);
-        });
-
-        return () => {
-            mapStore.unsubscribe(subscriber);
-        }
-    }, [mapStore]);
-
-    /**
      * Chargement de la liste des restaurants
      **/
     // useEffect(() => {
@@ -95,10 +81,15 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
     // }
 
     useEffect(() => {
-        if(isMounted && isLoadedMapInstance && !loadedData) {
-            const restaurantModel = new RestaurantsModel();
+        if(restaurantStore.isLoadedMap) {
+            setLoadedMapInstance(true);
+        }
+    }, [restaurantStore.isLoadedMap])
 
-            restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
+    useEffect(() => {
+        if(isMounted && isLoadedMapInstance  && !loadedData) {
+            const restaurantModel = new RestaurantsModel();
+            restaurantModel.getAroundRestaurant(restaurantStore.map, restaurantStore.coordinates).then((data) => {
                 store_restaurants(data);
                 setLoadedData(true);
             }).catch((error) => {
@@ -111,7 +102,7 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
         if (restaurants.length > 0) {
             return restaurants.map((restaurant) => {
                 if (restaurant.name) {
-                    return <RestaurantItem key={restaurant.name} value={restaurant}
+                    return <RestaurantItemStore key={restaurant.name} value={restaurant}
                                            stars={[{'comment': 'mlqsdqlkmsdmlqskmdl', 'stars': 2}]}
                                            mapStore={mapStore}/>
                 }

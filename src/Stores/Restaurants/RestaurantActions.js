@@ -42,3 +42,10 @@ export function remove_restaurant(state, payload) {
     newState.data = data.filter(item => item !== payload.restaurant);
     return newState;
 }
+
+export function update_restaurant_action(state, payload) {
+    return {
+        ...state,
+        ...payload
+    }
+}

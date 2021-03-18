@@ -1,20 +1,30 @@
-/**
- * Constantes
- **/
-import {add_restaurant, remove_restaurant, store_restaurants} from "./RestaurantActions";
+import {add_restaurant, remove_restaurant, store_restaurants, update_restaurant_action} from "./RestaurantActions";
 
+/**
+ * Constantes d'actions
+ **/
 export const STORE_RESTAURANT_ACTION = 'STORE_RESTAURANT_ACTION';
 export const ADD_RESTAURANT_ACTION = 'ADD_RESTAURANT_ACTION';
 export const REMOVE_RESTAURANT_ACTION = 'REMOVE_RESTAURANT_ACTION';
+export const UPDATE_STORE_ACTION = 'UPDATE_STORE_ACTION';
+
+export const DEFAULT_COORDINATES = {
+    lat: 48.856613,
+    lng: 2.352222,
+    zoom: 14
+}
 
 /**
  * Etat initial
- * @type {{data: [], isFiltered: boolean, dataFiltered: [], laoded: boolean}}
  **/
 const INITIAL_STATE = {
     data: [],
     dataFiltered: [],
-    isFiltered: false
+    isFiltered: false,
+    map: null,
+    isLoadedMap: false,
+    markers: [],
+    coordinates: DEFAULT_COORDINATES
 };
 
 /**
@@ -29,6 +39,8 @@ export function RestaurantReducer(state = INITIAL_STATE, action) {
             return add_restaurant(state, action.payload);
         case REMOVE_RESTAURANT_ACTION:
             return remove_restaurant(state, action.payload)
+        case UPDATE_STORE_ACTION:
+            return update_restaurant_action(state, action.payload);
         default:
             return state;
     }

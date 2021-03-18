@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {RestaurantListStore} from "../Components/Restaurant/RestaurantList";
-import {Map} from "../Components/Maps/Map";
+import {MapStore} from "../Components/Maps/Map";
 import {StoresContext} from "../Context/StoresContext";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
@@ -64,13 +64,12 @@ export function Home(props) {
 
     return <div className="restaurant_container container-fluid">
         <div className="row pt-4">
-
             <div className="col-md-2 container-restaurant-filter">
                 <FormFilterRestaurant hadnleChangeFilter={handleChangeFilter}/>
             </div>
 
             <div className="col-md-5 col-google-map">
-                <Map store={mapStore} clickEvent={handleClickMap} />
+                <MapStore clickEvent={handleClickMap} />
             </div>
 
             <div className="col-md-5 col-restaurant-list">
