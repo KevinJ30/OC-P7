@@ -1,27 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
-import {StoresContext} from "../../Context/StoresContext";
 import {addMarkerToMap} from "../../Hook/google/API";
 import {connect} from "react-redux";
-import {mapRestaurantStoreToState, restaurantStore} from "../../Stores/Restaurants/RestaurantStore";
-import {UPDATE_STORE_ACTION} from "../../Stores/Restaurants/RestaurantReducer";
-import {Map} from "../Maps/Map";
+import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.placeId;
 
     useEffect(() => {
-        //eventManager.trigger('map.createMarker', [props.value]);
         let marker = addMarkerToMap(props.restaurantStore.map, props.value.geometry.location, props.value.name);
 
         return () => {
-            //eventManager.trigger('map.removeMarker', [marker]);
-            if(marker) {
+            if (marker) {
                 marker.setMap(null);
             }
         }
-    }, [])
+    }, [props.restaurantStore.map, props.value.geometry, props.value.name])
 
     function handleClick(event) {
         event.preventDefault();

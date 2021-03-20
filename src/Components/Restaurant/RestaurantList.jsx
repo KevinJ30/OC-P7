@@ -1,93 +1,32 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {RestaurantItem, RestaurantItemStore} from "./RestaurantItem";
+import React, {useState, useEffect} from 'react';
+import {RestaurantItemStore} from "./RestaurantItem";
 import {RestaurantsModel} from "../../Models/RestaurantsModel";
 import {connect} from "react-redux";
 import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
-import {StoresContext} from "../../Context/StoresContext";
 import {ADD_RESTAURANT_ACTION, STORE_RESTAURANT_ACTION} from "../../Stores/Restaurants/RestaurantReducer";
-import {DEFAULT_COORDINATES} from "../Maps/Map";
 
 export function RestaurantList({restaurantStore, add_restaurant, store_restaurants}) {
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
 
-    // const [restaurantsFiltered, setRestaurantsFiltered] = useState([]);
-    // const [ratingFilter, setRatingFilter] = useState({})
     const [isMounted, setMounted] = useState(true);
     const [loadedData, setLoadedData] = useState(false);
-    const {mapStore} = useContext(StoresContext);
-
-    // useEffect(() => {
-    //     setMounted(true);
-    //
-    //     return () => {
-    //         setMounted(false);
-    //     }
-    // }, [])
-
-    // useEffect(() => {
-    //     setRatingFilter(props.filter);
-    // }, [props.filter])
-    //
-    // useEffect(() => {
-    //     // Subscriber
-    //     let subscriber = restaurantsStore.subscribe(() => {
-    //         setRestaurants(restaurantsStore.state.data);
-    //     });
-    //
-    //     return () => {
-    //         restaurantsStore.unsubscribe(subscriber);
-    //     }
-    // }, [props.data, restaurants, restaurantsStore])
-
-    // useEffect(() => {
-    //     setRestaurantsFiltered(restaurants);
-    // }, [restaurants])
-    //
-    // useEffect(() => {
-    //     const filteredRestaurant = restaurants.filter(restaurant => {
-    //         if(restaurant.rating >= ratingFilter.min && restaurant.rating <= ratingFilter.max) {
-    //             return restaurant;
-    //         }
-    //     });
-    //
-    //     setRestaurantsFiltered(filteredRestaurant);
-    // }, [ratingFilter])
-
-    /**
-     * Chargement de la liste des restaurants
-     **/
-    // useEffect(() => {
-    //     if(props.data) {
-    //         setRestaurants(props.data);
-    //     }
-    //
-    //     if(isLoadedMapInstance) {
-    //         loadData();
-    //     }
-    // }, [isLoadedMapInstance]);
-
-    // function loadData(dataMemory) {
-    //     let restaurantModel = new RestaurantsModel();
-    //
-    //     restaurantModel.getAroundRestaurant(mapStore.state.map, mapStore.state.coordinates).then((data) => {
-    //         restaurantsStore.store({
-    //             loaded: true,
-    //             data: data
-    //         });
-    //         restaurantsStore.notify();
-    //     }).catch(() => {
-    //         console.error('Impossible de joindre le server !!!');
-    //     });
-    // }
 
     useEffect(() => {
-        if(restaurantStore.isLoadedMap) {
+        setMounted(true);
+
+        return () => {
+            setMounted(false);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (restaurantStore.isLoadedMap) {
             setLoadedMapInstance(true);
         }
     }, [restaurantStore.isLoadedMap])
 
     useEffect(() => {
-        if(isMounted && isLoadedMapInstance  && !loadedData) {
+        if (isMounted && isLoadedMapInstance && !loadedData) {
             const restaurantModel = new RestaurantsModel();
             restaurantModel.getAroundRestaurant(restaurantStore.map, restaurantStore.coordinates).then((data) => {
                 store_restaurants(data);
@@ -96,15 +35,13 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
                 console.error(error);
             });
         }
-    }, [isLoadedMapInstance, loadedData, add_restaurant, mapStore.state.coordinates, mapStore.state.map])
+    }, [isMounted, isLoadedMapInstance, loadedData, add_restaurant, restaurantStore.coordinates, restaurantStore.map, store_restaurants])
 
     function drawRestaurants(restaurants) {
         if (restaurants.length > 0) {
             return restaurants.map((restaurant) => {
                 if (restaurant.name) {
-                    return <RestaurantItemStore key={restaurant.name} value={restaurant}
-                                           stars={[{'comment': 'mlqsdqlkmsdmlqskmdl', 'stars': 2}]}
-                                           mapStore={mapStore}/>
+                    return <RestaurantItemStore key={restaurant.name} value={restaurant}/>
                 }
 
                 return false;
@@ -112,8 +49,8 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
         }
     }
 
-    if(restaurantStore.data.length > 0) {
-        return <ul className="restaurant-list">{drawRestaurants(restaurantStore.data)}</ul>;
+    if (restaurantStore.dataFiltered.length > 0) {
+        return <ul className="restaurant-list">{drawRestaurants(restaurantStore.dataFiltered)}</ul>;
     }
 
     return <div className="no-react-restaurant"><p>Il n'y a aucun restaurants.</p></div>;

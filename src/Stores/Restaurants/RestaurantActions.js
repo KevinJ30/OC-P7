@@ -8,6 +8,7 @@
 export function store_restaurants(state, payload) {
     const newState = state;
     newState.data = payload.restaurants
+    newState.dataFiltered = payload.restaurants
     return newState;
 }
 
@@ -43,9 +44,35 @@ export function remove_restaurant(state, payload) {
     return newState;
 }
 
+/**
+ * Mise a jour de l'état
+ *
+ * @param state  Etat du store
+ * @param payload  Information passer au store
+ * @returns {Object} Nouveau store générer
+ **/
 export function update_restaurant_action(state, payload) {
     return {
         ...state,
         ...payload
     }
+}
+
+/**
+ * Filtre les données avec les inforamtions du filtre
+ *
+ * @param state Etat du store
+ * @param payload : Information du filtre
+ * @returns {Object} Nouveau store avec les données filtrée
+ **/
+export function filter_restaurant_action(state, {filter}) {
+    const dataFiltered = state.data.filter(restaurant => restaurant.rating >= filter.min && restaurant.rating <= filter.max)
+    const newState = state;
+
+    newState.dataFiltered = dataFiltered;
+
+    return {
+        ...state,
+        ...newState
+    };
 }

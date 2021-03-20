@@ -3,10 +3,10 @@ import {useLoadedService, addMarkerToMap} from "../../Hook/google/API";
 import {StoresContext} from "../../Context/StoresContext";
 import {MarkerEntity} from "../../Models/Entity/MarkerEntity";
 import {connect} from "react-redux";
-import {mapRestaurantStoreToState, restaurantStore} from "../../Stores/Restaurants/RestaurantStore";
+import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
 import {DEFAULT_COORDINATES, UPDATE_STORE_ACTION} from "../../Stores/Restaurants/RestaurantReducer";
 
-export function Map(props) {
+export function Map({restaurantStore, init_map, clickEvent}) {
     const mapRef = useRef(null);
     const isLoadedServiceGoogle = useLoadedService();
     const {mapStore, eventManager} = useContext(StoresContext);
@@ -44,7 +44,7 @@ export function Map(props) {
 
             addMarkerToMap(map, {lat: lat, lng: lng}, 'Vous êtes ici !', icon)
 
-            props.init_map({
+            init_map({
                 map: map,
                 coordinates: {
                     lat: lat,
@@ -54,7 +54,7 @@ export function Map(props) {
 
             setLoadedMap(true);
         }
-    }, [isLoadedServiceGoogle, mapStore, props.init_map]);
+    }, [isLoadedServiceGoogle, init_map]);
 
     useEffect(() => {
         setIsMounted(true);
@@ -114,21 +114,21 @@ export function Map(props) {
         let listener = null;
 
         if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
-            if(props.clickEvent) {
+            if (clickEvent) {
                 // Ajoute un listener sur la map
-                listener = props.restaurantStore.map.addListener('click', props.clickEvent);
+                listener = restaurantStore.map.addListener('click', clickEvent);
             }
         }
 
         return () => {
-            if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
-                if(props.clickEvent) {
+            if (isLoadedServiceGoogle && isMounted && isLoadedMap) {
+                if (clickEvent) {
                     // Ajoute un listener sur la map
                     window.google.maps.event.removeListener(listener);
                 }
             }
         }
-    }, [isMounted, isLoadedServiceGoogle, mapStore, props.clickEvent, isLoadedMap, props.restaurantStore])
+    }, [isMounted, isLoadedServiceGoogle, mapStore, clickEvent, isLoadedMap, restaurantStore])
 
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
