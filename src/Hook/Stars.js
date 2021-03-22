@@ -10,7 +10,7 @@ export function useCalculatedAverageStars(restaurantRatings) {
 export function useCreateStars(average) {
     let stars = [];
 
-    for(let i = 0; i < Math.round(average); i++) {
+    for(let i = 0; i < Math.ceil(average); i++) {
         stars.push(<i key={i} className="bi bi-star-fill mr-2" />)
     }
 

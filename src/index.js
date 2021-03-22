@@ -13,45 +13,35 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Home} from "./Pages/Home";
 import {DisplayRestaurant} from "./Pages/DisplayRestaurant";
-import {Stores, StoresContext} from "./Context/StoresContext";
+import {restaurantStore} from "./Stores/Restaurants/RestaurantStore";
+import {Provider} from "react-redux";
 
 let routes = (
-    <StoresContext.Provider value={Stores}>
+    <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-            <a className="navbar-brand" href="#">Navbar</a>
+            <a className="navbar-brand" href="#">FOOD TRACK</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
-                    <li className="nav-item active">
-                        <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Features</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                </ul>
+            <div className="page-title">
+                <h1 className="text-center">Liste des restaurant proche de chez vous</h1>
             </div>
         </nav>
 
         <Router>
             <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/restaurant/:id">
-                    <DisplayRestaurant />
-                </Route>
+                <Provider store={restaurantStore}>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/restaurant/:id">
+                        <DisplayRestaurant />
+                    </Route>
+                </Provider>
             </Switch>
         </Router>
-    </StoresContext.Provider>
+    </div>
 );
 
 ReactDOM.render(

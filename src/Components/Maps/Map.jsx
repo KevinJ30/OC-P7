@@ -2,14 +2,11 @@ import React, {useEffect, useState, useCallback, useRef, useContext} from 'react
 import {useLoadedService, addMarkerToMap} from "../../Hook/google/API";
 import {StoresContext} from "../../Context/StoresContext";
 import {MarkerEntity} from "../../Models/Entity/MarkerEntity";
+import {connect} from "react-redux";
+import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
+import {DEFAULT_COORDINATES, UPDATE_STORE_ACTION} from "../../Stores/Restaurants/RestaurantReducer";
 
-export const DEFAULT_COORDINATES = {
-    lat: 48.856613,
-    lng: 2.352222,
-    zoom: 14
-}
-
-export function Map(props) {
+export function Map({restaurantStore, init_map, clickEvent}) {
     const mapRef = useRef(null);
     const isLoadedServiceGoogle = useLoadedService();
     const {mapStore, eventManager} = useContext(StoresContext);
@@ -17,7 +14,7 @@ export function Map(props) {
     /**
      * Etats du compoosant
      **/
-    const [isLoadedMap, setLoadedMap] = useState(null);
+    const [isLoadedMap, setLoadedMap] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [markers, setMarkers] = useState([]);
 
@@ -47,9 +44,7 @@ export function Map(props) {
 
             addMarkerToMap(map, {lat: lat, lng: lng}, 'Vous êtes ici !', icon)
 
-            setLoadedMap(true);
-
-            mapStore.update({
+            init_map({
                 map: map,
                 coordinates: {
                     lat: lat,
@@ -57,40 +52,40 @@ export function Map(props) {
                 }
             });
 
-            mapStore.notify();
+            setLoadedMap(true);
         }
-    }, [isLoadedServiceGoogle, mapStore]);
+    }, [isLoadedServiceGoogle, init_map]);
 
     useEffect(() => {
         setIsMounted(true);
 
-        // // On souscrit a l'évenemnt qui ajoute un marker
-        // eventManager.attach('map.createMarker', (restaurant) => {
-        //     let markerInstance = addMarkerToMap(mapStore.state.map, restaurant.geometry.location, restaurant.title, null);
-        //     let marker = new MarkerEntity(restaurant.geometry.location, restaurant.name, null, restaurant.placeId, markerInstance);
-        //
-        //     setMarkers([
-        //         ...markers,
-        //         marker
-        //     ]);
-        //
-        //     console.log(markers);
-        // }, 0);
-        //
-        // eventManager.attach('map.removeMarker', (restaurant) => {
-        //     // On recherche sont marker sur la map
-        //     //let marker = markers.
-        //     let marker = markers.find(marker => marker.restaurant_id === restaurant.placeId);
-        //
-        //     if(marker) {
-        //         // Suppression du marker sur la map
-        //         marker.marker_instance.setMap(null);
-        //
-        //         // Suppression de l'entité dans le state du composant
-        //         let newMarkers = markers.filter(item => item === marker);
-        //         setMarkers(newMarkers);
-        //     }
-        // }, 0);
+        // On souscrit a l'évenemnt qui ajoute un marker
+        eventManager.attach('map.createMarker', (restaurant) => {
+            let markerInstance = addMarkerToMap(mapStore.state.map, restaurant.geometry.location, restaurant.title, null);
+            let marker = new MarkerEntity(restaurant.geometry.location, restaurant.name, null, restaurant.placeId, markerInstance);
+
+            setMarkers([
+                ...markers,
+                marker
+            ]);
+
+            console.log(markers);
+        }, 0);
+
+        eventManager.attach('map.removeMarker', (restaurant) => {
+            // On recherche sont marker sur la map
+            //let marker = markers.
+            let marker = markers.find(marker => marker.restaurant_id === restaurant.placeId);
+
+            if(marker) {
+                // Suppression du marker sur la map
+                marker.marker_instance.setMap(null);
+
+                // Suppression de l'entité dans le state du composant
+                let newMarkers = markers.filter(item => item === marker);
+                setMarkers(newMarkers);
+            }
+        }, 0);
 
         return () => {
             setIsMounted(false);
@@ -119,22 +114,40 @@ export function Map(props) {
         let listener = null;
 
         if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
-            if(props.clickEvent) {
+            if (clickEvent) {
                 // Ajoute un listener sur la map
-                listener = mapStore.state.map.addListener('click', props.clickEvent);
+                listener = restaurantStore.map.addListener('click', clickEvent);
             }
         }
 
         return () => {
-            if(isLoadedServiceGoogle && isMounted && isLoadedMap) {
-                if(props.clickEvent) {
+            if (isLoadedServiceGoogle && isMounted && isLoadedMap) {
+                if (clickEvent) {
                     // Ajoute un listener sur la map
                     window.google.maps.event.removeListener(listener);
                 }
             }
         }
-    }, [isMounted, isLoadedServiceGoogle, mapStore, props.clickEvent, isLoadedMap])
+    }, [isMounted, isLoadedServiceGoogle, mapStore, clickEvent, isLoadedMap, restaurantStore])
 
 
     return <div ref={mapRef} id="react-google-map" className="card shadow-sm">Map google</div>;
 }
+
+/**
+ * Connection du store redux
+ **/
+export const MapStore = connect(
+    mapRestaurantStoreToState,
+    (dispatch) => ({
+        init_map: map => dispatch({
+            type: UPDATE_STORE_ACTION,
+            payload: {
+                map: map.map,
+                isLoadedMap: true,
+                coordinates: map.coordinates
+            }
+        })
+    })
+)(Map);
+

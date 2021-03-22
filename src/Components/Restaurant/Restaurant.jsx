@@ -1,21 +1,19 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom'
-import {Map} from "../Maps/Map";
-import {StoresContext} from "../../Context/StoresContext";
+import {MapStore} from "../Maps/Map";
 import {Stars} from "./Rating";
 import {Review} from "../review/Review";
 import {customStyleModal} from "../../CustomStyle";
 import Modal from "react-modal";
 import {FormAddReview} from "../../Forms/FormAddReview";
-
 import {RestaurantsModel} from '../../Models/RestaurantsModel';
 import {addMarkerToMap} from "../../Hook/google/API";
+import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
+import {connect} from "react-redux";
 
 Modal.setAppElement('#root');
 
-export function Restaurant(props) {
-    const {mapStore} = useContext(StoresContext);
-
+export function RestaurantStore(props) {
     /**
      * Etat du composant
      **/
@@ -34,28 +32,23 @@ export function Restaurant(props) {
     }, [])
 
     useEffect(() => {
-        const subscriber = mapStore.subscribe(() => {
+        if(props.restaurantStore.isLoadedMap) {
             setIsLoadedMap(true);
-        });
-
-        return () => {
-            mapStore.unsubscribe(subscriber);
         }
-    }, [mapStore])
+    }, [props.restaurantStore.isLoadedMap])
 
     useEffect(() => {
         const restaurantsModel = new RestaurantsModel();
 
         if(isLoadedMap && isMounted) {
-            restaurantsModel.getRestaurantWithReviews(mapStore.state.map, id).then((response) => {
+            restaurantsModel.getRestaurantWithReviews(props.restaurantStore.map, id).then((response) => {
                 setRestaurant(response);
-
                 // On centre et on ajoute le marker sur la map google
-                mapStore.setCenterMap(response.geometry.location.lat(), response.geometry.location.lng());
-                addMarkerToMap(mapStore.state.map, response.geometry.location, response.name);
+                props.restaurantStore.map.setCenter(response.geometry.location);
+                addMarkerToMap(props.restaurantStore.map, response.geometry.location, response.name);
             })
         }
-    }, [isMounted, id, isLoadedMap, mapStore]);
+    }, [props.restaurantStore.map, isMounted, id, isLoadedMap]);
 
     function drawReviews(restaurant) {
         if(restaurant) {
@@ -77,16 +70,21 @@ export function Restaurant(props) {
     function drawPhotos(restaurant) {
         if(restaurant) {
             const photos = restaurant.getPhotos();
-            return photos.map((photo) => <img key={photo.getUrl()} className="react-img-restaurant" src={photo.getUrl()} alt={photo.getUrl()} />)
+            if(photos) {
+                return photos.map((photo) => <img key={photo.getUrl()} className="react-img-restaurant" src={photo.getUrl()} alt={photo.getUrl()} />)
+            }
+
+            return <div>Aucune photo trouvé pour ce restaurant.</div>;
         }
     }
+
     return <div className="container mt-3">
         <Link to="/">Home</Link>
         <div className="d-flex justify-content-between">
 
             <div className="title">
 
-                <h1>{restaurant ? restaurant.getName() : null}</h1>
+                <h2>{restaurant ? restaurant.getName() : null}</h2>
                 <div className="d-flex mb-3">
                     <Stars stars={restaurant ? restaurant.getRating() : 0} />
                 </div>
@@ -99,7 +97,7 @@ export function Restaurant(props) {
         </div>
         <div className="row">
             <div className="col-md-6">
-                <Map store={mapStore}  />
+                <MapStore  />
             </div>
 
             <div className="col-md-6">
@@ -122,7 +120,11 @@ export function Restaurant(props) {
             style={customStyleModal}
             contentLabel="ajouter un avis">
 
-            <FormAddReview handleCloseModal={closeModal} restaurantState={restaurant} />
+            <FormAddReview handleCloseModal={closeModal} restaurantState={restaurant} handleStateRestaurant={setRestaurant} />
         </Modal>
     </div>;
 }
+
+export const Restaurant = connect(
+    mapRestaurantStoreToState
+)(RestaurantStore);
