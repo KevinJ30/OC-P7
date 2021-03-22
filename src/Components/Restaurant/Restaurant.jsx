@@ -49,7 +49,7 @@ export function RestaurantStore(props) {
                 addMarkerToMap(props.restaurantStore.map, response.geometry.location, response.name);
             })
         }
-    }, [props.restaurantStore.map, isMounted, id, isLoadedMap, restaurantStore]);
+    }, [props.restaurantStore.map, isMounted, id, isLoadedMap]);
 
     function drawReviews(restaurant) {
         if(restaurant) {
