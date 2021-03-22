@@ -20,30 +20,48 @@ export function FormAddReview(props) {
         setText(event.target.value);
     }
 
+    function validate() {
+        if(authorName !== '' && rating !== '' && text !== '') {
+            if(authorName.length > 4 && text.length) {
+                if(!isNaN(parseFloat(rating)) && rating >= 0 && rating <= 5) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Évènement qui valide le formulaire d'ajout d'un avis
      * @return {void}
      **/
-    function handleValidate() {
-        const review = new ReviewsEntity(
-            authorName,
-            parseFloat(rating),
-            RELATIVE_TIME,
-            text
-        );
+    function handleSubmit() {
+        if(validate()) {
+            const review = new ReviewsEntity(
+                authorName,
+                parseFloat(rating),
+                RELATIVE_TIME,
+                text
+            );
 
-        const newState = props.restaurantState;
+            const newState = props.restaurantState;
 
-        newState.reviews = [
-            review,
-            ...props.restaurantState.reviews
-        ];
+            newState.reviews = [
+                review,
+                ...props.restaurantState.reviews
+            ];
 
-        newState.setRating(calculateGradeRestaurant(newState.reviews));
+            newState.setRating(calculateGradeRestaurant(newState.reviews));
 
-        props.handleStateRestaurant(newState)
+            props.handleStateRestaurant(newState)
 
-        props.handleCloseModal();
+            props.handleCloseModal();
+        }
+        else {
+            alert("Vous n'avez pas remplie le formulaire correctement !");
+        }
+
     }
 
     function calculateGradeRestaurant(newReviews) {
@@ -61,7 +79,7 @@ export function FormAddReview(props) {
 
         <div className="form-group">
             <label htmlFor="authorName">Indiquer votre nom</label>
-            <input type="text" className="form-control" value={authorName} placeholder="Votre nom" onChange={handleChangeAuthor} />
+            <input type="text" className="form-control" value={authorName} placeholder="Votre nom" onChange={handleChangeAuthor}/>
         </div>
 
         <div className="form-group">
@@ -74,6 +92,6 @@ export function FormAddReview(props) {
             <textarea className="form-control" value={text} placeholder="Insérer votre avis" onChange={handleChangeText} />
         </div>
 
-        <button className="btn btn-primary" onClick={handleValidate}>Ajouter</button>
+        <button className="btn btn-primary" onClick={handleSubmit}>Ajouter</button>
     </div>;
 }

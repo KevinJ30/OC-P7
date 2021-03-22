@@ -32,7 +32,7 @@ export function FormFilterRestaurantStore({filtered_restaurants}) {
             <div className="form-group">
                 <label htmlFor="min">Etoile minimum</label>
                 <input type="number" className="form-control" name="number" placeholder="0" value={min}
-                       onChange={handleMinChange}/>
+                       onChange={handleMinChange} />
             </div>
             <div className="form-group">
                 <label htmlFor="min">Etoile maximum</label>
