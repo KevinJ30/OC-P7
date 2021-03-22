@@ -51,9 +51,6 @@ export function HomeStored(props) {
      * @param {RestaurantEntity} restaurant : Entité d'un restaurant
      **/
     function modalHandleClick(restaurant) {
-        // restaurant.addRestaurants(restaurant);
-        // restaurantsStore.notify();
-        // Ajout du restaurant
         props.add_restaurant(restaurant)
     }
 

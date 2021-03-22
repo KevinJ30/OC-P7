@@ -41,7 +41,7 @@ export class RestaurantsModel {
             ];
 
             getDetailsInterest(map, place_id, fields).then((response) => {
-                let restaurant = new RestaurantEntity(response.name, response.rating, response.geometry.location, response.vicinity, response.place_id, [], response.photos);
+                let restaurant = new RestaurantEntity(response.name, response.rating, response.geometry.location, response.vicinity, response.place_id, [], response.photos ? response.photos : null);
                 let reviews = [];
 
                 // Création des entité pour les avis des utilisateurs
