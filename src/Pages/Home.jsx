@@ -1,31 +1,24 @@
-import React, {useState, useContext} from 'react';
-import {RestaurantList} from "../Components/Restaurant/RestaurantList";
-import {Map} from "../Components/Maps/Map";
-import {StoresContext} from "../Context/StoresContext";
+import React, {useState} from 'react';
+import {RestaurantListStore} from "../Components/Restaurant/RestaurantList";
+import {MapStore} from "../Components/Maps/Map";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
-import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
 import {FormFilterRestaurant} from "../Forms/FormFilterRestaurant";
+import {connect} from "react-redux";
+import {mapRestaurantStoreToState} from "../Stores/Restaurants/RestaurantStore";
+import {ADD_RESTAURANT_ACTION} from "../Stores/Restaurants/RestaurantReducer";
+import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
 
-export function Home(props) {
-    const {mapStore, restaurantsStore} = useContext(StoresContext);
-
+export function HomeStored(props) {
     /**
      * Etat du composant
      **/
     const [displayModal, setDisplayModal] = useState(false);
     const [positionClick, setPositionClick] = useState(null);
     const [addressLocalisationClick, setAddressLocalisationClick] = useState(null);
-    const [restaurants, setRestaurants] = useState([]);
-    const [filterRestaurant, setFilterRestaurants] = useState([]);
-    const [filter, setFilter] = useState({});
 
     function closeModal() {
         setDisplayModal(false);
-    }
-
-    function handleChangeFilter(min, max) {
-        setFilter({min: min, max: max});
     }
 
     function handleClickMap(mapsMouseEvent) {
@@ -58,23 +51,22 @@ export function Home(props) {
      * @param {RestaurantEntity} restaurant : Entité d'un restaurant
      **/
     function modalHandleClick(restaurant) {
-        restaurantsStore.addRestaurants(restaurant);
-        restaurantsStore.notify();
+        props.add_restaurant(restaurant)
     }
 
     return <div className="restaurant_container container-fluid">
         <div className="row pt-4">
-
             <div className="col-md-2 container-restaurant-filter">
-                <FormFilterRestaurant hadnleChangeFilter={handleChangeFilter}/>
+                <FormFilterRestaurant/>
             </div>
 
             <div className="col-md-5 col-google-map">
-                <Map store={mapStore} clickEvent={handleClickMap} />
+                <MapStore clickEvent={handleClickMap} />
             </div>
 
             <div className="col-md-5 col-restaurant-list">
-                <RestaurantList filter={filter} handleUpdateRestaurant={setRestaurants} />
+                <RestaurantListStore />
+                {/*<RestaurantList filter={filter} handleUpdateRestaurant={setRestaurants} />*/}
             </div>
         </div>
 
@@ -85,7 +77,21 @@ export function Home(props) {
             style={customStyleModal}
             contentLabel="ajouter un avis">
 
-            <FormAddRestaurant handleCloseModal={closeModal} handleClick={modalHandleClick} handle positionClick={positionClick} addressLocalisationClick={addressLocalisationClick} />
+            <FormAddRestaurant handleCloseModal={closeModal} handleClick={modalHandleClick} handle
+                               positionClick={positionClick} addressLocalisationClick={addressLocalisationClick}/>
         </Modal>
     </div>;
 }
+
+// Connection du store redux
+export const Home = connect(
+    mapRestaurantStoreToState,
+    (dispatch) => ({
+        add_restaurant: restaurant => dispatch({
+            type: ADD_RESTAURANT_ACTION,
+            payload: {
+                data: restaurant
+            }
+        })
+    })
+)(HomeStored);

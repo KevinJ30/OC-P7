@@ -13,10 +13,11 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Home} from "./Pages/Home";
 import {DisplayRestaurant} from "./Pages/DisplayRestaurant";
-import {Stores, StoresContext} from "./Context/StoresContext";
+import {restaurantStore} from "./Stores/Restaurants/RestaurantStore";
+import {Provider} from "react-redux";
 
 let routes = (
-    <StoresContext.Provider value={Stores}>
+    <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <a className="navbar-brand" href="#">Navbar</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -43,15 +44,17 @@ let routes = (
 
         <Router>
             <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/restaurant/:id">
-                    <DisplayRestaurant />
-                </Route>
+                <Provider store={restaurantStore}>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/restaurant/:id">
+                        <DisplayRestaurant />
+                    </Route>
+                </Provider>
             </Switch>
         </Router>
-    </StoresContext.Provider>
+    </div>
 );
 
 ReactDOM.render(

@@ -1,24 +1,22 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {Stars} from "./Rating";
 import {Link} from "react-router-dom";
-import {StoresContext} from "../../Context/StoresContext";
 import {addMarkerToMap} from "../../Hook/google/API";
+import {connect} from "react-redux";
+import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
 
 export function RestaurantItem(props) {
     let pathname = "/restaurant/" + props.value.placeId;
-    const {mapStore, eventManager} = useContext(StoresContext);
 
     useEffect(() => {
-        //eventManager.trigger('map.createMarker', [props.value]);
-        let marker = addMarkerToMap(mapStore.state.map, props.value.geometry.location, props.value.name);
+        let marker = addMarkerToMap(props.restaurantStore.map, props.value.geometry.location, props.value.name);
 
         return () => {
-            //eventManager.trigger('map.removeMarker', [marker]);
-            if(marker) {
+            if (marker) {
                 marker.setMap(null);
             }
         }
-    }, [])
+    }, [props.restaurantStore.map, props.value.geometry, props.value.name])
 
     function handleClick(event) {
         event.preventDefault();
@@ -26,8 +24,7 @@ export function RestaurantItem(props) {
 
         const lat = typeof restaurant.geometry.location.lat !== "number" ? restaurant.geometry.location.lat() : restaurant.geometry.location.lat;
         const lng = typeof restaurant.geometry.location.lng !== "number" ? restaurant.geometry.location.lng() : restaurant.geometry.location.lng;
-
-        mapStore.setCenterMap(lat, lng);
+        props.restaurantStore.map.setCenter({lat: lat, lng: lng});
     }
 
     return (
@@ -45,3 +42,10 @@ export function RestaurantItem(props) {
         </li>
     );
 }
+
+/**
+ * Connection du store redux
+ **/
+export const RestaurantItemStore = connect(
+    mapRestaurantStoreToState
+)(RestaurantItem);

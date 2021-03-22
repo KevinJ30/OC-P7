@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {RestaurantEntity} from "../Models/Entity/RestaurantEntity";
+import {mapRestaurantStoreToState} from "../Stores/Restaurants/RestaurantStore";
+import {connect} from "react-redux";
+import {ADD_RESTAURANT_ACTION} from "../Stores/Restaurants/RestaurantReducer";
 
-export function FormAddRestaurant(props) {
+export function FormAddRestaurantStore(props) {
     const [name, setName] = useState('');
     const [rating, setRating] = useState('');
     const [address, setAddress] = useState('');
@@ -34,7 +37,7 @@ export function FormAddRestaurant(props) {
             lng: props.positionClick.lng()
         }, address ,Date.now);
 
-        props.handleClick(restaurant);
+        props.add_restaurant(restaurant);
 
         props.handleCloseModal();
     }
@@ -59,5 +62,16 @@ export function FormAddRestaurant(props) {
 
         <button className="btn btn-primary" onClick={handleClick}>Ajouter</button>
     </div>;
-
 }
+
+export const FormAddRestaurant = connect(
+    mapRestaurantStoreToState,
+    (dispatch) => ({
+        add_restaurant: restaurant => dispatch({
+            type: ADD_RESTAURANT_ACTION,
+            payload: {
+                data: restaurant
+            }
+        })
+    })
+)(FormAddRestaurantStore);
