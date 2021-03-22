@@ -6,7 +6,6 @@ import {Review} from "../review/Review";
 import {customStyleModal} from "../../CustomStyle";
 import Modal from "react-modal";
 import {FormAddReview} from "../../Forms/FormAddReview";
-
 import {RestaurantsModel} from '../../Models/RestaurantsModel';
 import {addMarkerToMap} from "../../Hook/google/API";
 import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
@@ -78,13 +77,14 @@ export function RestaurantStore(props) {
             return <div>Aucune photo trouvé pour ce restaurant.</div>;
         }
     }
+
     return <div className="container mt-3">
         <Link to="/">Home</Link>
         <div className="d-flex justify-content-between">
 
             <div className="title">
 
-                <h1>{restaurant ? restaurant.getName() : null}</h1>
+                <h2>{restaurant ? restaurant.getName() : null}</h2>
                 <div className="d-flex mb-3">
                     <Stars stars={restaurant ? restaurant.getRating() : 0} />
                 </div>
@@ -120,7 +120,7 @@ export function RestaurantStore(props) {
             style={customStyleModal}
             contentLabel="ajouter un avis">
 
-            <FormAddReview handleCloseModal={closeModal} restaurantState={restaurant} />
+            <FormAddReview handleCloseModal={closeModal} restaurantState={restaurant} handleStateRestaurant={setRestaurant} />
         </Modal>
     </div>;
 }

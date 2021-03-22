@@ -1,6 +1,6 @@
 import {
     add_restaurant,
-    filter_restaurant_action,
+    filter_restaurant_action, gradeRestaurantCalculate,
     remove_restaurant,
     store_restaurants,
     update_restaurant_action
@@ -14,6 +14,7 @@ export const ADD_RESTAURANT_ACTION = 'ADD_RESTAURANT_ACTION';
 export const REMOVE_RESTAURANT_ACTION = 'REMOVE_RESTAURANT_ACTION';
 export const UPDATE_STORE_ACTION = 'UPDATE_STORE_ACTION';
 export const FILTER_RESTAURANT_ACTION = 'FILTER_RESTAURANT_ACTION';
+export const GRADE_CALCULATE_RESTAURANT_ACTION = 'GRADE_CALCULATE_RESTAURANT_ACTION';
 
 export const DEFAULT_COORDINATES = {
     lat: 48.856613,
@@ -50,6 +51,8 @@ export function RestaurantReducer(state = INITIAL_STATE, action) {
             return update_restaurant_action(state, action.payload);
         case FILTER_RESTAURANT_ACTION:
             return filter_restaurant_action(state, action.payload);
+        case GRADE_CALCULATE_RESTAURANT_ACTION:
+            return gradeRestaurantCalculate(state, action.payload);
         default:
             return state;
     }

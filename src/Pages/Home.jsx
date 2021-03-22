@@ -54,10 +54,10 @@ export function HomeStored(props) {
         props.add_restaurant(restaurant)
     }
 
-    return <div className="restaurant_container container-fluid">
+    return  <div className="restaurant_container container-fluid">
         <div className="row pt-4">
             <div className="col-md-2 container-restaurant-filter">
-                <FormFilterRestaurant/>
+                <FormFilterRestaurant />
             </div>
 
             <div className="col-md-5 col-google-map">

@@ -74,7 +74,7 @@ export function update_restaurant_action(state, payload) {
  * @returns {Object} Nouveau store avec les données filtrée
  **/
 export function filter_restaurant_action(state, {filter}) {
-    const dataFiltered = state.data.filter(restaurant => restaurant.rating >= filter.min && restaurant.rating <= filter.max)
+    const dataFiltered = state.data.filter(restaurant => Math.ceil(restaurant.rating) >= filter.min && Math.ceil(restaurant.rating) <= filter.max)
     const newState = state;
 
     newState.dataFiltered = dataFiltered;
@@ -83,4 +83,18 @@ export function filter_restaurant_action(state, {filter}) {
         ...state,
         ...newState
     };
+}
+
+/**
+ * Calcule le nouvelle note du restaurant en ajoutant un avis
+ *
+ * @param state
+ * @param restaurant
+ **/
+export function gradeRestaurantCalculate(state, {restaurant}) {
+    const restaurantNewGrade = state.data.map(restaurant => () => {
+        return restaurant;
+    })
+
+    console.log(restaurantNewGrade);
 }

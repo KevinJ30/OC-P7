@@ -28,7 +28,7 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
             min:0,
             max:5
         });
-    }, [restaurantStore.data])
+    }, [filtered_restaurants, restaurantStore.data])
 
     useEffect(() => {
         if (restaurantStore.isLoadedMap) {

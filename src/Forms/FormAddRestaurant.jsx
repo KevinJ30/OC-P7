@@ -21,6 +21,17 @@ export function FormAddRestaurantStore(props) {
         setAddress(event.target.value);
     }
 
+    function validate() {
+        if(name !== '' && rating !== '' && address !== '') {
+            if(name.length > 3 && address.length > 10) {
+                if(!isNaN(parseFloat(rating)) && rating >= 0 && rating <= 5) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     useEffect(() => {
         if(props.addressLocalisationClick) {
             setAddress(props.addressLocalisationClick.formatted_address);
@@ -31,15 +42,20 @@ export function FormAddRestaurantStore(props) {
      * Evènement qui valide le formulaire d'ajout d'un restaurant
      * @return {void}
      **/
-    function handleClick() {
-        const restaurant = new RestaurantEntity(name, rating, {
-            lat: props.positionClick.lat(),
-            lng: props.positionClick.lng()
-        }, address ,Date.now);
+    function handleSubmit() {
+        if(validate()) {
+            const restaurant = new RestaurantEntity(name, rating, {
+                lat: props.positionClick.lat(),
+                lng: props.positionClick.lng()
+            }, address ,Date.now);
 
-        props.add_restaurant(restaurant);
+            props.add_restaurant(restaurant);
 
-        props.handleCloseModal();
+            props.handleCloseModal();
+        }
+        else {
+            alert("Vous n'avez pas remplie le formulaire correctement !");
+        }
     }
 
     return <div>
@@ -60,7 +76,7 @@ export function FormAddRestaurantStore(props) {
             <input className="form-control" value={address} placeholder="Indiquer l'adresse du restaurant" onChange={handleChangeAddress} />
         </div>
 
-        <button className="btn btn-primary" onClick={handleClick}>Ajouter</button>
+        <button className="btn btn-primary" onClick={handleSubmit}>Ajouter</button>
     </div>;
 }
 
