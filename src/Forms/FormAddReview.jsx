@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {ReviewsEntity} from "../Models/Entity/ReviewsEntity";
 
+const RELATIVE_TIME = "Il y a moins d'une minute";
+
 export function FormAddReview(props) {
     const [authorName, setAuthorName] = useState('');
     const [rating, setRating] = useState('');
@@ -19,40 +21,59 @@ export function FormAddReview(props) {
     }
 
     /**
-     * Evènement qui valide le formulaire d'ajout d'un avis
+     * Évènement qui valide le formulaire d'ajout d'un avis
      * @return {void}
      **/
     function handleValidate() {
-        // On ajoute la reveiw a la liste
-        props.restaurantState.reviews.unshift(new ReviewsEntity(
+        const review = new ReviewsEntity(
             authorName,
-            rating,
-            "Il y a moins d'un mois",
+            parseFloat(rating),
+            RELATIVE_TIME,
             text
-        ));
+        );
+
+        const newState = props.restaurantState;
+
+        newState.reviews = [
+            review,
+            ...props.restaurantState.reviews
+        ];
+
+        newState.setRating(calculateGradeRestaurant(newState.reviews));
+
+        props.handleStateRestaurant(newState)
 
         props.handleCloseModal();
     }
 
+    function calculateGradeRestaurant(newReviews) {
+        const reducer = (accumulator, currentValue) => {
+            return accumulator + currentValue.getRating();
+        };
+
+        let averageGrade = newReviews.reduce(reducer, 0);
+        averageGrade = averageGrade / newReviews.length;
+        return averageGrade;
+    }
+
     return <div>
-            <h1>Ajouter un avis a ce restaurant</h1>
+        <h1>Ajouter un avis a ce restaurant</h1>
 
-            <div className="form-group">
-                <label htmlFor="authorName">Indiquer votre nom</label>
-                <input type="text" className="form-control" value={authorName} placeholder="Votre nom" onChange={handleChangeAuthor} />
-            </div>
+        <div className="form-group">
+            <label htmlFor="authorName">Indiquer votre nom</label>
+            <input type="text" className="form-control" value={authorName} placeholder="Votre nom" onChange={handleChangeAuthor} />
+        </div>
 
-            <div className="form-group">
-                <label htmlFor="authorName">Indiquer le nomre étoile</label>
-                <input type="text" className="form-control" value={rating} placeholder="Nomre d'étoile" onChange={handleChangeRating} />
-            </div>
+        <div className="form-group">
+            <label htmlFor="authorName">Indiquer le nombre étoile</label>
+            <input type="text" className="form-control" value={rating} placeholder="Nomre d'étoile" onChange={handleChangeRating} />
+        </div>
 
-            <div className="form-group">
-                <label htmlFor="authorName">Écrivez votre avis</label>
-                <textarea className="form-control" value={text} placeholder="Insérer votre avis" onChange={handleChangeText} />
-            </div>
+        <div className="form-group">
+            <label htmlFor="authorName">Écrivez votre avis</label>
+            <textarea className="form-control" value={text} placeholder="Insérer votre avis" onChange={handleChangeText} />
+        </div>
 
-            <button className="btn btn-primary" onClick={handleValidate}>Ajouter</button>
+        <button className="btn btn-primary" onClick={handleValidate}>Ajouter</button>
     </div>;
-
 }

@@ -6,7 +6,6 @@ import {Review} from "../review/Review";
 import {customStyleModal} from "../../CustomStyle";
 import Modal from "react-modal";
 import {FormAddReview} from "../../Forms/FormAddReview";
-
 import {RestaurantsModel} from '../../Models/RestaurantsModel';
 import {addMarkerToMap} from "../../Hook/google/API";
 import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
@@ -78,6 +77,9 @@ export function RestaurantStore(props) {
             return <div>Aucune photo trouvé pour ce restaurant.</div>;
         }
     }
+
+    console.log(restaurant);
+
     return <div className="container mt-3">
         <Link to="/">Home</Link>
         <div className="d-flex justify-content-between">
@@ -120,7 +122,7 @@ export function RestaurantStore(props) {
             style={customStyleModal}
             contentLabel="ajouter un avis">
 
-            <FormAddReview handleCloseModal={closeModal} restaurantState={restaurant} />
+            <FormAddReview handleCloseModal={closeModal} restaurantState={restaurant} handleStateRestaurant={setRestaurant} />
         </Modal>
     </div>;
 }

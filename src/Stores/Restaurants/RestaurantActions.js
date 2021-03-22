@@ -84,3 +84,17 @@ export function filter_restaurant_action(state, {filter}) {
         ...newState
     };
 }
+
+/**
+ * Calcule le nouvelle note du restaurant en ajoutant un avis
+ *
+ * @param state
+ * @param restaurant
+ **/
+export function gradeRestaurantCalculate(state, {restaurant}) {
+    const restaurantNewGrade = state.data.map(restaurant => () => {
+        return restaurant;
+    })
+
+    console.log(restaurantNewGrade);
+}
