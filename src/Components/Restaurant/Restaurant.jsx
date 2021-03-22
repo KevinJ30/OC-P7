@@ -84,7 +84,7 @@ export function RestaurantStore(props) {
 
             <div className="title">
 
-                <h1>{restaurant ? restaurant.getName() : null}</h1>
+                <h2>{restaurant ? restaurant.getName() : null}</h2>
                 <div className="d-flex mb-3">
                     <Stars stars={restaurant ? restaurant.getRating() : 0} />
                 </div>
