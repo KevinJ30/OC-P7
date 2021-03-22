@@ -78,8 +78,6 @@ export function RestaurantStore(props) {
         }
     }
 
-    console.log(restaurant);
-
     return <div className="container mt-3">
         <Link to="/">Home</Link>
         <div className="d-flex justify-content-between">
