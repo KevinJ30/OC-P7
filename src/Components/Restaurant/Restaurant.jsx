@@ -9,7 +9,7 @@ import {FormAddReview} from "../../Forms/FormAddReview";
 
 import {RestaurantsModel} from '../../Models/RestaurantsModel';
 import {addMarkerToMap} from "../../Hook/google/API";
-import {mapRestaurantStoreToState, restaurantStore} from "../../Stores/Restaurants/RestaurantStore";
+import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
 import {connect} from "react-redux";
 
 Modal.setAppElement('#root');

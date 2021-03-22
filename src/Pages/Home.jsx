@@ -3,11 +3,11 @@ import {RestaurantListStore} from "../Components/Restaurant/RestaurantList";
 import {MapStore} from "../Components/Maps/Map";
 import Modal from "react-modal";
 import {customStyleModal} from "../CustomStyle";
-import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
 import {FormFilterRestaurant} from "../Forms/FormFilterRestaurant";
 import {connect} from "react-redux";
 import {mapRestaurantStoreToState} from "../Stores/Restaurants/RestaurantStore";
 import {ADD_RESTAURANT_ACTION} from "../Stores/Restaurants/RestaurantReducer";
+import {FormAddRestaurant} from "../Forms/FormAddRestaurant";
 
 export function HomeStored(props) {
     /**

@@ -20,12 +20,19 @@ export function store_restaurants(state, payload) {
  * @return {{}} Retourne un nouvelle état
  **/
 export function add_restaurant(state, restaurants) {
-    const newState = state;
+    let newState = state;
 
-    newState.data = [
-        ...state.data,
-        restaurants.data
-    ];
+    newState = {
+        ...state,
+        data: [
+            ...state.data,
+            restaurants.data
+        ],
+        dataFiltered: [
+            ...state.dataFiltered,
+            restaurants.data
+        ]
+    };
 
     return newState;
 }
@@ -41,6 +48,7 @@ export function remove_restaurant(state, payload) {
     const data = state.data;
 
     newState.data = data.filter(item => item !== payload.restaurant);
+
     return newState;
 }
 

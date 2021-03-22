@@ -3,9 +3,13 @@ import {RestaurantItemStore} from "./RestaurantItem";
 import {RestaurantsModel} from "../../Models/RestaurantsModel";
 import {connect} from "react-redux";
 import {mapRestaurantStoreToState} from "../../Stores/Restaurants/RestaurantStore";
-import {ADD_RESTAURANT_ACTION, STORE_RESTAURANT_ACTION} from "../../Stores/Restaurants/RestaurantReducer";
+import {
+    ADD_RESTAURANT_ACTION,
+    FILTER_RESTAURANT_ACTION,
+    STORE_RESTAURANT_ACTION
+} from "../../Stores/Restaurants/RestaurantReducer";
 
-export function RestaurantList({restaurantStore, add_restaurant, store_restaurants}) {
+export function RestaurantList({restaurantStore, add_restaurant, store_restaurants, filtered_restaurants}) {
     const [isLoadedMapInstance, setLoadedMapInstance] = useState(false);
 
     const [isMounted, setMounted] = useState(true);
@@ -18,6 +22,13 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
             setMounted(false);
         }
     }, [])
+
+    useEffect(() => {
+        filtered_restaurants({
+            min:0,
+            max:5
+        });
+    }, [restaurantStore.data])
 
     useEffect(() => {
         if (restaurantStore.isLoadedMap) {
@@ -71,6 +82,13 @@ export const RestaurantListStore = connect(
             type: STORE_RESTAURANT_ACTION,
             payload: {
                 restaurants: restaurants
+            }
+        }),
+
+        filtered_restaurants: filter => dispatch({
+            type: FILTER_RESTAURANT_ACTION,
+            payload: {
+                filter: filter
             }
         })
     })
