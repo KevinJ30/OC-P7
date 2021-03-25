@@ -42,6 +42,7 @@ Pour ajouter un restaurant cliquer n'importe où sur la carte, une fenêtre moda
 Le formulaire ressemble a l'image ci-dessou :
 ![Form Add Restaurant](docs/img/form_add_restaurant.jpg)
 
-Une fois que vous avez tout saisie sur le formulaire cliquer sur le bouton ajouter en bas a gauche et vous le verez apparaitre sur la carte et dans la liste de droite.
+Une fois que vous avez tout saisie sur le formulaire cliquer sur le bouton ajouter en bas a gauche et vous le verez apparaitre sur la carte et dans la liste de droite, comme le montre l'image :
 
+![Form Add Restaurant](docs/img/add_map_restaurant.jpg)
 
