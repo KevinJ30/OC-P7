@@ -52,11 +52,11 @@ Pour ajouter un avis, cliquer sur le bouton "donnez votre avis" qui se situe à 
 
 Le formulaire ressemble à l'image ci-dessous :
 
-![Form Avis](docs/img/form_add_reviews.jpg)
+![Form Avis](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/form_add_reviews.JPG)
 
 Une fois que vous avez remplie tous les champs, cliquer sur le bouton ajouter et il sera ajouté au début de la liste des avis.
 
-![Display add reviews](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/form_add_reviews.JPG)
+![Display add reviews](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/display_add_reviews.JPG)
 
 ## Ajouter un restaurant
 
