@@ -28,7 +28,7 @@ L'application se divise en 3 parties :
 
 Pour filtrer les restaurants, il faut indiquer la note minimum et maximum sur les champs à gauche, comme illustré sur l'image ci-dessous :
 
-![Filtrer restaurant](docs/img/filtre.jpg)
+![Filtrer restaurant](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/filtre.JPG)
 
 Quand vous changer le nombre d'étoile de chaque champs la liste est mise à jour automatiquement.
 
@@ -36,11 +36,11 @@ Quand vous changer le nombre d'étoile de chaque champs la liste est mise à jou
 
 Pour afficher les avis, cliquer sur le bouton "Voir tous les avis" qui se trouve sur la carte d'un restaurant.
 
-![Afficher avis](docs/img/display_reviews.jpg)
+![Afficher avis](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/display_reviews.JPG)
 
 Une fois que vous avez cliqué sur le bouton, une page s'affiche avec une carte qui pointe l'adresse du lieu, sur la droite des images illustre le restaurant et en dessous ce trouve la liste des avis.
 
-![page avis](docs/img/reviews.jpg)
+![page avis](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/reviews.JPG)
 
 ## Ajouter un avis
 
@@ -56,7 +56,7 @@ Le formulaire ressemble à l'image ci-dessous :
 
 Une fois que vous avez remplie tous les champs, cliquer sur le bouton ajouter et il sera ajouté au début de la liste des avis.
 
-![Display add reviews](docs/img/display_add_reviews.jpg)
+![Display add reviews](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/form_add_reviews.JPG)
 
 ## Ajouter un restaurant
 
@@ -68,11 +68,11 @@ Pour ajouter un restaurant cliquer n'importe où sur la carte, une fenêtre moda
 
 Le formulaire ressemble à l'image ci-dessous :
 
-![Form Add Restaurant](docs/img/form_add_restaurant.jpg)
+![Form Add Restaurant](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/form_add_restaurant.JPG)
 
 Une fois que vous avez tous saisie sur le formulaire cliquer sur le bouton "Ajouter" en bas à gauche et il apparaitra sur la carte et dans la liste à droite, comme le montre l'image :
 
-![Form Add Restaurant](docs/img/add_map_restaurant.jpg)
+![Form Add Restaurant](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/add_map_restaurant.JPG)
 
 
 
