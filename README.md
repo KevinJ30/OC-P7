@@ -6,6 +6,7 @@ FOOD TRACK est une application qui collecte les restaurants autour de vous dans 
 ## Les fonctionnalités
 * Afficher les restaurants autour de chez vous dans un rayons d'un kilométre.
 * Filtrer les restaurants par notes de 0 à 5
+* Afficher les avis d'un restaurant
 * Ajouter rapidement un restaurant sur la carte
 * Ajouter un avis a un restaurant autour de chez vous
 
@@ -31,9 +32,35 @@ Pour filtrer les restaurants, il faut indiquer la note minimum et maximum sur le
 
 Quand vous changer le nombre d'étoile de chaque champs la liste est mise a jour automatiquement.
 
+## Afficher les avis d'un restaurant
+
+Pour afficher les avis, cliquer sur le bouton "Voir tous les avis" qui se trouve sur la carte d'un restaurant.
+
+![Afficher avis](docs/img/display_reviews.jpg)
+
+Une fois que vous avez cliqué sur le bouton, une page s'affiche avec une carte qui pointe l'adresse du lieu, sur la droite des images qui illustre le restaurant. et en dessou ce trouve la liste des avis.
+
+![page avis](docs/img/reviews.jpg)
+
+## Ajouter un avis
+
+Pour ajouter un avis, cliquer sur le bouton "donnez votre avis" qui se situe a droite du nom. Une fenêtre s'ouvre et demande de remplir les champs suivants :
+
+* Nom de la personne qui écrit l'avis
+* Note du lieu
+* L'avis sur le lieu
+
+Le formulaire ressemble a l'image ci-dessou :
+
+![Form Avis](docs/img/form_add_reviews.jpg)
+
+Une fois que vous avez remplie tous les champs, cliquer sur le bouton ajouter et il sera ajouté au début de la liste des avis.
+
+![Display add reviews](docs/img/display_add_reviews.jpg)
+
 ## Ajouter un restaurant
 
-Pour ajouter un restaurant cliquer n'importe où sur la carte, une fenêtre modal va s'ouvrire et vous demander de remplir les champs suivant :
+Pour ajouter un restaurant cliquer n'importe où sur la carte, une fenêtre modal va s'ouvre et vous demande de remplir les champs suivants :
 
 * Nom du restaurant
 * Nombre d'étoile du restaurant allant de 0 à 5 maximum
@@ -45,4 +72,7 @@ Le formulaire ressemble a l'image ci-dessou :
 Une fois que vous avez tout saisie sur le formulaire cliquer sur le bouton ajouter en bas a gauche et vous le verez apparaitre sur la carte et dans la liste de droite, comme le montre l'image :
 
 ![Form Add Restaurant](docs/img/add_map_restaurant.jpg)
+
+
+
 
