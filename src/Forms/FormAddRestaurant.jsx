@@ -67,7 +67,7 @@ export function FormAddRestaurantStore(props) {
         </div>
 
         <div className="form-group">
-            <label htmlFor="authorName">Indiquer le nomre étoile</label>
+            <label htmlFor="authorName">Indiquer le nombre étoile</label>
             <input type="text" className="form-control" value={rating} placeholder="Nombre d'étoile" onChange={handleChangeRating} />
         </div>
 

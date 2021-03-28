@@ -1,74 +1,79 @@
-# Getting Started with Create React App
+# FOOD TRACK
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description de l'application
+FOOD TRACK est une application qui collecte les restaurants autour de vous dans un rayon d'un kilomètre. Elle a été créer dans le cadre de ma formation Openclassroom. Ils sont rangés par étoile de 0 à 5. Vous avez également la possibilité d'afficher le restaurant pour consulter les avis qui ont été posté sur celui-ci. Des images sont affichées pour vous permettre de le trouvez plus facilement. Un formulaire permet d'ajouter un restaurant sur la carte et vous avez aussi la possibilité de rédiger votre avis sur un restaurant autour de votre position.
 
-## Available Scripts
+## Les fonctionnalités
+* Afficher les restaurants autour de chez vous dans un rayon d'un kilomètre.
+* Filtrer les restaurants par notes de 0 à 5
+* Afficher les avis d'un restaurant
+* Ajouter rapidement un restaurant sur la carte
+* Ajouter un avis a un restaurant autour de chez vous
 
-In the project directory, you can run:
+## Vue d'enssemble
+![vue d'enssemble](docs/img/ensemble.jpg)
 
-### `yarn start`
+### Description de la page
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Barre en haut
+Dans cette partie vous retrouvez les informations de l'application sont nom et son titre.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Au milieu
+L'application se divise en 3 parties :
+- Tous à gauche se trouve le filtre qui permet de filtrer les restaurants par notes
+- Au milieu se trouve la carte de votre zone ou de paris si vous n'avez pas activé la géolocalisation de votre appareil
+- Tous à droite se trouve la liste des restaurants autour de vous sauf si vous n'avez pas la géolocalisation, la liste sera celle de paris.
 
-### `yarn test`
+## Filtrer les restaurants
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Pour filtrer les restaurants, il faut indiquer la note minimum et maximum sur les champs à gauche, comme illustré sur l'image ci-dessous :
 
-### `yarn build`
+![Filtrer restaurant](docs/img/filtre.jpg)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Quand vous changer le nombre d'étoile de chaque champs la liste est mise à jour automatiquement.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Afficher les avis d'un restaurant
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Pour afficher les avis, cliquer sur le bouton "Voir tous les avis" qui se trouve sur la carte d'un restaurant.
 
-### `yarn eject`
+![Afficher avis](docs/img/display_reviews.jpg)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Une fois que vous avez cliqué sur le bouton, une page s'affiche avec une carte qui pointe l'adresse du lieu, sur la droite des images illustre le restaurant et en dessous ce trouve la liste des avis.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![page avis](docs/img/reviews.jpg)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Ajouter un avis
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Pour ajouter un avis, cliquer sur le bouton "donnez votre avis" qui se situe à droite du nom. Une fenêtre s'ouvre et demande de remplir les champs suivants :
 
-## Learn More
+* Nom de la personne qui écrit l'avis
+* Note du lieu
+* L'avis sur le lieu
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Le formulaire ressemble à l'image ci-dessous :
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Form Avis](docs/img/form_add_reviews.jpg)
 
-### Code Splitting
+Une fois que vous avez remplie tous les champs, cliquer sur le bouton ajouter et il sera ajouté au début de la liste des avis.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![Display add reviews](docs/img/display_add_reviews.jpg)
 
-### Analyzing the Bundle Size
+## Ajouter un restaurant
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Pour ajouter un restaurant cliquer n'importe où sur la carte, une fenêtre modale s'ouvre et vous demande de remplir les champs suivants :
 
-### Making a Progressive Web App
+* Nom du restaurant
+* Nombre d'étoile du restaurant allant de 0 à 5 maximum
+* L'adresse du restaurant qui est préremplie, il se peut que l'adresse ne soit pas exacte, si c'est le cas vous pouvez directement modifier le champ.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Le formulaire ressemble à l'image ci-dessous :
 
-### Advanced Configuration
+![Form Add Restaurant](docs/img/form_add_restaurant.jpg)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Une fois que vous avez tous saisie sur le formulaire cliquer sur le bouton "Ajouter" en bas à gauche et il apparaitra sur la carte et dans la liste à droite, comme le montre l'image :
 
-### Deployment
+![Form Add Restaurant](docs/img/add_map_restaurant.jpg)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `yarn build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-### Integration continue
-Uitlisation des github action pour intégrer les tests unitaire en intégration continue pour le projet.
 
