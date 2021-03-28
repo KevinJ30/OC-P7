@@ -11,7 +11,7 @@ FOOD TRACK est une application qui collecte les restaurants autour de vous dans 
 * Ajouter un avis a un restaurant autour de chez vous
 
 ## Vue d'enssemble
-![vue d'enssemble](./docs/img/ensemble.jpg)
+![vue d'enssemble](https://github.com/KevinJ30/OC-P7/blob/develop/docs/img/ensemble.JPG)
 
 ### Description de la page
 
