@@ -1,22 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {mapRestaurantStoreToState} from "../Stores/Restaurants/RestaurantStore";
 import {connect} from "react-redux";
-import {FILTER_RESTAURANT_ACTION} from "../Stores/Restaurants/RestaurantReducer";
+import {
+    FILTER_RESTAURANT_ACTION,
+    FILTER_UPDATE_ACTION
+} from "../Stores/Restaurants/RestaurantReducer";
 
-export function FormFilterRestaurantStore({filtered_restaurants}) {
+export function FormFilterRestaurantStore({restaurantStore, filtered_restaurants, filter_update}) {
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(5);
-
-    useEffect(() => {
-        filtered_restaurants({
-            min: min,
-            max: max
-        });
-    }, [filtered_restaurants, min, max])
 
     function handleMinChange(event) {
         if(event.target.value >= 0 && event.target.value <= 5) {
             setMin(parseInt(event.target.value));
+
+            filter_update({
+                min: parseInt(event.target.value),
+                max: restaurantStore.filter.max
+            });
         }
     }
 
@@ -24,6 +25,11 @@ export function FormFilterRestaurantStore({filtered_restaurants}) {
         if(event.target.value >= 0 && event.target.value <= 5) {
             setMax(parseInt(event.target.value));
         }
+
+        filter_update({
+            min: restaurantStore.filter.min,
+            max: parseInt(event.target.value)
+        });
     }
 
     return <div className="card restaurant-filter">
@@ -48,6 +54,13 @@ export const FormFilterRestaurant = connect(
     (dispatch) => ({
         filtered_restaurants: filter => dispatch({
             type: FILTER_RESTAURANT_ACTION,
+            payload: {
+                filter: filter
+            }
+        }),
+
+        filter_update: filter => dispatch({
+            type: FILTER_UPDATE_ACTION,
             payload: {
                 filter: filter
             }

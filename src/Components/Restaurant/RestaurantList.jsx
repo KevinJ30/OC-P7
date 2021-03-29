@@ -25,10 +25,10 @@ export function RestaurantList({restaurantStore, add_restaurant, store_restauran
 
     useEffect(() => {
         filtered_restaurants({
-            min:0,
-            max:5
+            min: restaurantStore.filter.min,
+            max: restaurantStore.filter.max
         });
-    }, [filtered_restaurants, restaurantStore.data])
+    }, [filtered_restaurants, restaurantStore.filter])
 
     useEffect(() => {
         if (restaurantStore.isLoadedMap) {

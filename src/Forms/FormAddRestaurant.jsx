@@ -2,7 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {RestaurantEntity} from "../Models/Entity/RestaurantEntity";
 import {mapRestaurantStoreToState} from "../Stores/Restaurants/RestaurantStore";
 import {connect} from "react-redux";
-import {ADD_RESTAURANT_ACTION} from "../Stores/Restaurants/RestaurantReducer";
+import {
+    ADD_RESTAURANT_ACTION,
+    FILTER_RESTAURANT_ACTION
+} from "../Stores/Restaurants/RestaurantReducer";
 
 export function FormAddRestaurantStore(props) {
     const [name, setName] = useState('');
@@ -50,6 +53,11 @@ export function FormAddRestaurantStore(props) {
             }, address ,Date.now);
 
             props.add_restaurant(restaurant);
+            
+            props.filtered_restaurants({
+                min: props.restaurantStore.filter.min,
+                max: props.restaurantStore.filter.max
+            });
 
             props.handleCloseModal();
         }
@@ -87,6 +95,13 @@ export const FormAddRestaurant = connect(
             type: ADD_RESTAURANT_ACTION,
             payload: {
                 data: restaurant
+            }
+        }),
+
+        filtered_restaurants: filter => dispatch({
+            type: FILTER_RESTAURANT_ACTION,
+            payload: {
+                filter: filter
             }
         })
     })
